@@ -19,9 +19,9 @@
         android:id="@+id/imageView2"
         android:layout_width="436dp"
         android:layout_height="521dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="264dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="288dp"
         android:src="@drawable/bg_medicine_kit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
