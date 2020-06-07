@@ -50,6 +50,7 @@ public class Tab extends FragmentActivity {
         tabs.addTab(search_btn);
         tabs.addTab(settings_btn);
 
+       // 각각 탭 버튼이 눌렸을 때 화면 전환
         tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -108,6 +109,7 @@ public class Tab extends FragmentActivity {
                 }
 
 
+                // 해당 페이지로 이동
                 getSupportFragmentManager().beginTransaction().replace(R.id.container, selected).commit();
             }
 
