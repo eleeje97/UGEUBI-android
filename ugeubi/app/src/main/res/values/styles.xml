@@ -9,8 +9,12 @@
     </style>
 
 
-    <style name="app_theme" parent="android:Theme">
+    <style name="BackgroundStyle" parent="android:Theme">
         <item name = "android:background">@color/colorAccent</item>
+    </style>
+
+    <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="colorControlNormal">#E6E6E6</item>
     </style>
 
 </resources>
