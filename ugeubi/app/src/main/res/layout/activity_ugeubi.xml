@@ -1,35 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:text="날짜 입력"
-        android:textColor="#4c4b4e"
+    <ImageView
+        android:id="@+id/header"
+        android:background="@drawable/header_ugeubi_box"
+        android:layout_width="match_parent"
+        android:layout_height="518px"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="120px"
+        android:layout_marginStart="124px"
+        android:layout_marginLeft="124px"
+        android:layout_marginTop="164px"
+        android:text="2020년 06월 10일"
+        android:textColor="#4c4b4e"
         android:textSize="80px"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/add_btn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/header" />
+
+    <ImageView
+        android:layout_width="48.6px"
+        android:layout_height="50.8px"
+        android:layout_marginLeft="8.3px"
+        android:layout_marginTop="198px"
+        android:src="@drawable/btn_date_pick"
+        app:layout_constraintStart_toEndOf="@+id/date"
+        app:layout_constraintTop_toBottomOf="@id/header" />
 
     <Button
         android:id="@+id/add_btn"
-        android:layout_width="660px"
-        android:layout_height="1116px"
-        android:layout_marginBottom="133dp"
-        android:background="@drawable/add_btn"
+        android:layout_width="599px"
+        android:layout_height="1056px"
+        android:background="@drawable/add_btn_shape"
         android:elevation="1dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.18"
+        android:layout_marginTop="174px"
+        android:layout_marginLeft="46px"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/date" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

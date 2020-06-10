@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="@drawable/bg_2">
+    android:background="@drawable/bg_cross">
 
         <FrameLayout
             android:id="@+id/container"
@@ -18,7 +18,7 @@
             android:layout_height="180px"
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="130px"
-            android:background="@drawable/shape"
+            android:background="@drawable/tab_shape"
             android:elevation="1dp"
             app:tabGravity="fill"
             app:tabIndicatorColor="#00ff0000"
