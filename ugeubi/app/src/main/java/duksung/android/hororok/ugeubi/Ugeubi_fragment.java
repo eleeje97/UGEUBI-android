@@ -4,10 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,10 +35,6 @@ public class Ugeubi_fragment extends Fragment {
         adapter.addItem("7:00", "비타민 D", "2알 복용하세요", true);
         adapter.addItem("8:00", "타이레놀", "2알 복용하세요", true);
 
-        /*
-        MyListDecoration decoration = new MyListDecoration();
-        listview.addItemDecoration(decoration);
-         */
 
         return rootView;
     }

@@ -2,7 +2,6 @@ package duksung.android.hororok.ugeubi;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,23 +11,15 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.ssomai.android.scalablelayout.ScalableLayout;
-
-import java.sql.Struct;
 import java.util.ArrayList;
 
 public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<DoseData> doseDataList = new ArrayList<>();
-    //private View.OnClickListener onClickItem;
 
     public DoseListAdapter(Context context) {
-//    public DoseListAdapter(Context context, ArrayList<DoseData> doseDataList, View.OnClickListener onClickItem) {
         this.context = context;
-        //this.doseDataList = doseDataList;
-        //this.onClickItem = onClickItem;
     }
 
 
@@ -61,7 +52,6 @@ public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHo
         holder.dose_background.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("ClickEvent", "현재값: " + doseData.isTaken + " pos: " + position);
                 // 아이템 클릭 리스너
                 if (doseData.isTaken) {
                     doseData.isTaken = false;
@@ -69,7 +59,6 @@ public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHo
                     doseData.isTaken = true;
                 }
                 notifyItemChanged(position);
-                Log.e("ClickEvent", "바뀐값: " + doseData.isTaken + " pos: " + position);
             }
         });
 
@@ -114,30 +103,5 @@ public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHo
     public void remove(int position){
         doseDataList.remove(position);
     }
-
-
-
-/*
-    public void remove(int position){
-        doseDataList.remove(position);
-        //dataChange();
-    }
-
-     */
-
-    /*
-    public void sort(){
-        Collections.sort(mListData, ListData.ALPHA_COMPARATOR);
-        dataChange();
-    }
-    */
-
-
-    /*
-    public void dataChange(){
-        mAdapter.notifyDataSetChanged();
-    }
-     */
-
 
 }
