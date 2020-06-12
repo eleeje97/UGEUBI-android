@@ -36,17 +36,18 @@ public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHo
 
         holder.dose_time.setText(doseData.time);
         holder.dose_name.setText(doseData.dose_name);
-        holder.dose_num.setText(doseData.dose_num);
         if(doseData.isTaken) {
             holder.dose_background.setBackgroundResource(R.drawable.bg_ugeubi_dose_taken);
             holder.dose_image.setImageResource(R.drawable.ugeubi_dose_taken);
             holder.dose_time.setTextColor(Color.parseColor("#cbcbcb"));
             holder.dose_name.setTextColor(Color.parseColor("#2f2d33"));
+            holder.dose_num.setText("복용했습니다");
         } else {
             holder.dose_background.setBackgroundResource(R.drawable.bg_ugeubi_dose);
             holder.dose_image.setImageResource(R.drawable.ugeubi_dose);
             holder.dose_time.setTextColor(Color.parseColor("#ffffff"));
             holder.dose_name.setTextColor(Color.parseColor("#ffffff"));
+            holder.dose_num.setText(doseData.dose_num);
         }
 
         holder.dose_background.setOnClickListener(new View.OnClickListener() {
