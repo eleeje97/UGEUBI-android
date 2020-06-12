@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="599px"
+    android:layout_height="1056px"
+    android:background="@drawable/bg_medicine_data"
+    android:layout_marginLeft="62dp"
+    android:layout_marginRight="23dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/period"
+        android:layout_width="74px"
+        android:layout_height="74px"
+        android:src="@drawable/triangle"
+        android:layout_marginRight="76px"
+        android:layout_marginTop="76px"
+        android:layout_gravity="right" />
+
+    <ImageView
+        android:id="@+id/medicine_icon"
+        android:layout_width="201px"
+        android:layout_height="312px"
+        android:src="@drawable/medicine_icon_pill1"
+        android:layout_gravity="center"
+        android:layout_marginBottom="79px"
+        android:layout_marginTop="55px"/>
+
+    <TextView
+        android:id="@+id/medicine_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="약이름"
+        android:textSize="75px"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:layout_marginBottom="44px"/>
+
+    <TextView
+        android:id="@+id/medicine_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="간단한 설명"
+        android:textColor="@color/black"
+        android:textSize="50px"
+        android:layout_gravity="center"/>
+
+
+
+</LinearLayout>

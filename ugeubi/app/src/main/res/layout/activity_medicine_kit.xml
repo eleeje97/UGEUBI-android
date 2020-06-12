@@ -1,38 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:layout_constraintTop_toBottomOf="parent"
+    android:orientation="vertical"
+    android:fillViewport="true">
 
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:text="우리집 구급상자"
-        android:textColor="#4c4b4e"
 
-        android:textSize="80px"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/add_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
 
-    <Button
-        android:id="@+id/add_btn"
-        android:layout_width="660px"
-        android:layout_height="1116px"
-        android:layout_marginBottom="133dp"
-        android:background="@drawable/add_btn"
-        android:elevation="1dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.18"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        <ImageView
+            android:id="@+id/header"
+            android:background="@drawable/header_ugeubi_box"
+            android:layout_width="match_parent"
+            android:layout_height="518px"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height = "300px"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/header">
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="120px"
+
+                android:layout_marginLeft="124px"
+                android:layout_marginTop="164px"
+                android:text="우리집 구급 상자"
+                android:textColor="#4c4b4e"
+                android:textSize="80px"
+                android:textStyle="bold"
+                 />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <Button
+                android:id="@+id/add_btn"
+                android:layout_width="150px"
+
+                android:layout_height="150px"
+                android:layout_marginLeft="124px"
+                android:layout_marginTop="164px"
+                android:background="@drawable/reminder"
+                android:elevation="1dp"
+
+                />
+        </LinearLayout>
+
+
+        <GridView
+            android:id="@+id/gridview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/layout"
+            android:numColumns="2"
+            />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+
+
