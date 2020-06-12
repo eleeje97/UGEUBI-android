@@ -10,7 +10,9 @@
         android:background="@drawable/header_ugeubi_box"
         android:layout_width="match_parent"
         android:layout_height="518px"
+
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/date"
@@ -35,15 +37,15 @@
         app:layout_constraintStart_toEndOf="@+id/date"
         app:layout_constraintTop_toBottomOf="@id/header" />
 
-    <Button
-        android:id="@+id/add_btn"
-        android:layout_width="599px"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dose_list"
+        android:layout_width="wrap_content"
         android:layout_height="1056px"
-        android:background="@drawable/add_btn_shape"
-        android:elevation="1dp"
         android:layout_marginTop="174px"
         android:layout_marginLeft="46px"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/date" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
