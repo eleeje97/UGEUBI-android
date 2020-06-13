@@ -14,12 +14,12 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
-            android:layout_width="1200px"
-            android:layout_height="180px"
+            android:layout_width="301dp"
+            android:layout_height="45dp"
             android:layout_gravity="center_horizontal|bottom"
-            android:layout_marginBottom="130px"
+            android:layout_marginBottom="33dp"
             android:background="@drawable/tab_shape"
-            android:elevation="1dp"
+            android:elevation="3dp"
             app:tabGravity="fill"
             app:tabIndicatorColor="#00ff0000"
             app:tabMode="fixed"

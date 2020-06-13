@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.google.android.material.tabs.TabLayout;
 
+import duksung.android.hororok.ugeubi.alarm.Alarm_fragment;
 import duksung.android.hororok.ugeubi.medicine.Medicine_kit_fragment;
 
 public class MainActivity extends FragmentActivity {

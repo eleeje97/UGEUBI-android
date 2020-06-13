@@ -1,4 +1,4 @@
-package duksung.android.hororok.ugeubi;
+package duksung.android.hororok.ugeubi.alarm;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-public class Alarm_fragment extends Fragment {
+import duksung.android.hororok.ugeubi.R;
+
+public class    Alarm_fragment extends Fragment {
 
     @Nullable
     @Override

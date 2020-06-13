@@ -73,7 +73,7 @@ public class Medicine_kit_fragment  extends Fragment {
             @Override
             public void onClick(View v) {
                 Log.e("e","추가 버튼 클릭됨");
-                adapter.addItem(new Medicine_data("날짜1",R.drawable.medicine_icon_pill1,"약이름1","설명1"));
+                adapter.addItem(new Medicine_data("날짜1",R.drawable.medicine_icon_pill1,"타이레놀","해열 및 진통제"));
 
 
                 gridView.setAdapter(adapter);

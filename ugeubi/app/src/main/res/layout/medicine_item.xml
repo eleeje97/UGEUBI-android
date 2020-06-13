@@ -1,48 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="599px"
-    android:layout_height="1056px"
+    android:layout_width="150dp"
+    android:layout_height="265dp"
     android:background="@drawable/bg_medicine_data"
-    android:layout_marginLeft="62dp"
-    android:layout_marginRight="23dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="9dp"
     android:orientation="vertical">
 
     <ImageView
         android:id="@+id/period"
-        android:layout_width="74px"
-        android:layout_height="74px"
+        android:layout_width="18.5dp"
+        android:layout_height="18.5dp"
         android:src="@drawable/triangle"
-        android:layout_marginRight="76px"
-        android:layout_marginTop="76px"
+        android:layout_marginRight="19dp"
+        android:layout_marginTop="13dp"
         android:layout_gravity="right" />
 
     <ImageView
         android:id="@+id/medicine_icon"
-        android:layout_width="201px"
-        android:layout_height="312px"
+        android:layout_width="50dp"
+        android:layout_height="78dp"
         android:src="@drawable/medicine_icon_pill1"
         android:layout_gravity="center"
-        android:layout_marginBottom="79px"
-        android:layout_marginTop="55px"/>
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="14dp"/>
 
     <TextView
         android:id="@+id/medicine_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="약이름"
-        android:textSize="75px"
+        android:text="타이레놀"
+        android:textSize="19sp"
+        android:textStyle="bold"
         android:textColor="@color/black"
         android:layout_gravity="center"
-        android:layout_marginBottom="44px"/>
+        android:layout_marginBottom="11dp"/>
 
     <TextView
         android:id="@+id/medicine_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="간단한 설명"
+        android:text="생리통, 두통, 해열"
         android:textColor="@color/black"
-        android:textSize="50px"
+        android:textSize="12.5sp"
+        android:layout_marginBottom="45dp"
         android:layout_gravity="center"/>
 
 

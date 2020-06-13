@@ -11,48 +11,48 @@
     android:fillViewport="true">
 
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/header"
-            android:background="@drawable/header_ugeubi_box"
+            android:adjustViewBounds="true"
             android:layout_width="match_parent"
-            android:layout_height="518px"
+            android:layout_height="wrap_content"
+            android:src="@drawable/header_ugeubi_box"
+            app:layout_constraintStart_toStartOf="@+id/layout"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/layout"
-            android:layout_width="match_parent"
-            android:layout_height = "300px"
+            android:layout_width="0dp"
+            android:layout_height="300px"
             android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/header">
+
             <TextView
                 android:id="@+id/date"
                 android:layout_width="wrap_content"
-                android:layout_height="120px"
-
-                android:layout_marginLeft="124px"
-                android:layout_marginTop="164px"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="31dp"
+                android:layout_marginTop="41dp"
                 android:text="우리집 구급 상자"
                 android:textColor="#4c4b4e"
-                android:textSize="80px"
-                android:textStyle="bold"
-                 />
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
 
             <Button
                 android:id="@+id/add_btn"
-                android:layout_width="150px"
-
-                android:layout_height="150px"
-                android:layout_marginLeft="124px"
-                android:layout_marginTop="164px"
-                android:background="@drawable/reminder"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="196dp"
+                android:layout_marginTop="41dp"
+                android:background="@drawable/plus_icon"
                 android:elevation="1dp"
-
                 />
         </LinearLayout>
 
@@ -60,11 +60,11 @@
         <GridView
             android:id="@+id/gridview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/layout"
+            android:layout_height="520dp"
             android:numColumns="2"
-            />
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
