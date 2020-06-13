@@ -6,100 +6,140 @@
     android:layout_height="match_parent"
     style="@style/BackgroundStyle" >
 
-    <ImageView
-        android:id="@+id/btn_back"
-        android:layout_width="38px"
-        android:layout_height="76px"
-        android:layout_marginStart="63px"
-        android:layout_marginLeft="63px"
-        android:layout_marginTop="110px"
-        android:src="@drawable/btn_back"
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="wrap_content"
+        android:layout_height="25.8dp"
+        android:layout_marginTop="24.3dp"
+        android:layout_marginStart="15.8dp"
+        android:layout_marginLeft="15.8dp"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:id="@+id/btn_back"
+            android:layout_width="9.5dp"
+            android:layout_height="19dp"
+            android:src="@drawable/btn_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="25.8dp"
+            android:layout_marginLeft="24.5dp"
+            android:text="아이디 찾기"
+            android:textColor="#242424"
+            android:textSize="17.5sp"
+            android:layout_marginStart="24.5dp" />
+
+    </LinearLayout>
 
     <TextView
-        android:layout_width="338px"
-        android:layout_height="103px"
-        android:layout_marginStart="199px"
-        android:layout_marginLeft="199px"
-        android:layout_marginTop="97px"
-        android:text="아이디 찾기"
-        android:textColor="#242424"
-        android:textSize="70px"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:layout_width="703px"
-        android:layout_height="260px"
-        android:layout_marginStart="102px"
-        android:layout_marginLeft="102px"
-        android:layout_marginTop="338px"
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25.5dp"
+        android:layout_marginLeft="25.5dp"
+        android:layout_marginTop="34.5dp"
         android:text="회원정보에 등록한\n이메일로 인증"
-        android:textSize="90px"
-        android:lineSpacingExtra="20px"
+        android:textStyle="bold"
+        android:textSize="22.5sp"
+        android:lineSpacingExtra="5sp"
         android:textColor="#242424"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/layout" />
 
     <TextView
-        android:layout_width="977px"
-        android:layout_height="200px"
-        android:layout_marginStart="102px"
-        android:layout_marginLeft="102px"
-        android:layout_marginTop="680px"
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25.5dp"
+        android:layout_marginLeft="25.5dp"
+        android:layout_marginTop="11dp"
         android:text="회원정보에 등록한 이메일을 입력하면,\n아이디가 입력한 이메일로 전송됩니다."
-        android:textSize="55px"
-        android:lineSpacingExtra="50px"
+        android:textSize="13.8sp"
+        android:lineSpacingExtra="13.8sp"
         android:textColor="#737373"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
     
     <View
         android:id="@+id/horizontal_bar"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_marginTop="1000px"
+        android:layout_marginTop="8dp"
         android:background="#E6E6E6"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/textView2"/>
 
     <EditText
+        android:theme="@style/EditTextStyle"
         android:id="@+id/user_name"
-        android:layout_width="1250px"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100px"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="25.3dp"
         android:hint="이름"
-        android:textSize="80px"
+        android:textSize="17.5sp"
         android:textColor="#242424"
         android:textColorHint="#e6e6e6"
         android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/horizontal_bar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"/>
+        app:layout_constraintTop_toTopOf="@+id/horizontal_bar" />
+
+    <FrameLayout
+        android:id="@+id/framelayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="25.3dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/user_name" >
+
+        <EditText
+            android:theme="@style/EditTextStyle"
+            android:id="@+id/user_email"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="이메일"
+            android:textSize="17.5sp"
+            android:textColor="#242424"
+            android:textColorHint="#e6e6e6"
+            android:inputType="textEmailAddress" />
+
+        <Button
+            android:layout_gravity="top|right"
+            android:id="@+id/authorize_btn"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:text="인증요청"
+            android:background="@drawable/btn_authorize" />
+
+    </FrameLayout>
 
     <EditText
-        android:id="@+id/user_email"
-        android:layout_width="1250px"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20px"
-        android:hint="이메일"
-        android:textSize="80px"
+        android:theme="@style/EditTextStyle"
+        android:id="@+id/authorize_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="25.3dp"
+        android:hint="인증번호 입력"
+        android:textSize="17.5sp"
         android:textColor="#242424"
         android:textColorHint="#e6e6e6"
-        android:inputType="textEmailAddress"
+        android:inputType="text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/user_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5" />
+        app:layout_constraintTop_toBottomOf="@+id/framelayout" />
 
     <Button
         android:background="#45ba8e"
         android:text="아이디 찾기"
-        android:textSize="80px"
+        android:textSize="20sp"
         android:layout_width="match_parent"
-        android:layout_height="278px"
+        android:layout_height="69.5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

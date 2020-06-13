@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:editTextStyle">@style/EditTextStyle</item>
     </style>
 
 
@@ -13,8 +14,8 @@
         <item name = "android:background">@color/colorAccent</item>
     </style>
 
-    <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
-        <item name="colorControlNormal">#E6E6E6</item>
+    <style name="EditTextStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorAccent">@color/mainColor</item>
     </style>
 
 </resources>
