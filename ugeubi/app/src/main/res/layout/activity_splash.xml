@@ -7,9 +7,9 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="456px"
-        android:layout_height="456px"
-        android:layout_marginTop="908px"
+        android:layout_width="114dp"
+        android:layout_height="114dp"
+        android:layout_marginTop="227dp"
         android:src="@drawable/logo_splash"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,9 +20,9 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="466px"
-        android:layout_height="278px"
-        android:layout_marginTop="68px"
+        android:layout_width="116.5dp"
+        android:layout_height="69.5dp"
+        android:layout_marginTop="17dp"
         android:src="@drawable/txt_splash"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
