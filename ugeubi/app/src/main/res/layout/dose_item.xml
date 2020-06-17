@@ -1,47 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     android:id="@+id/dose_background"
-    android:layout_width="599px"
-    android:layout_height="1056px"
+    android:layout_width="150dp"
+    android:layout_height="265dp"
     android:background="@drawable/bg_ugeubi_dose"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
-        android:layout_marginTop="115px"
+        android:layout_marginTop="28.6dp"
         android:layout_gravity="center_horizontal"
         android:text="7:00"
+        android:textStyle="bold"
         android:id="@+id/dose_time"
         android:layout_width="wrap_content"
-        android:layout_height="109px"
-        android:textSize="80px"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
         android:textColor="#ffffff" />
 
     <ImageView
-        android:layout_marginTop="95px"
+        android:layout_marginTop="24dp"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/ugeubi_dose"
         android:id="@+id/dose_image"
-        android:layout_width="210px"
-        android:layout_height="210px" />
+        android:layout_width="52.5dp"
+        android:layout_height="52.5dp" />
 
     <TextView
-        android:layout_marginTop="40px"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
         android:id="@+id/dose_name"
         android:text="비타민D"
+        android:textStyle="bold"
         android:layout_width="wrap_content"
-        android:layout_height="111px"
-        android:textSize="75px"
+        android:layout_height="wrap_content"
+        android:textSize="18.8sp"
         android:textColor="#ffffff" />
 
     <TextView
-        android:layout_marginTop="40px"
+        android:layout_marginTop="10dp"
         android:layout_gravity="center_horizontal"
         android:id="@+id/dose_num"
         android:layout_width="wrap_content"
-        android:layout_height="75px"
-        android:textSize="50px"
+        android:layout_height="wrap_content"
+        android:textSize="12.5sp"
         android:textColor="#080808"
         android:text="2알 복용하세요" />
 

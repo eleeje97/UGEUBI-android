@@ -7,45 +7,67 @@
 
     <ImageView
         android:id="@+id/header"
-        android:background="@drawable/header_ugeubi_box"
+        android:src="@drawable/header_ugeubi_box"
         android:layout_width="match_parent"
-        android:layout_height="518px"
-
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="120px"
-        android:layout_marginStart="124px"
-        android:layout_marginLeft="124px"
-        android:layout_marginTop="164px"
-        android:text="2020년 06월 10일"
-        android:textColor="#4c4b4e"
-        android:textSize="80px"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header" />
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="41dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintStart_toStartOf="parent" >
 
-    <ImageView
-        android:layout_width="48.6px"
-        android:layout_height="50.8px"
-        android:layout_marginLeft="8.3px"
-        android:layout_marginTop="198px"
-        android:src="@drawable/btn_date_pick"
-        app:layout_constraintStart_toEndOf="@+id/date"
-        app:layout_constraintTop_toBottomOf="@id/header" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="31dp"
+            android:layout_marginLeft="31dp"
+            android:text="2020년 06월 10일"
+            android:textColor="#4c4b4e"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:layout_width="12.2dp"
+            android:layout_height="12.7dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginStart="3dp"
+            android:src="@drawable/btn_date_pick" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right">
+
+            <ImageView
+                android:layout_width="20.6dp"
+                android:layout_height="20.6dp"
+                android:layout_marginRight="20.6dp"
+                android:src="@drawable/btn_add_dose_alarm" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dose_list"
         android:layout_width="wrap_content"
-        android:layout_height="1056px"
-        android:layout_marginTop="174px"
-        android:layout_marginLeft="46px"
+        android:layout_height="265dp"
+        android:layout_marginTop="43.5dp"
+        android:layout_marginLeft="11.5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/date" />
+        app:layout_constraintTop_toBottomOf="@+id/linear_layout" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
