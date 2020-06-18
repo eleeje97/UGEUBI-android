@@ -2,17 +2,192 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:id="@+id/layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:id="@+id/btn_back"
+            android:layout_width="9.5dp"
+            android:layout_height="19dp"
+            android:layout_marginLeft="15.8dp"
+            android:layout_marginStart="15.8dp"
+            android:src="@drawable/btn_back" />
+
+        <FrameLayout
+            android:layout_gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="22.3dp"
+            android:layout_marginRight="22.3dp" >
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_search_shape" />
+            
+            <ImageButton
+                android:layout_gravity="center_vertical|right"
+                android:layout_width="20.8dp"
+                android:layout_height="20.8dp"
+                android:layout_marginRight="6dp"
+                android:background="@drawable/search_icon_clicked" />
+
+        </FrameLayout>
+
+    </LinearLayout>
 
 
     <TextView
-    android:id="@+id/textView"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="검색 화면"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-        android:textColor="@color/colorPrimary"/>
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="29.8dp"
+        android:layout_marginLeft="29.8dp"
+        android:textSize="15.5sp"
+        android:textColor="#040404"
+        android:text="DUR 유형(선택)"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/layout"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6.3dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:id="@+id/none"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:background="@drawable/durtype_togglebtn"
+                android:textOn="선택안함"
+                android:textOff="선택안함"
+                android:textSize="10dp"
+                android:textColor="@drawable/durtype_togglebtn_textcolor" />
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/durtype_togglebtn"
+                android:textOn="범용금기"
+                android:textOff="범용금기"
+                android:textSize="10dp"
+                android:textColor="@drawable/durtype_togglebtn_textcolor" />
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/durtype_togglebtn"
+                android:textOn="특정연령대금기"
+                android:textOff="특정연령대금기"
+                android:textSize="10dp"
+                android:textColor="@drawable/durtype_togglebtn_textcolor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="13dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:background="@drawable/durtype_togglebtn"
+                android:textOn="임부금기"
+                android:textOff="임부금기"
+                android:textSize="10dp"
+                android:textColor="@drawable/durtype_togglebtn_textcolor" />
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/durtype_togglebtn"
+                android:textOn="용량주의"
+                android:textOff="용량주의"
+                android:textSize="10dp"
+                android:textColor="@drawable/durtype_togglebtn_textcolor" />
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/durtype_togglebtn"
+                android:textOn="투여기간주의"
+                android:textOff="투여기간주의"
+                android:textSize="10dp"
+                android:textColor="@drawable/durtype_togglebtn_textcolor" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="13dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:background="@drawable/durtype_togglebtn"
+                android:textOn="노인주의"
+                android:textOff="노인주의"
+                android:textSize="10dp"
+                android:textColor="@drawable/durtype_togglebtn_textcolor" />
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/durtype_togglebtn"
+                android:textOn="효능군중복"
+                android:textOff="효능군중복"
+                android:textSize="10dp"
+                android:textColor="@drawable/durtype_togglebtn_textcolor" />
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/durtype_togglebtn"
+                android:textOn="서방형 제제 분할주의"
+                android:textOff="서방형 제제 분할주의"
+                android:textSize="10dp"
+                android:textColor="@drawable/durtype_togglebtn_textcolor" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

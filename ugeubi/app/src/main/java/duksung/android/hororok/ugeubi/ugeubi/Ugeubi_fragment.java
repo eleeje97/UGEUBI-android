@@ -46,8 +46,6 @@ public class Ugeubi_fragment extends Fragment {
         });
 
 
-
-
         // Test 코드
         adapter.addItem("7:00", "비타민 D", "2알 복용하세요", false);
         adapter.addItem("8:00", "타이레놀", "2알 복용하세요", false);
