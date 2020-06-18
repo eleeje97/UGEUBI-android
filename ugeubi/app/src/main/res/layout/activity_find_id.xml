@@ -135,6 +135,7 @@
         app:layout_constraintTop_toBottomOf="@+id/framelayout" />
 
     <Button
+        android:id="@+id/find_id_btn"
         android:background="#45ba8e"
         android:text="아이디 찾기"
         android:textSize="20sp"
