@@ -61,4 +61,96 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"/>
 
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16.3dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:textSize="15.5sp"
+        android:textColor="#040404"
+        android:text="약 종류"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/medicine_name"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/medicine_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ToggleButton
+                android:layout_width="82.3dp"
+                android:layout_height="32dp"
+                android:text="알약"
+                android:textColor="@drawable/durtype_togglebtn_textcolor"
+                android:background="@drawable/durtype_togglebtn"
+                android:button="@drawable/durtype_togglebtn"/>
+
+            <ToggleButton
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/durtype_togglebtn"
+                android:textOn="범용금기"
+                android:textOff="범용금기"
+                android:textSize="10dp"
+                android:textColor="@drawable/durtype_togglebtn_textcolor" />
+
+
+            <RadioButton
+                android:layout_width="82.3dp"
+                android:layout_height="32dp"
+                android:text="물약"
+                android:textColor="@drawable/durtype_togglebtn_textcolor"
+                android:background="@drawable/durtype_togglebtn"
+                android:button="@drawable/durtype_togglebtn"/>
+
+            <RadioButton
+                android:layout_width="82.3dp"
+                android:layout_height="32dp"
+                android:text="가루약"
+                android:textColor="@drawable/durtype_togglebtn_textcolor"
+                android:background="@drawable/durtype_togglebtn"
+                android:button="@drawable/durtype_togglebtn"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <RadioButton
+                android:layout_width="82.3dp"
+                android:layout_height="32dp"
+                android:background="@drawable/durtype_togglebtn"
+                android:button="@drawable/durtype_togglebtn"
+                android:text="연고"
+                android:textColor="@drawable/durtype_togglebtn_textcolor" />
+
+            <RadioButton
+                android:layout_width="82.3dp"
+                android:layout_height="32dp"
+                android:background="@drawable/durtype_togglebtn"
+                android:button="@drawable/durtype_togglebtn"
+                android:text="처방약"
+                android:textColor="@drawable/durtype_togglebtn_textcolor" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
