@@ -21,7 +21,7 @@ public class SplashActivity extends Activity {
 
     private class SplashHandler implements Runnable{
         public void run(){
-            startActivity(new Intent(getApplication(), MainActivity.class));
+            startActivity(new Intent(getApplication(), Login.class));
             SplashActivity.this.finish();
         }
     }

@@ -17,6 +17,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".Signup"/>
+        <activity android:name=".Find_id"/>
+        <activity android:name=".Find_pw"/>
+        <activity android:name=".Login"/>
         <activity android:name=".MainActivity" />
     </application>
 

@@ -21,10 +21,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ListView
+
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="11.3dp"
+        android:id="@+id/alarmlist"
+        android:layout_marginLeft="32.8dp"
+        android:layout_marginRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/alarm" />
-
+        app:layout_constraintTop_toBottomOf="@id/alarm"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
