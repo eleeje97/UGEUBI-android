@@ -16,27 +16,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <ImageView
-            android:layout_gravity="center_vertical"
-            android:id="@+id/btn_back"
-            android:layout_width="9.5dp"
-            android:layout_height="19dp"
-            android:layout_marginLeft="15.8dp"
-            android:layout_marginStart="15.8dp"
-            android:src="@drawable/btn_back" />
-
         <FrameLayout
             android:layout_gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="22.3dp"
-            android:layout_marginRight="22.3dp" >
+            android:layout_marginHorizontal="23dp" >
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
+                android:textColor="#040404"
+                android:paddingLeft="20dp"
                 android:background="@drawable/bg_search_shape" />
             
             <ImageButton
