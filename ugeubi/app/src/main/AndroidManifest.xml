@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".Find_pw_result"/>
         <activity android:name=".Find_id_result"/>
         <activity android:name=".Signup"/>
         <activity android:name=".Find_id"/>
