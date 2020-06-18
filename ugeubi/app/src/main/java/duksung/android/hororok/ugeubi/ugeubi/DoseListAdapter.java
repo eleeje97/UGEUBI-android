@@ -1,4 +1,4 @@
-package duksung.android.hororok.ugeubi;
+package duksung.android.hororok.ugeubi.ugeubi;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+
+import duksung.android.hororok.ugeubi.R;
 
 public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHolder> {
 

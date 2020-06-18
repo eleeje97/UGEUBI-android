@@ -1,4 +1,4 @@
-package duksung.android.hororok.ugeubi;
+package duksung.android.hororok.ugeubi.ugeubi;
 
 public class DoseData {
     public String time;

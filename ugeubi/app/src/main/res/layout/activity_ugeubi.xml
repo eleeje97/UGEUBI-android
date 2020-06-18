@@ -48,11 +48,12 @@
             android:layout_height="wrap_content"
             android:gravity="right">
 
-            <ImageView
+            <Button
+                android:id="@+id/add_btn"
                 android:layout_width="20.6dp"
                 android:layout_height="20.6dp"
                 android:layout_marginRight="20.6dp"
-                android:src="@drawable/btn_add_dose_alarm" />
+                android:background="@drawable/btn_add_dose_alarm" />
 
         </LinearLayout>
 
