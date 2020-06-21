@@ -128,15 +128,21 @@ public class RegisterMedicine extends AppCompatActivity {
 
 
 
-        // 약 종류 버튼 리스너 생성
-        MedicineTypeBtnOnClickListener  medicineTypeBtnOnClickListener = new MedicineTypeBtnOnClickListener();
+        // 약 종류 버튼 리스너 설정
+        MedicineTypeBtnOnClickListener medicineTypeBtnOnClickListener = new MedicineTypeBtnOnClickListener();
 
-        // 버튼 리스너 설정
         pill.setOnClickListener(medicineTypeBtnOnClickListener);
         liquidMedicine.setOnClickListener(medicineTypeBtnOnClickListener);
         powderedMedicine.setOnClickListener(medicineTypeBtnOnClickListener);
         ointment.setOnClickListener(medicineTypeBtnOnClickListener);
         prescriptionDrug.setOnClickListener(medicineTypeBtnOnClickListener);
+
+
+
+        // 약 복용유무 버튼 리스너
+        TakingBtnOnClickListener takingBtnOnClickListener = new TakingBtnOnClickListener();
+        takingBtnGroup.setOnCheckedChangeListener(takingBtnOnClickListener);
+
 
 
         // 약 복용횟수 스피너에 아이템 담기
@@ -168,8 +174,13 @@ public class RegisterMedicine extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             setAllBtnUnChecked();
+            takingType_section.setVisibility(View.GONE);
+            takingDay_section.setVisibility(View.GONE);
+            takingTime_section.setVisibility(View.GONE);
             prescription_section.setVisibility(View.GONE);
             generic_section.setVisibility(View.VISIBLE);
+            takingBtnGroup.check(R.id.notTakingBtn);
+
 
             switch (view.getId()) {
                 case R.id.pill :
@@ -188,6 +199,9 @@ public class RegisterMedicine extends AppCompatActivity {
                     prescriptionDrug.setChecked(true);
                     generic_section.setVisibility(View.GONE);
                     prescription_section.setVisibility(View.VISIBLE);
+                    takingType_section.setVisibility(View.VISIBLE);
+                    takingDay_section.setVisibility(View.VISIBLE);
+                    takingTime_section.setVisibility(View.VISIBLE);
                     break ;
             }
         }
@@ -206,9 +220,28 @@ public class RegisterMedicine extends AppCompatActivity {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if(checkedId == R.id.takingBtn) {
-
+                takingType_section.setVisibility(View.VISIBLE);
+                takingDay_section.setVisibility(View.VISIBLE);
+                takingTime_section.setVisibility(View.VISIBLE);
             } else {
+                takingType_section.setVisibility(View.GONE);
+                takingDay_section.setVisibility(View.GONE);
+                takingTime_section.setVisibility(View.GONE);
+            }
+        }
+    }
 
+
+    /** 약 복용타입 버튼 리스너 **/
+    class TakingTypeBtnOnClickListener implements RadioGroup.OnCheckedChangeListener {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if(checkedId == R.id.dayOption) {
+                takingTerm_section.setVisibility(View.GONE);
+                takingDay_section.setVisibility(View.VISIBLE);
+            } else {
+                takingDay_section.setVisibility(View.GONE);
+                takingTerm_section.setVisibility(View.VISIBLE);
             }
         }
     }
