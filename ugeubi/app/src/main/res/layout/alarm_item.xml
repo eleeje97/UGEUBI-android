@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_width="312dp"
+    android:layout_height="127.5dp"
     android:elevation="5dp"
-    android:layout_marginLeft="32.8dp"
-    android:layout_marginRight="15dp"
     android:layout_marginVertical="10dp"
     android:background="@drawable/alarm_shape"
     android:orientation="vertical"
@@ -18,30 +16,31 @@
         android:layout_marginTop="22.3dp"
         android:textSize="10sp"
         android:id="@+id/alarm_day"
-        android:layout_marginLeft="34.8dp"
+        android:layout_marginLeft="35dp"
         android:text="2020년 05월 09일"
         android:textColor="#3d3d3d" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="34.9dp"
-        android:layout_marginRight="66.8dp"
         android:layout_marginTop="11.88dp"
+        android:layout_marginRight="66.8dp"
         android:orientation="horizontal"
+
         android:gravity="center">
 
         <ImageView
             android:id="@+id/dose_icon"
             android:layout_width="34.2dp"
             android:layout_height="34.2dp"
+            android:layout_marginLeft="35dp"
             android:layout_marginRight="8.1dp"
             android:src="@drawable/ugeubi_dose"/>
-        
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="44.8dp"
+
             android:orientation="vertical">
 
             <TextView

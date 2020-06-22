@@ -50,14 +50,43 @@
                 />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/medicine_kit_init"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="110dp"
 
-        <GridView
+            >
+            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="등록된 약이 없어요!"
+            android:layout_gravity="center"
+            android:textColor="#2f2d33"
+            android:gravity="center"
+            android:textSize="19dp"
+            android:textStyle="bold"
+            android:layout_marginBottom="18dp"    />
+
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="집에 있는 약을 등록하여 약을 관리해보세요."
+                android:textColor="#9a9a9a"
+                android:gravity="center"
+                android:textSize="12.5sp"/>
+        </LinearLayout>
+
+    <GridView
             android:id="@+id/gridview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:numColumns="2"
-
-
+            android:visibility="gone"
             android:verticalSpacing="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -19,6 +19,7 @@
             android:adjustViewBounds="true"
             android:background="#dbdbdb" />
 
+        <!-- 뒤로가기 버튼 -->
         <Button
             android:id="@+id/medicine_detail_back_btn"
             android:layout_width="10dp"
@@ -28,7 +29,19 @@
             android:layout_marginRight="335dp"
             android:background="@drawable/btn_back" />
 
+        <!-- 수정버튼 -->
 
+        <Button
+            android:id="@+id/medicine_modify_btn"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:layout_marginLeft="365dp"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/btn_edit_off"
+            android:paddingRight="7dp" />
+
+
+        <!-- 구급 상자 내용 -->
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,5 +50,152 @@
             android:src="@drawable/medicine_kit_detail_info_bg" />
 
 
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:layout_marginTop="291dp"
+            android:orientation="horizontal"
+            android:rowCount="1000">
+
+            <!-- 약이름-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="약 이름"
+                android:textSize="16.3sp"
+                android:layout_marginRight="28dp"
+                android:textColor="#2f2d33"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="71dp"
+                android:layout_marginBottom="21.3dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="타이레놀"
+                android:textSize="16.3sp"
+                android:textColor="#2f2d33"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="21.3dp"/>
+
+            <!-- 식별 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="식별"
+                android:textSize="16.3sp"
+                android:layout_marginRight="28dp"
+                android:textColor="#2f2d33"
+                android:layout_marginLeft="71dp"
+                android:layout_marginBottom="21.3dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MD246"
+                android:textSize="16.3sp"
+                android:textColor="#2f2d33"
+                android:layout_marginBottom="21.3dp"/>
+
+            <!-- 유통기한 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="유통기한"
+               android:textSize="16.3sp"
+                android:layout_marginRight="28dp"
+                android:textColor="#2f2d33"
+                android:layout_marginLeft="71dp"
+                android:layout_marginBottom="21.3dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2020-07-04"
+                android:textSize="16.3sp"
+                android:textColor="#2f2d33"
+                android:layout_marginBottom="21.3dp"/>
+            <!-- 효능 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="효능"
+                android:textSize="16.3sp"
+                android:layout_marginRight="28dp"
+                android:textColor="#2f2d33"
+                android:layout_marginLeft="71dp"
+                android:layout_marginBottom="21.3dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="진통 및 해열"
+                android:textSize="16.3sp"
+                android:textColor="#2f2d33"
+                android:layout_marginBottom="21.3dp"/>
+
+            <!-- 용법 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="용법"
+                android:textSize="16.3sp"
+                android:layout_marginRight="28dp"
+                android:textColor="#2f2d33"
+                android:layout_marginLeft="71dp"
+                android:layout_marginBottom="21.3dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="식후 1알씩"
+                android:textSize="16.3sp"
+                android:textColor="#2f2d33"
+                android:layout_marginBottom="21.3dp"/>
+            <!-- 주의 -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="주의"
+                android:textSize="16.3sp"
+                android:layout_marginRight="28dp"
+                android:textColor="#2f2d33"
+                android:layout_marginLeft="71dp"
+                android:layout_marginBottom="21.3dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="어린이 섭취시, 주의 필요"
+                android:textSize="16.3sp"
+                android:textColor="#2f2d33"
+                android:layout_marginBottom="21.3dp"/>
+            <!-- DUR -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DUR"
+                android:textSize="16.3sp"
+                android:layout_marginRight="28dp"
+                android:textColor="#2f2d33"
+                android:layout_marginLeft="71dp"
+                android:layout_marginBottom="21.3dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="DUR 정보"
+                android:textSize="16.3sp"
+                android:textColor="#2f2d33"
+                android:layout_marginBottom="21.3dp"/>
+        </GridLayout>
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

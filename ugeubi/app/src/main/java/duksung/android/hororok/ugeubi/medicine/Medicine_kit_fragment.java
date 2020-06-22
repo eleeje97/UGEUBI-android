@@ -44,6 +44,9 @@ public class Medicine_kit_fragment  extends Fragment {
     // GridView
     GridView gridView;
 
+    // LinearLayout
+    LinearLayout linearLayout;
+
     // 버튼 크기 저장
     int width, height;
     @Nullable
@@ -55,6 +58,8 @@ public class Medicine_kit_fragment  extends Fragment {
         add_btn = rootView.findViewById(R.id.add_btn);
         gridView = rootView.findViewById(R.id.gridview);
 
+        // 등록된 약이 없다는 멘트를 담은 레이아웃
+        linearLayout = rootView.findViewById(R.id.medicine_kit_init);
 
         // 약 추가 버튼이 클릭시
         add_btn.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +68,15 @@ public class Medicine_kit_fragment  extends Fragment {
             Medicine_adapter adapter = new Medicine_adapter();
             @Override
             public void onClick(View v) {
+
+                // 페이지 이동
+                Intent intent = new Intent(getActivity(),AddMedicine.class);
+                startActivity(intent);
+
+                // 작동 확인
+                linearLayout.setVisibility(View.GONE);
+                gridView.setVisibility(View.VISIBLE);
+
                 // 약 추가
                 adapter.addItem(new Medicine_data("날짜1",R.drawable.medicine_icon_pill1,"타이레놀","해열 및 진통제"));
                 gridView.setAdapter(adapter);
