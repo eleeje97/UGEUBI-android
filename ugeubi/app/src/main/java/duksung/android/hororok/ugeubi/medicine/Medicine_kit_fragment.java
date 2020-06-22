@@ -2,6 +2,7 @@ package duksung.android.hororok.ugeubi.medicine;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,44 +49,47 @@ public class Medicine_kit_fragment  extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_medicine_kit, container, false);
+        final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_medicine_kit, container, false);
 
-
-
-
-
+        // 추가버튼, 그리드뷰
         add_btn = rootView.findViewById(R.id.add_btn);
-
-
         gridView = rootView.findViewById(R.id.gridview);
 
 
-
-
-
-
-
-
+        // 약 추가 버튼이 클릭시
         add_btn.setOnClickListener(new View.OnClickListener() {
 
-
+            // 어댑터 생성
             Medicine_adapter adapter = new Medicine_adapter();
             @Override
             public void onClick(View v) {
-                Log.e("e","추가 버튼 클릭됨");
+                // 약 추가
                 adapter.addItem(new Medicine_data("날짜1",R.drawable.medicine_icon_pill1,"타이레놀","해열 및 진통제"));
-
-
                 gridView.setAdapter(adapter);
 
             }
         });
 
+
+        // 그리드 뷰에 아이템 클릭시
+        // 해당 아이템의 상세 페이지로 이동
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getContext(),Medicine_kit_detail.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
         return rootView;
     }
 
 
-
+    // 어댑터
     class Medicine_adapter extends BaseAdapter {
         ArrayList<Medicine_data> items = new ArrayList<Medicine_data>();
         @Override

@@ -9,20 +9,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".registerMedicine.RegisterMedicine">
+        <activity android:name=".Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".medicine.Medicine_kit_detail"/>
         <activity android:name=".Find_pw_result"/>
         <activity android:name=".Find_id_result"/>
         <activity android:name=".Signup"/>
         <activity android:name=".Find_id"/>
         <activity android:name=".Find_pw"/>
-        <activity android:name=".Login"/>
+        <activity android:name=".registerMedicine.RegisterMedicine"/>
         <activity android:name=".MainActivity" />
     </application>
 
