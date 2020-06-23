@@ -144,6 +144,22 @@ public class RegisterMedicine extends AppCompatActivity {
         takingBtnGroup.setOnCheckedChangeListener(takingBtnOnClickListener);
 
 
+        // 약 복용타입 버튼 리스너
+        TakingTypeBtnOnClickListener takingTypeBtnOnClickListener = new TakingTypeBtnOnClickListener();
+        takingTypeBtnGroup.setOnCheckedChangeListener(takingTypeBtnOnClickListener);
+
+        // 복용간격 버튼 리스너
+        TakingTermBtnOnClickListener takingTermBtnOnClickListener = new TakingTermBtnOnClickListener();
+        term_everyday.setOnClickListener(takingTermBtnOnClickListener);
+        term2.setOnClickListener(takingTermBtnOnClickListener);
+        term3.setOnClickListener(takingTermBtnOnClickListener);
+        term4.setOnClickListener(takingTermBtnOnClickListener);
+        term5.setOnClickListener(takingTermBtnOnClickListener);
+        term6.setOnClickListener(takingTermBtnOnClickListener);
+        term_week.setOnClickListener(takingTermBtnOnClickListener);
+
+
+
 
         // 약 복용횟수 스피너에 아이템 담기
         String[] item = {"1번", "2번", "3번", "4번", "5번"};
@@ -243,6 +259,50 @@ public class RegisterMedicine extends AppCompatActivity {
                 takingDay_section.setVisibility(View.GONE);
                 takingTerm_section.setVisibility(View.VISIBLE);
             }
+        }
+    }
+
+
+    /** 약종류 버튼 리스너 **/
+    class TakingTermBtnOnClickListener implements Button.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            setAllBtnUnChecked();
+
+
+            switch (view.getId()) {
+                case R.id.term_everyday :
+                    term_everyday.setChecked(true);
+                    break ;
+                case R.id.term_2 :
+                    term2.setChecked(true);
+                    break ;
+                case R.id.term_3 :
+                    term3.setChecked(true);
+                    break ;
+                case R.id.term_4 :
+                    term4.setChecked(true);
+                    break ;
+                case R.id.term_5 :
+                    term5.setChecked(true);
+                    break ;
+                case R.id.term_6 :
+                    term6.setChecked(true);
+                    break ;
+                case R.id.term_week :
+                    term_week.setChecked(true);
+                    break ;
+            }
+        }
+
+        void setAllBtnUnChecked() {
+            term_everyday.setChecked(false);
+            term2.setChecked(false);
+            term3.setChecked(false);
+            term4.setChecked(false);
+            term5.setChecked(false);
+            term6.setChecked(false);
+            term_week.setChecked(false);
         }
     }
 
