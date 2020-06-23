@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 
 import duksung.android.hororok.ugeubi.R;
+import duksung.android.hororok.ugeubi.registerMedicine.RegisterMedicine;
 
 public class Medicine_kit_fragment  extends Fragment {
 
@@ -70,7 +71,7 @@ public class Medicine_kit_fragment  extends Fragment {
             public void onClick(View v) {
 
                 // 페이지 이동
-                Intent intent = new Intent(getActivity(),AddMedicine.class);
+                Intent intent = new Intent(getActivity(), RegisterMedicine.class);
                 startActivity(intent);
 
                 // 작동 확인
