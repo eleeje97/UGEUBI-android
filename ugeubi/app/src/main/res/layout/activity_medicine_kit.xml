@@ -37,17 +37,22 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
             <Button
                 android:id="@+id/add_btn"
                 android:layout_marginBottom="10dp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginLeft="196dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="41dp"
                 android:background="@drawable/plus_icon"
                 android:elevation="1dp"
                 />
+
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
