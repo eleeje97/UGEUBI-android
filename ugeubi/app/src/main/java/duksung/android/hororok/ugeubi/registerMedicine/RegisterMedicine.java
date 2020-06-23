@@ -1,9 +1,16 @@
 package duksung.android.hororok.ugeubi.registerMedicine;
 
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -18,6 +25,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
 import duksung.android.hororok.ugeubi.R;
 
 public class RegisterMedicine extends AppCompatActivity {
@@ -30,6 +43,9 @@ public class RegisterMedicine extends AppCompatActivity {
 
     // 유통기한 TextView
     TextView expirationDate;
+
+    // DatePickerDialog
+    SpinnerDatePickerDialog spinnerDatePickerDialog;
 
     // 약 복용유무 버튼그룹
     RadioGroup takingBtnGroup;
@@ -51,9 +67,11 @@ public class RegisterMedicine extends AppCompatActivity {
 
     // 약 복용시간 리스트
     RecyclerView takingTimeList;
+    TakingTimeListAdapter takingTimeListAdapter;
 
     // 약 복용갯수 EditText
     EditText takingDoseNum;
+    String takingDoseNum_input = "";
 
 
     // section
@@ -110,7 +128,6 @@ public class RegisterMedicine extends AppCompatActivity {
 
         // 약 복용시간 리스트
         takingTimeList = findViewById(R.id.takingTimeList);
-        TakingTimeListAdapter takingTimeListAdapter;
 
         // 약 복용갯수 EditText
         takingDoseNum = findViewById(R.id.taking_dose_num);
@@ -139,6 +156,33 @@ public class RegisterMedicine extends AppCompatActivity {
 
 
 
+        // 유통기한 DatePickerDialog
+        Date currentTime = Calendar.getInstance().getTime();
+        String today = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault()).format(currentTime);
+        expirationDate.setText(today);
+
+        spinnerDatePickerDialog = new SpinnerDatePickerDialog(this);
+        spinnerDatePickerDialog.setDialogListener(new SpinnerDatePickerDialog.SpinnerDatePickerDialogListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onPositiveClicked(int yy, int mm, int dd) {
+                expirationDate.setText(yy + "년 " + mm + "월 " + dd + "일");
+            }
+
+            @Override
+            public void onNegativeClicked() {
+
+            }
+        });
+
+        expirationDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spinnerDatePickerDialog.show();
+            }
+        });
+
+
         // 약 복용유무 버튼 리스너
         TakingBtnOnClickListener takingBtnOnClickListener = new TakingBtnOnClickListener();
         takingBtnGroup.setOnCheckedChangeListener(takingBtnOnClickListener);
@@ -159,28 +203,35 @@ public class RegisterMedicine extends AppCompatActivity {
         term_week.setOnClickListener(takingTermBtnOnClickListener);
 
 
-
-
         // 약 복용횟수 스피너에 아이템 담기
         String[] item = {"1번", "2번", "3번", "4번", "5번"};
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, R.layout.taking_num_spinner_item, item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.select_dialog_item);
-
         spinner.setAdapter(spinnerAdapter);
+
+        SpinnerOnItemSelectedListener spinnerOnItemSelectedListener = new SpinnerOnItemSelectedListener();
+        spinner.setOnItemSelectedListener(spinnerOnItemSelectedListener);
 
 
         // 약 복용시간 리스트
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        takingTimeList.setLayoutManager(layoutManager);
+        //LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManagerWrapper linearLayoutManagerWrapper = new LinearLayoutManagerWrapper(this, LinearLayoutManager.HORIZONTAL, false);
+        takingTimeList.setLayoutManager(linearLayoutManagerWrapper);
         TakingTimeBtnOnClickListener takingTimeBtnOnClickListener = new TakingTimeBtnOnClickListener();
         takingTimeListAdapter = new TakingTimeListAdapter(this, takingTimeBtnOnClickListener);
         takingTimeList.setAdapter(takingTimeListAdapter);
 
         takingTimeListAdapter.addItem("AM 9:00");
-        takingTimeListAdapter.addItem("PM 1:00");
-        takingTimeListAdapter.addItem("PM 5:00");
-        takingTimeListAdapter.addItem("PM 1:00");
-        takingTimeListAdapter.addItem("PM 5:00");
+//        takingTimeListAdapter.addItem("PM 1:00");
+//        takingTimeListAdapter.addItem("PM 5:00");
+//        takingTimeListAdapter.addItem("PM 1:00");
+//        takingTimeListAdapter.addItem("PM 5:00");
+
+
+
+        // 약 복용갯수
+
+
 
     }
 
@@ -230,6 +281,9 @@ public class RegisterMedicine extends AppCompatActivity {
             prescriptionDrug.setChecked(false);
         }
     }
+
+
+
 
     /** 약 복용유무 버튼 리스너 **/
     class TakingBtnOnClickListener implements RadioGroup.OnCheckedChangeListener {
@@ -307,6 +361,44 @@ public class RegisterMedicine extends AppCompatActivity {
     }
 
 
+    /** 약 복용횟수 스피너 리스너 **/
+    class SpinnerOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
+        @Override
+        public void onItemSelected (AdapterView < ? > parent, View view,int position, long id){
+            takingTimeListAdapter.clear();
+            for (int i = 0; i <= position; i++) {
+                takingTimeListAdapter.addItem("AM 9:00");
+            }
+        }
+
+        @Override
+        public void onNothingSelected (AdapterView < ? > parent){
+
+        }
+    }
+
+
+    class LinearLayoutManagerWrapper extends LinearLayoutManager {
+        LinearLayoutManagerWrapper(Context context) {
+            super(context);
+        }
+
+        LinearLayoutManagerWrapper(Context context, int orientation, boolean reverseLayout) {
+            super(context, orientation, reverseLayout);
+        }
+
+        LinearLayoutManagerWrapper(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+            super(context, attrs, defStyleAttr, defStyleRes);
+        }
+
+        @Override
+        public boolean supportsPredictiveItemAnimations() {
+            return false;
+        }
+
+    }
+
+
     /** 약 복용시간 버튼 리스너 **/
     class TakingTimeBtnOnClickListener implements Button.OnClickListener {
 
@@ -315,5 +407,29 @@ public class RegisterMedicine extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "날짜선택",Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    /** 약 복용갯수 리스너 *
+    class TakingDoseNumOnClickListener implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            takingDoseNum.setSelection(takingDoseNum.length() - 1);
+        }
+
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            takingDoseNum_input = s.toString();
+            Toast.makeText(getApplicationContext(), takingDoseNum_input + "알",Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            takingDoseNum.setSelection(takingDoseNum.length() - 1);
+        }
+    }
+     */
+
 
 }

@@ -1,6 +1,7 @@
 package duksung.android.hororok.ugeubi.registerMedicine;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,10 +65,15 @@ public class TakingTimeListAdapter extends RecyclerView.Adapter<TakingTimeListAd
         takingTimeData.time = time;
 
         takingTimeDataList.add(takingTimeData);
+        notifyItemChanged(takingTimeDataList.size()-1);
     }
 
     public void remove(int position){
         takingTimeDataList.remove(position);
+    }
+
+    public void clear() {
+        takingTimeDataList.clear();
     }
 
 }
