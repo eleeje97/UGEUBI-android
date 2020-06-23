@@ -13,7 +13,10 @@ import duksung.android.hororok.ugeubi.R;
 
 public class Medicine_viewer extends LinearLayout {
 
+    // 아이콘을 랜덤으로 보여주기 위해 사용
+    int[] pill_icons = {R.drawable.medicine_icon_pill1};
 
+    // 이미지뷰, 텍스트뷰
     ImageView period, medicine_icon;
     TextView medicine_name, medicine_content;
 
@@ -29,6 +32,7 @@ public class Medicine_viewer extends LinearLayout {
         init(context);
     }
 
+    // 초기 설정
     public void init(Context context){
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.medicine_item,this,true);
