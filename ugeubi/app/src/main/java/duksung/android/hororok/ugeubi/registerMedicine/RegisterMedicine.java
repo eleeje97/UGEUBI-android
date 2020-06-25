@@ -2,10 +2,13 @@ package duksung.android.hororok.ugeubi.registerMedicine;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,9 +20,11 @@ import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -68,6 +73,8 @@ public class RegisterMedicine extends AppCompatActivity {
     // 약 복용시간 리스트
     RecyclerView takingTimeList;
     TakingTimeListAdapter takingTimeListAdapter;
+
+    TimePickerDialog timePickerDialog;
 
     // 약 복용갯수 EditText
     EditText takingDoseNum;
@@ -221,11 +228,33 @@ public class RegisterMedicine extends AppCompatActivity {
         takingTimeListAdapter = new TakingTimeListAdapter(this, takingTimeBtnOnClickListener);
         takingTimeList.setAdapter(takingTimeListAdapter);
 
-        takingTimeListAdapter.addItem("AM 9:00");
-//        takingTimeListAdapter.addItem("PM 1:00");
-//        takingTimeListAdapter.addItem("PM 5:00");
-//        takingTimeListAdapter.addItem("PM 1:00");
-//        takingTimeListAdapter.addItem("PM 5:00");
+        takingTimeList.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), takingTimeList, new ClickListener() {
+            @Override
+            public void onClick(View view, final int position) {
+                Log.e("Test", position + "번째");
+
+                Toast.makeText(getApplicationContext(), "날짜선택",Toast.LENGTH_SHORT).show();
+
+                Calendar calendar = Calendar.getInstance();
+                timePickerDialog = new TimePickerDialog(RegisterMedicine.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        takingTimeListAdapter.changeTime(position, hourOfDay, minute);
+                    }
+                }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
+
+                timePickerDialog.show();
+
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+            }
+        }));
+
+        takingTimeListAdapter.addItem("09:00");
+
 
 
 
@@ -367,7 +396,7 @@ public class RegisterMedicine extends AppCompatActivity {
         public void onItemSelected (AdapterView < ? > parent, View view,int position, long id){
             takingTimeListAdapter.clear();
             for (int i = 0; i <= position; i++) {
-                takingTimeListAdapter.addItem("AM 9:00");
+                takingTimeListAdapter.addItem("09:00");
             }
         }
 
@@ -404,32 +433,70 @@ public class RegisterMedicine extends AppCompatActivity {
 
         @Override
         public void onClick(View v) {
-            Toast.makeText(getApplicationContext(), "날짜선택",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "날짜선택",Toast.LENGTH_SHORT).show();
+//
+//            Calendar calendar = Calendar.getInstance();
+//            timePickerDialog = new TimePickerDialog(RegisterMedicine.this, new TimePickerDialog.OnTimeSetListener() {
+//                @Override
+//                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//
+//                }
+//            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
+//
+//            timePickerDialog.show();
+        }
+    }
+
+    public interface ClickListener {
+        void onClick(View view, int position);
+
+        void onLongClick(View view, int position);
+    }
+
+    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+
+        private GestureDetector gestureDetector;
+        private ClickListener clickListener;
+
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener) {
+            this.clickListener = clickListener;
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                    if (child != null && clickListener != null) {
+                        clickListener.onLongClick(child, recyclerView.getChildAdapterPosition(child));
+                    }
+                }
+            });
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+            View child = rv.findChildViewUnder(e.getX(), e.getY());
+            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
+                clickListener.onClick(child, rv.getChildAdapterPosition(child));
+            }
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
         }
     }
 
 
-    /** 약 복용갯수 리스너 *
-    class TakingDoseNumOnClickListener implements TextWatcher {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            takingDoseNum.setSelection(takingDoseNum.length() - 1);
-        }
-
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            takingDoseNum_input = s.toString();
-            Toast.makeText(getApplicationContext(), takingDoseNum_input + "알",Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            takingDoseNum.setSelection(takingDoseNum.length() - 1);
-        }
-    }
-     */
 
 
 }

@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
 
 android {
     compileSdkVersion 28
@@ -36,4 +38,9 @@ dependencies {
     //recyclerview
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'org.jetbrains:annotations-java5:15.0'
+
+
+    // add the Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.google.firebase:firebase-messaging:20.1.7'
 }

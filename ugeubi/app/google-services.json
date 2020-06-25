@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "848636991811",
+    "firebase_url": "https://ugeubi.firebaseio.com",
+    "project_id": "ugeubi",
+    "storage_bucket": "ugeubi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848636991811:android:9cbf7a56b426d58704f7f6",
+        "android_client_info": {
+          "package_name": "duksung.android.hororok.ugeubi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "848636991811-qnuqakpugdehqcnrj3jj4uol6s5jql6e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "duksung.android.hororok.ugeubi",
+            "certificate_hash": "55e0d75bcb4a6e42dc3b0f8b895805c83b50c364"
+          }
+        },
+        {
+          "client_id": "848636991811-p20hv8msqlj5c7r219hrt5ofbjri4n5g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiptqKXHM7jTs7Xd07hwWSAcjYYhfabKw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "848636991811-p20hv8msqlj5c7r219hrt5ofbjri4n5g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

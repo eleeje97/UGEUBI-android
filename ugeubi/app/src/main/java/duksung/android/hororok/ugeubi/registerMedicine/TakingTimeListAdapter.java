@@ -68,6 +68,11 @@ public class TakingTimeListAdapter extends RecyclerView.Adapter<TakingTimeListAd
         notifyItemChanged(takingTimeDataList.size()-1);
     }
 
+    public void changeTime(int position, int hour, int minute) {
+        takingTimeDataList.get(position).time = String.format("%02d", hour) + ":" + String.format("%02d", minute);
+        notifyDataSetChanged();
+    }
+
     public void remove(int position){
         takingTimeDataList.remove(position);
     }

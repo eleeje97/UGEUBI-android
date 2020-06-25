@@ -1,11 +1,17 @@
 package duksung.android.hororok.ugeubi;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import duksung.android.hororok.ugeubi.alarm.Alarm_fragment;
 import duksung.android.hororok.ugeubi.medicine.Medicine_kit_fragment;
@@ -127,6 +133,31 @@ public class MainActivity extends FragmentActivity {
 
             }
         });
+
+
+        try {
+            FirebaseInstanceId.getInstance().getInstanceId()
+                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                            if (!task.isSuccessful()) {
+                                Log.w("IDService", "getInstanceId failed", task.getException());
+                                return;
+                            }
+
+                            // Get new Instance ID token
+                            String token = task.getResult().getToken();
+
+                            // Log and toast
+                            //String msg = getString(R.string.msg_token_fmt, token);
+                            Log.d("IDService", token);
+                        }
+                    });
+
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
     }
 
