@@ -146,9 +146,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top|right">
         <TextView
+            android:id="@+id/signup_timer_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="02:00"
+            android:text="05:00"
             android:textColor="#737373"/>
         <Button
             android:id="@+id/authorize_btn4"
@@ -168,6 +169,7 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="비밀번호"
+        android:textColorHint="#e6e6e6"
         android:inputType="textEmailAddress"
         android:theme="@style/EditTextStyle"
         app:layout_constraintEnd_toEndOf="parent"
@@ -182,6 +184,7 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="비밀번호 확인"
+        android:textColorHint="#e6e6e6"
         android:inputType="textEmailAddress"
         android:theme="@style/EditTextStyle"
         app:layout_constraintEnd_toEndOf="parent"
