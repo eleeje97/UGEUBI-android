@@ -30,6 +30,7 @@
                 android:background="@drawable/bg_search_shape" />
             
             <ImageButton
+                android:id="@+id/search_btn"
                 android:layout_gravity="center_vertical|right"
                 android:layout_width="20.8dp"
                 android:layout_height="20.8dp"

@@ -16,7 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DatePicker" android:theme="@style/Widget.AppCompat.PopupWindow"/>
+
+        <activity android:name=".search.Search_Result"/>
         <activity android:name=".medicine.AddMedicine"/>
         <activity android:name=".medicine.Medicine_kit_detail"/>
         <activity android:name=".Find_pw_result"/>
