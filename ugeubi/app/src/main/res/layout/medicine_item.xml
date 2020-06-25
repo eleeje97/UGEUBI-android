@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="150dp"
     android:layout_height="265dp"
-    android:background="@drawable/bg_medicine_data"
+    android:background="@drawable/medicine_kit_item_clicked"
     android:layout_marginHorizontal="15.5dp"
     android:layout_marginVertical="30dp"
 
