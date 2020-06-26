@@ -96,7 +96,7 @@ public class Find_pw extends Activity {
                 // 사용자가 입력한 이메일이 존재하지 않는다면
                 //Toast.makeText(getApplication(), "존재하지 않는 이메일 입니다.", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(getApplicationContext(), Find_pw_result.class);
+                Intent intent = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent);
             }
         });
