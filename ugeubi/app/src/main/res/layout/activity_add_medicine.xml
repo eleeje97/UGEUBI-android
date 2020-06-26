@@ -17,20 +17,20 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <ImageView
+        <Button
             android:layout_gravity="center_vertical"
             android:id="@+id/btn_back"
             android:layout_width="9.5dp"
             android:layout_height="19dp"
-            android:src="@drawable/btn_back" />
+            android:background="@drawable/btn_back" />
 
 
-        <ImageView
+        <Button
             android:id="@+id/btn_ok"
             android:layout_gravity="center_vertical|right"
             android:layout_width="21.8dp"
             android:layout_height="16dp"
-            android:src="@drawable/btn_check" />
+            android:background="@drawable/btn_check" />
 
     </FrameLayout>
 
