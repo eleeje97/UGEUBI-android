@@ -55,8 +55,8 @@ public class RegisterMedicine extends AppCompatActivity {
     // 약 복용유무 버튼그룹
     RadioGroup takingBtnGroup;
 
-    // 복용기간 SeekBar
-    SeekBar takingDays;
+    // 복용기간 EditText
+    EditText takingDays;
 
     // 복용타입 그룹
     RadioGroup takingTypeBtnGroup;
@@ -106,7 +106,7 @@ public class RegisterMedicine extends AppCompatActivity {
         // 약 복용유무 버튼그룹
         takingBtnGroup = findViewById(R.id.takingBtnGroup);
 
-        // 복용기간 SeekBar
+        // 복용기간 EditText
         takingDays = findViewById(R.id.taking_days);
 
         // 복용타입 그룹
@@ -253,11 +253,6 @@ public class RegisterMedicine extends AppCompatActivity {
         }));
 
         takingTimeListAdapter.addItem("09:00");
-
-
-
-
-        // 약 복용갯수
 
 
 
