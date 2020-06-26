@@ -224,8 +224,7 @@ public class RegisterMedicine extends AppCompatActivity {
         //LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManagerWrapper linearLayoutManagerWrapper = new LinearLayoutManagerWrapper(this, LinearLayoutManager.HORIZONTAL, false);
         takingTimeList.setLayoutManager(linearLayoutManagerWrapper);
-        TakingTimeBtnOnClickListener takingTimeBtnOnClickListener = new TakingTimeBtnOnClickListener();
-        takingTimeListAdapter = new TakingTimeListAdapter(this, takingTimeBtnOnClickListener);
+        takingTimeListAdapter = new TakingTimeListAdapter(this);
         takingTimeList.setAdapter(takingTimeListAdapter);
 
         takingTimeList.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), takingTimeList, new ClickListener() {
@@ -272,6 +271,7 @@ public class RegisterMedicine extends AppCompatActivity {
             setAllBtnUnChecked();
             takingType_section.setVisibility(View.GONE);
             takingDay_section.setVisibility(View.GONE);
+            takingTerm_section.setVisibility(View.GONE);
             takingTime_section.setVisibility(View.GONE);
             prescription_section.setVisibility(View.GONE);
             generic_section.setVisibility(View.VISIBLE);
@@ -322,9 +322,11 @@ public class RegisterMedicine extends AppCompatActivity {
                 takingType_section.setVisibility(View.VISIBLE);
                 takingDay_section.setVisibility(View.VISIBLE);
                 takingTime_section.setVisibility(View.VISIBLE);
+                takingTypeBtnGroup.check(R.id.dayOption);
             } else {
                 takingType_section.setVisibility(View.GONE);
                 takingDay_section.setVisibility(View.GONE);
+                takingTerm_section.setVisibility(View.GONE);
                 takingTime_section.setVisibility(View.GONE);
             }
         }
@@ -393,7 +395,7 @@ public class RegisterMedicine extends AppCompatActivity {
     /** 약 복용횟수 스피너 리스너 **/
     class SpinnerOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
         @Override
-        public void onItemSelected (AdapterView < ? > parent, View view,int position, long id){
+        public void onItemSelected (AdapterView < ? > parent, View view, int position, long id){
             takingTimeListAdapter.clear();
             for (int i = 0; i <= position; i++) {
                 takingTimeListAdapter.addItem("09:00");
@@ -427,25 +429,6 @@ public class RegisterMedicine extends AppCompatActivity {
 
     }
 
-
-    /** 약 복용시간 버튼 리스너 **/
-    class TakingTimeBtnOnClickListener implements Button.OnClickListener {
-
-        @Override
-        public void onClick(View v) {
-//            Toast.makeText(getApplicationContext(), "날짜선택",Toast.LENGTH_SHORT).show();
-//
-//            Calendar calendar = Calendar.getInstance();
-//            timePickerDialog = new TimePickerDialog(RegisterMedicine.this, new TimePickerDialog.OnTimeSetListener() {
-//                @Override
-//                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-//
-//                }
-//            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false);
-//
-//            timePickerDialog.show();
-        }
-    }
 
     public interface ClickListener {
         void onClick(View view, int position);

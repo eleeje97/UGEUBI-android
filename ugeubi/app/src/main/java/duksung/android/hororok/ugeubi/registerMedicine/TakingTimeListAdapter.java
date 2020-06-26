@@ -18,11 +18,9 @@ public class TakingTimeListAdapter extends RecyclerView.Adapter<TakingTimeListAd
 
     private Context context;
     private ArrayList<TakingTimeData> takingTimeDataList = new ArrayList<>();
-    private View.OnClickListener onClickListener;
 
-    public TakingTimeListAdapter(Context context, View.OnClickListener onClickListener) {
+    public TakingTimeListAdapter(Context context) {
         this.context = context;
-        this.onClickListener = onClickListener;
     }
 
 
@@ -38,7 +36,6 @@ public class TakingTimeListAdapter extends RecyclerView.Adapter<TakingTimeListAd
         final TakingTimeData takingTimeData = takingTimeDataList.get(position);
 
         holder.taking_time.setText(takingTimeData.time);
-        holder.taking_time_background.setOnClickListener(onClickListener);
     }
 
     @Override
@@ -50,12 +47,10 @@ public class TakingTimeListAdapter extends RecyclerView.Adapter<TakingTimeListAd
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView taking_time;
-        public LinearLayout taking_time_background;
 
         public ViewHolder(View itemView) {
             super(itemView);
             taking_time = itemView.findViewById(R.id.taking_time);
-            taking_time_background = itemView.findViewById(R.id.taking_time_background);
         }
     }
 
