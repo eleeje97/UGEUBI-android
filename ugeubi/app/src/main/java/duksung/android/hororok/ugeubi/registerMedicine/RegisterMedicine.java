@@ -80,6 +80,9 @@ public class RegisterMedicine extends AppCompatActivity {
     EditText takingDoseNum;
     String takingDoseNum_input = "";
 
+    // 취소 및 등록 버튼
+    Button back_btn, add_btn;
+
 
     // section
     LinearLayout generic_section, prescription_section, takingType_section, takingDay_section, takingTerm_section, takingTime_section;
@@ -147,7 +150,37 @@ public class RegisterMedicine extends AppCompatActivity {
         takingTerm_section = findViewById(R.id.taking_term_section);
         takingTime_section = findViewById(R.id.taking_time_section);
 
+        // 취소 및 등록 버튼
+        back_btn = findViewById(R.id.btn_back);
+        add_btn = findViewById(R.id.btn_ok);
+
         /************************** init end ***************************/
+
+
+        // 뒤로가기 및 약 등록 버튼 리스너 설정
+        View.OnClickListener btn_listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // 버튼의 id를 받아와 동작
+                switch (v.getId()){
+
+                    // back_btn
+                    case R.id.btn_back:
+                        onBackPressed();
+                        break;
+
+                    // add_btn
+                    case R.id.add_btn:
+
+                }
+            }
+        };
+
+        // 뒤로가기 및 등록 버튼 리스너 등록
+        back_btn.setOnClickListener(btn_listener);
+        add_btn.setOnClickListener(btn_listener);
+
 
 
 
@@ -262,6 +295,14 @@ public class RegisterMedicine extends AppCompatActivity {
 
 
     }
+
+
+    // back func
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+    }
+
 
 
     /** 약종류 버튼 리스너 **/

@@ -79,7 +79,9 @@ public class Medicine_kit_fragment  extends Fragment {
                 gridView.setVisibility(View.VISIBLE);
 
                 // 약 추가
-                adapter.addItem(new Medicine_data("날짜1",R.drawable.medicine_icon_pill1,"타이레놀","해열 및 진통제"));
+                //adapter.addItem(new Medicine_data("날짜1",R.drawable.medicine_icon_pill1,"타이레놀","해열 및 진통제"));
+
+
                 gridView.setAdapter(adapter);
 
             }
@@ -112,7 +114,9 @@ public class Medicine_kit_fragment  extends Fragment {
             return items.size();
         }
 
-        public void addItem(Medicine_data data){
+
+        // 아이템 등록
+       public void addItem(Medicine_data data){
             items.add(data);
         }
 
