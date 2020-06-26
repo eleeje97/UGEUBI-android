@@ -61,6 +61,7 @@ public class Ugeubi_fragment extends Fragment {
         });
 
 
+
         final Calendar calendar = Calendar.getInstance();
         mYear = calendar.get(Calendar.YEAR);
         mMonth = calendar.get(Calendar.MONTH) + 1;
