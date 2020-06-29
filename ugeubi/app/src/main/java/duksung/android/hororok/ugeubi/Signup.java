@@ -17,6 +17,7 @@ import duksung.android.hororok.ugeubi.retrofit.Check_id_data;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
 import duksung.android.hororok.ugeubi.retrofit.Sign_up_data;
+import duksung.android.hororok.ugeubi.retrofit.Sign_up_email_data;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -40,7 +41,7 @@ public class Signup extends Activity {
     /** 회원가입 기능 구현 **/
     Button signup_btn;
     Button authorize_btn,authorize_btn2, authorize_btn_4;
-    TextView user_email_cf, user_id;
+    TextView user_email_cf, user_id, user_email2;
     FrameLayout frameLayout3;
 
 
@@ -59,7 +60,10 @@ public class Signup extends Activity {
         authorize_btn2 = findViewById(R.id.authorize_btn2); // 인증번호 요청 버튼
         authorize_btn_4 = findViewById(R.id.authorize_btn4); // 확인 버튼
         user_email_cf = findViewById(R.id.user_email_cf);
+
+
         user_id = findViewById(R.id.signup_user_id);  //userId
+        user_email2 = findViewById(R.id.user_email2); // useremail
         frameLayout3 = findViewById(R.id.framelayout3);
 
         /** Retrofit **/
@@ -93,6 +97,8 @@ public class Signup extends Activity {
             @Override
             public void onClick(View v) {
 
+                Sign_up_email_data email_data;
+
                 // 인증번호 입력 박스 visible
                 if(authorize_btn2.getText().equals("인증요청")) {
                     frameLayout3.setVisibility(View.VISIBLE);
@@ -106,6 +112,9 @@ public class Signup extends Activity {
 
                 //  카운트 다운 시작
                 countDownTimer();
+
+                // email 전송
+                sendEmail(new Sign_up_email_data(user_email2.getText().toString()));
             }
         });
 
@@ -164,7 +173,7 @@ public class Signup extends Activity {
 
 
 
-    /** userId 중복 확인을 위한 POST **/
+    /** userId 중복 확인을 위한 GET **/
     public void getCheck_id(String userId) {
 
         Log.i("info>> ", "getCheck_id 호출됨");
@@ -202,6 +211,28 @@ public class Signup extends Activity {
 
 
     }
+
+
+    /** email 인증 요청 **/
+    public void sendEmail(Sign_up_email_data email){
+        apiService.sendnum(email).enqueue(new Callback<Sign_up_email_data>() {
+            @Override
+            public void onResponse(Call<Sign_up_email_data> call, Response<Sign_up_email_data> response) {
+
+                Log.i("info", "code : " + response.code());
+                if(response.isSuccessful()){
+                    Log.i("info", "통신 성공(email), code : " + response.code());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Sign_up_email_data> call, Throwable t) {
+                Log.e("error", "통신 실패" + t.getMessage());
+            }
+        });
+    }
+
 
 
     // Show Response
