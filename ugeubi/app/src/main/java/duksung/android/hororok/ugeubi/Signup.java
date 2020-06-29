@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -12,21 +13,38 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import duksung.android.hororok.ugeubi.retrofit.Check_id_data;
+import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
+import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
+import duksung.android.hororok.ugeubi.retrofit.Sign_up_data;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.ContentValues.TAG;
+
 public class Signup extends Activity {
 
+    /** Retrofit **/
+    private RetrofitInterface apiService;
+    // 중복된 id 확인
+    boolean availale_id;
 
-    // 카운트 다운
+    /** 카운트 다운 구현 **/
     TextView timer_txt;
     CountDownTimer countDownTimer;
     final int MILLISINFUTURE = 300 * 1000; //총 시간 (300초 = 5분)
     final int COUNT_DOWN_INTERVAL = 1000; //onTick 메소드를 호출할 간격 (1초)
 
+
+    /** 회원가입 기능 구현 **/
     Button signup_btn;
     Button authorize_btn,authorize_btn2, authorize_btn_4;
     TextView user_email_cf, user_id;
-
     FrameLayout frameLayout3;
 
+
+    // Test
     String id = "uguebi";
     int num= 1234;
 
@@ -36,41 +54,44 @@ public class Signup extends Activity {
         setContentView(R.layout.activity_signup);
 
         signup_btn = findViewById(R.id.btn_signin);
-
         timer_txt = findViewById(R.id.signup_timer_txt); // 타이머 시간 텍스트
-
         authorize_btn = findViewById(R.id.authorize_btn); // 아이디 중복확인 버튼
         authorize_btn2 = findViewById(R.id.authorize_btn2); // 인증번호 요청 버튼
         authorize_btn_4 = findViewById(R.id.authorize_btn4); // 확인 버튼
-
         user_email_cf = findViewById(R.id.user_email_cf);
-        user_id = findViewById(R.id.signup_user_id);
-
+        user_id = findViewById(R.id.signup_user_id);  //userId
         frameLayout3 = findViewById(R.id.framelayout3);
 
-        // 아이디 중복 확인
+        /** Retrofit **/
+        // 서비스 객체 호출
+        apiService = RetrofitClient.getService();
+
+
+        /** 아이디 중복 확인 버튼을 눌렀을 때  **/
         authorize_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                // 아이디가 중복되었을 경우
-                // 중복 처리 안돼 짜증나
-                if(user_id.getText().equals("ugeubi")) {
-                    Toast.makeText(getApplication(), "아이디가 중복 되었습니다.", Toast.LENGTH_SHORT).show();
+                // id를 입력하지 않았다면
+                if(user_id.getText() == null){
+                    Toast.makeText(getApplication(), "id를 입력해주세요!",Toast.LENGTH_SHORT).show();
                 }
 
+                // id를 입력하였다면
                 else{
-                    Toast.makeText(getApplication(), "사용할 수 있는 아이디 입니다.", Toast.LENGTH_SHORT).show();
+                    //call get method
+                    getCheck_id(user_id.getText().toString());
 
                 }
             }
         });
 
-        // 인증번호 요청
+
+
+        /** 인증번호 요청 버튼을 눌렀을 때  **/
         authorize_btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 // 인증번호 입력 박스 visible
                 if(authorize_btn2.getText().equals("인증요청")) {
@@ -83,14 +104,12 @@ public class Signup extends Activity {
                     countDownTimer.cancel();
                 }
 
-
                 //  카운트 다운 시작
                 countDownTimer();
             }
         });
 
-
-        // 확인
+        /** 인증 확인 버튼을 누르면 인증 요청 번호 입력 란이 사라진다. **/
         authorize_btn_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,6 +118,7 @@ public class Signup extends Activity {
         });
 
 
+        /** 가입 버튼을 누르면 로그인 페이지로 이동한다. **/
         signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,7 +128,9 @@ public class Signup extends Activity {
         });
     }
 
-    public void countDownTimer() { //카운트 다운 메소드
+
+    /** 카운트 다운 메소드 **/
+    public void countDownTimer() {
 
         countDownTimer = new CountDownTimer(MILLISINFUTURE, COUNT_DOWN_INTERVAL) {
             @Override
@@ -129,7 +151,6 @@ public class Signup extends Activity {
 
             }
 
-
             @Override
             public void onFinish() { // 타이머 시간이 다 되었다면
                 Toast.makeText(getApplicationContext(), "인증시간 만료", Toast.LENGTH_SHORT).show();
@@ -139,6 +160,53 @@ public class Signup extends Activity {
         }.start();
 
 
+    }
+
+
+
+    /** userId 중복 확인을 위한 POST **/
+    public void getCheck_id(String userId) {
+
+        Log.i("info>> ", "getCheck_id 호출됨");
+        apiService.check_id(userId).enqueue(new Callback<Check_id_data>() {
+
+            @Override
+            public void onResponse(Call<Check_id_data> call, Response<Check_id_data> response) {
+
+                if(response.isSuccessful()){
+                    Log.i("info", "통신 성공, code >> " + response.code());
+                    Check_id_data data = response.body();
+                    availale_id = data.getAvailable().booleanValue();
+                    Log.i("info", "userId : " + data.getUserId());
+                    Log.i("info", "available : " + data.getAvailable());
+
+
+                    // 중복된 아이디 없다면
+                    if(availale_id){
+                        Toast.makeText(getApplication(),"사용가능한 아이디 입니다.",Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Log.i("info" , "else문" + availale_id);
+                        Toast.makeText(getApplication(),"이미 등록된 아이디 입니다.",Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Check_id_data> call, Throwable t) {
+                Log.e("error", "통신 실패" + t.getMessage());
+            }
+        });
+
 
     }
+
+
+    // Show Response
+    public void showResponse(String response){
+        Log.i("info", "showResopnse >> " + response);
+    }
 }
+

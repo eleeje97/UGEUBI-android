@@ -2,4 +2,7 @@
     <string name="app_name">Ugeubi</string>
     <string name="default_notification_channel_id">Channel ID</string>
     <string name="default_notification_channel_name" translatable="true">Test</string>
+
+    <!-- retrofit baseURL -->
+    <string name="BaseUrl">http://ec2-15-164-21-63.ap-northeast-2.compute.amazonaws.com:8080</string>
 </resources>
