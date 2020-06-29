@@ -43,4 +43,8 @@ dependencies {
     // add the Firebase SDK for Google Analytics
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'com.google.firebase:firebase-messaging:20.1.7'
+
+    // retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 }
