@@ -18,6 +18,7 @@ import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
 import duksung.android.hororok.ugeubi.retrofit.Sign_up_data;
 import duksung.android.hororok.ugeubi.retrofit.Sign_up_email_data;
+import duksung.android.hororok.ugeubi.retrofit.Sign_up_email_num;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -122,7 +123,10 @@ public class Signup extends Activity {
         authorize_btn_4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                frameLayout3.setVisibility(View.GONE);
+
+                authenticateNum(new Sign_up_email_num(user_email2.getText().toString(),
+                        Integer.parseInt(user_email_cf.getText().toString())));
+
             }
         });
 
@@ -205,7 +209,7 @@ public class Signup extends Activity {
 
             @Override
             public void onFailure(Call<Check_id_data> call, Throwable t) {
-                Log.e("error", "통신 실패" + t.getMessage());
+                Log.e("error", "통신 실패(check_id)" + t.getMessage());
             }
         });
 
@@ -228,16 +232,49 @@ public class Signup extends Activity {
 
             @Override
             public void onFailure(Call<Sign_up_email_data> call, Throwable t) {
-                Log.e("error", "통신 실패" + t.getMessage());
+                Log.e("error", "통신 실패(email)" + t.getMessage());
             }
         });
     }
 
 
+    /** 인증번호 확인을 위한 POST **/
+    public void authenticateNum(Sign_up_email_num num){
 
-    // Show Response
-    public void showResponse(String response){
-        Log.i("info", "showResopnse >> " + response);
+        apiService.authenticate_num(num).enqueue(new Callback<Sign_up_email_num>() {
+            @Override
+            public void onResponse(Call<Sign_up_email_num> call, Response<Sign_up_email_num> response) {
+
+
+                Log.i("info", "code : " + response.code());
+                if(response.isSuccessful()){
+                    Log.i("info", "통신 성공(num), code : " + response.code());
+
+
+
+                    /***
+                     * Sign_up_email_num data = response.body();
+                     *
+                     *                     if(user_email_cf.getText().toString().equals(data.getAuthenticateNumber())){
+                     *                         frameLayout3.setVisibility(View.GONE);
+                     *                         Toast.makeText(getApplicationContext(),"인증 완료", Toast.LENGTH_SHORT).show();
+                     *                     }
+                     *                     else{
+                     *                         Toast.makeText(getApplicationContext(),"입력하신 인증번호가 다릅니다.", Toast.LENGTH_SHORT).show();
+                     *                     }
+                     */
+
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Sign_up_email_num> call, Throwable t) {
+                Log.e("error", "통신 실패(email)" + t.getMessage());
+            }
+        });
     }
+
 }
 

@@ -31,8 +31,18 @@ public interface RetrofitInterface {
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @POST("authentication-numbers/sign-up")
-    //Call<Sign_up_email_data> sendnum(@Field("email") String email);
     Call<Sign_up_email_data> sendnum(@Body Sign_up_email_data email);
+
+
+
+    // 이메일 인증 번호 확인
+    @Headers({
+            "Content-Type: application/json;charset=UTF-8" ,
+            "Transfer-Encoding: chunked"})
+    @POST("authentication/sign-up")
+    Call<Sign_up_email_num> authenticate_num(@Body Sign_up_email_num num);
+
+
 
     // 회원 가입 내용 보내기
     @FormUrlEncoded  // key = value 형태로 데이터를 전달하는 것을 의미, @Field와 함께 사용함
