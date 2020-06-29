@@ -39,9 +39,11 @@ public interface RetrofitInterface {
     @Headers({
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
+    @FormUrlEncoded
     @POST("authentication/sign-up")
-    Call<Sign_up_email_num> authenticate_num(@Body Sign_up_email_num num);
-
+    Call<Sign_up_email_num> authenticate_num(@Field("email") String email,
+                                             @Field("authenticateNumber") String authenticateNumber);
+    //Call<Sign_up_email_num> authenticate_num(@Body Sign_up_email_num email);
 
 
     // 회원 가입 내용 보내기

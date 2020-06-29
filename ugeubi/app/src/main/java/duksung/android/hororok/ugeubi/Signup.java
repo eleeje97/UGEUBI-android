@@ -13,6 +13,13 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
 import duksung.android.hororok.ugeubi.retrofit.Check_id_data;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
@@ -124,8 +131,7 @@ public class Signup extends Activity {
             @Override
             public void onClick(View v) {
 
-                authenticateNum(new Sign_up_email_num(user_email2.getText().toString(),
-                        Integer.parseInt(user_email_cf.getText().toString())));
+                authenticateNum(user_email2.getText().toString(), user_email_cf.getText().toString());
 
             }
         });
@@ -239,14 +245,22 @@ public class Signup extends Activity {
 
 
     /** 인증번호 확인을 위한 POST **/
-    public void authenticateNum(Sign_up_email_num num){
+    public void authenticateNum(String email, String authenticateNumber){
 
-        apiService.authenticate_num(num).enqueue(new Callback<Sign_up_email_num>() {
+        Log.i("info", "확인 버튼 클릭됨" );
+        Log.i("info", "email : "+email + "\n authenticatieNumber : " + authenticateNumber);
+        apiService.authenticate_num(email, authenticateNumber).enqueue(new Callback<Sign_up_email_num>() {
             @Override
             public void onResponse(Call<Sign_up_email_num> call, Response<Sign_up_email_num> response) {
 
 
                 Log.i("info", "code : " + response.code());
+                Log.i("info", "errorbody : " + response.errorBody());
+                Log.i("info", "errorbody : " + new Gson().toJson(response.errorBody()));
+                Log.i("info", "body : " + new Gson().toJson(response.body()));
+                //Log.i("info", "message : " + response.message());
+
+
                 if(response.isSuccessful()){
                     Log.i("info", "통신 성공(num), code : " + response.code());
 
