@@ -66,7 +66,7 @@ public interface RetrofitInterface {
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @POST("medicine/DURPrdlstInfoService/getDurPrdlstInfoList")
-    Call<DURInfoSearchDTO> getDurPrdlstInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
+    Call<DURInfoSearchResultDTO> getDurPrdlstInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
 
     // 병용금기
     @Headers({

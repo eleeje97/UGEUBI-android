@@ -19,7 +19,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import duksung.android.hororok.ugeubi.retrofit.DURInfoSearchDTO;
+import duksung.android.hororok.ugeubi.retrofit.DURInfoSearchResultDTO;
+import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
+import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
 import duksung.android.hororok.ugeubi.search.Search_Result;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -30,6 +37,8 @@ public class Search_fragment extends Fragment {
 
     ToggleButton dur_none, dur_option1, dur_option2, dur_option3, dur_option4, dur_option5, dur_option6, dur_option7, dur_option8;
     String durType = "None";
+
+    RetrofitInterface apiService;
 
     public final String PREFERENCE = "ugeubi.preference";
 
@@ -51,6 +60,8 @@ public class Search_fragment extends Fragment {
         dur_option6 = rootView.findViewById(R.id.durOption6);
         dur_option7 = rootView.findViewById(R.id.durOption7);
         dur_option8 = rootView.findViewById(R.id.durOption8);
+
+        apiService = RetrofitClient.getService();
 
 
         // DUR 유형 버튼리스너 설정
@@ -162,12 +173,35 @@ public class Search_fragment extends Fragment {
 
     public void search() {
         SharedPreferences pref = getActivity().getSharedPreferences(PREFERENCE, MODE_PRIVATE);
-        String accessToken = pref.getString("accessToken", "");
-
-        Log.e("token", accessToken);
+        String accessToken = "Bearer " + pref.getString("accessToken", "");
+        DURInfoSearchDTO durInfoSearchDTO = new DURInfoSearchDTO(search_keyword.getText().toString(), "1");
+        Log.e("Search", "token: " + accessToken + "\nitemName: " + durInfoSearchDTO.getItemName() + " pageNo: " + durInfoSearchDTO.getPageNo());
 
         if (durType.equals("None")) {
+            apiService.getDurPrdlstInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
+                @Override
+                public void onResponse(Call<DURInfoSearchResultDTO> call, Response<DURInfoSearchResultDTO> response) {
+                    Log.e("Search", "code: " + response.code());
 
+                    if (response.isSuccessful()) {
+                        Log.e("Search", "body: " + response.body());
+                        DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
+
+                        if (durInfoSearchResultResponse.getItems() == null) {
+                            Log.e("Search", "Null");
+                        } else {
+                            Log.e("Search", "body.size: " + response.body().getItems().size());
+                        }
+
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<DURInfoSearchResultDTO> call, Throwable t) {
+                    Log.e("Search", "통신실패! " + t.getMessage());
+                }
+            });
         } else if (durType.equals("UsjntTaboo")) {
 
         } else if (durType.equals("SpcifyAgrdeTaboo")) {
@@ -186,8 +220,8 @@ public class Search_fragment extends Fragment {
 
         }
 
-        Intent intent = new Intent(getActivity(), Search_Result.class);
-        startActivity(intent);
+        //Intent intent = new Intent(getActivity(), Search_Result.class);
+        //startActivity(intent);
 
     }
 
