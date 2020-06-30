@@ -131,7 +131,7 @@ public class Signup extends Activity {
             @Override
             public void onClick(View v) {
 
-                authenticateNum(user_email2.getText().toString(), user_email_cf.getText().toString());
+                authenticateNum(new Sign_up_email_num(user_email2.getText().toString(), user_email_cf.getText().toString()));
 
             }
         });
@@ -245,20 +245,18 @@ public class Signup extends Activity {
 
 
     /** 인증번호 확인을 위한 POST **/
-    public void authenticateNum(String email, String authenticateNumber){
+    public void authenticateNum(Sign_up_email_num sign_up_email_num){
 
         Log.i("info", "확인 버튼 클릭됨" );
-        Log.i("info", "email : "+email + "\n authenticatieNumber : " + authenticateNumber);
-        apiService.authenticate_num(email, authenticateNumber).enqueue(new Callback<Sign_up_email_num>() {
+        //Log.i("info", "email : "+email + "\n authenticatieNumber : " + authenticateNumber);
+        apiService.authenticate_num(sign_up_email_num).enqueue(new Callback<Sign_up_email_num>() {
             @Override
             public void onResponse(Call<Sign_up_email_num> call, Response<Sign_up_email_num> response) {
 
 
                 Log.i("info", "code : " + response.code());
                 Log.i("info", "errorbody : " + response.errorBody());
-                Log.i("info", "errorbody : " + new Gson().toJson(response.errorBody()));
-                Log.i("info", "body : " + new Gson().toJson(response.body()));
-                //Log.i("info", "message : " + response.message());
+                Log.i("info", "body : " + response.body());
 
 
                 if(response.isSuccessful()){
