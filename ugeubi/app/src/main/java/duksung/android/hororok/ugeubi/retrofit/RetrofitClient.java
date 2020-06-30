@@ -18,6 +18,7 @@ public class RetrofitClient {
         if(retrofit == null){
             retrofit = new Retrofit.Builder()
                         .baseUrl(baseUrl)
+                        .addConverterFactory(new NullOnEmptyConverterFactory())
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
         }
