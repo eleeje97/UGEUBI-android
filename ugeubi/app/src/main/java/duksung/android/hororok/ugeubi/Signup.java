@@ -131,7 +131,7 @@ public class Signup extends Activity {
             @Override
             public void onClick(View v) {
 
-                authenticateNum(new Sign_up_email_num(user_email2.getText().toString(), user_email_cf.getText().toString()));
+                authenticateNum(user_email2.getText().toString(), user_email_cf.getText().toString());
 
             }
         });
@@ -245,7 +245,9 @@ public class Signup extends Activity {
 
 
     /** 인증번호 확인을 위한 POST **/
-    public void authenticateNum(Sign_up_email_num sign_up_email_num){
+    public void authenticateNum(String authenticateNumber, String email){
+
+        Sign_up_email_num sign_up_email_num = new Sign_up_email_num(authenticateNumber, email);
 
         Log.i("info", "확인 버튼 클릭됨" );
         Log.i("info", sign_up_email_num.toString());
@@ -254,9 +256,31 @@ public class Signup extends Activity {
             public void onResponse(Call<Sign_up_email_num> call, Response<Sign_up_email_num> response) {
 
 
+
                 Log.i("info", "code : " + response.code());
                 Log.i("info", "errorbody : " + response.errorBody());
                 Log.i("info", "body : " + response.body());
+
+
+
+                /////////////////////////
+                JSONObject jsonObject = null;
+                String json = "";
+                try {
+                    json = response.errorBody().string();
+
+                   // String errorCode = jsonObject.getString("errorCode");
+
+                    Log.i("info", "errorcode : " + json);
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.i("info", "exception : " + e.getMessage());
+                }
+
+
+
 
 
                 if(response.isSuccessful()){
