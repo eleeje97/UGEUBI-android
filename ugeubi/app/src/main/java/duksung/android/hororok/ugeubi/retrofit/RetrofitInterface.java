@@ -39,7 +39,7 @@ public interface RetrofitInterface {
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @POST("authentication/sign-up")
-    Call<Sign_up_email_num> authenticate_num(@Body Sign_up_email_num email);
+    Call<Sign_up_email_num> authenticate_num(@Body Sign_up_email_num sign_up_email_num);
 
 
     // 회원 가입 내용 보내기

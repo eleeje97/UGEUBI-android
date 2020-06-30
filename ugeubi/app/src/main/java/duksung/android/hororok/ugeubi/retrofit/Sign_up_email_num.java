@@ -13,6 +13,7 @@ public class Sign_up_email_num {
     public String email;
 
 
+    public Sign_up_email_num(){}
 
     public Sign_up_email_num(String authenticateNumber, String email){
         this.authenticateNumber = authenticateNumber;
