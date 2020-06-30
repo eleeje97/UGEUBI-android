@@ -1,5 +1,7 @@
 package duksung.android.hororok.ugeubi.retrofit;
 
+import duksung.android.hororok.ugeubi.retrofit.Login.LoginDTO;
+import duksung.android.hororok.ugeubi.retrofit.Login.LoginResultDTO;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;

@@ -1,4 +1,4 @@
-package duksung.android.hororok.ugeubi.retrofit;
+package duksung.android.hororok.ugeubi.retrofit.Login;
 
 import com.google.gson.annotations.SerializedName;
 

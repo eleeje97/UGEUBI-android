@@ -81,6 +81,7 @@
                 android:textSize="10dp"
                 android:textColor="@drawable/durtype_togglebtn_textcolor" />
             <ToggleButton
+                android:id="@+id/durOption1"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginLeft="20dp"
@@ -91,6 +92,7 @@
                 android:textSize="10dp"
                 android:textColor="@drawable/durtype_togglebtn_textcolor" />
             <ToggleButton
+                android:id="@+id/durOption2"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginLeft="20dp"
@@ -110,6 +112,7 @@
             android:orientation="horizontal">
 
             <ToggleButton
+                android:id="@+id/durOption3"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:background="@drawable/durtype_togglebtn"
@@ -118,6 +121,7 @@
                 android:textSize="10dp"
                 android:textColor="@drawable/durtype_togglebtn_textcolor" />
             <ToggleButton
+                android:id="@+id/durOption4"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginLeft="20dp"
@@ -128,6 +132,7 @@
                 android:textSize="10dp"
                 android:textColor="@drawable/durtype_togglebtn_textcolor" />
             <ToggleButton
+                android:id="@+id/durOption5"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginLeft="20dp"
@@ -147,6 +152,7 @@
             android:orientation="horizontal">
 
             <ToggleButton
+                android:id="@+id/durOption6"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:background="@drawable/durtype_togglebtn"
@@ -155,6 +161,7 @@
                 android:textSize="10dp"
                 android:textColor="@drawable/durtype_togglebtn_textcolor" />
             <ToggleButton
+                android:id="@+id/durOption7"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginLeft="20dp"
@@ -165,6 +172,7 @@
                 android:textSize="10dp"
                 android:textColor="@drawable/durtype_togglebtn_textcolor" />
             <ToggleButton
+                android:id="@+id/durOption8"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:layout_marginLeft="20dp"

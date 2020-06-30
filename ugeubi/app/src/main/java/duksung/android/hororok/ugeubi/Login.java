@@ -12,8 +12,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import duksung.android.hororok.ugeubi.retrofit.LoginDTO;
-import duksung.android.hororok.ugeubi.retrofit.LoginResultDTO;
+import duksung.android.hororok.ugeubi.retrofit.Login.LoginDTO;
+import duksung.android.hororok.ugeubi.retrofit.Login.LoginResultDTO;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
 import retrofit2.Call;
