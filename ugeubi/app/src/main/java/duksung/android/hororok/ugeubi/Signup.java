@@ -248,7 +248,7 @@ public class Signup extends Activity {
     public void authenticateNum(Sign_up_email_num sign_up_email_num){
 
         Log.i("info", "확인 버튼 클릭됨" );
-        //Log.i("info", "email : "+email + "\n authenticateNumber : " + authenticateNumber);
+        Log.i("info", sign_up_email_num.toString());
         apiService.authenticate_num(sign_up_email_num).enqueue(new Callback<Sign_up_email_num>() {
             @Override
             public void onResponse(Call<Sign_up_email_num> call, Response<Sign_up_email_num> response) {
