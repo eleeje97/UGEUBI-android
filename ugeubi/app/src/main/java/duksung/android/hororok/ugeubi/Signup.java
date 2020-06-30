@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,7 @@ import androidx.annotation.Nullable;
 import duksung.android.hororok.ugeubi.retrofit.Check_id_data;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
+import duksung.android.hororok.ugeubi.retrofit.Sign_up_DTO;
 import duksung.android.hororok.ugeubi.retrofit.Sign_up_email_data;
 import duksung.android.hororok.ugeubi.retrofit.authenticationDTO;
 import retrofit2.Call;
@@ -26,8 +29,12 @@ public class Signup extends Activity {
 
     /** Retrofit **/
     private RetrofitInterface apiService;
-    // 중복된 id 확인
+
+
+    // id 중복확인 및 이메일 인증 확인
     boolean availale_id;
+    boolean authenticate_email;
+
 
     /** 카운트 다운 구현 **/
     TextView timer_txt;
@@ -39,7 +46,7 @@ public class Signup extends Activity {
     /** 회원가입 기능 구현 **/
     Button signup_btn;
     Button authorize_btn,authorize_btn2, authorize_btn_4;
-    TextView user_email_cf, user_id, user_email2;
+    TextView user_email_cf, user_id, user_email2, user_password, user_name;
     FrameLayout frameLayout3;
 
 
@@ -57,9 +64,10 @@ public class Signup extends Activity {
         authorize_btn = findViewById(R.id.authorize_btn); // 아이디 중복확인 버튼
         authorize_btn2 = findViewById(R.id.authorize_btn2); // 인증번호 요청 버튼
         authorize_btn_4 = findViewById(R.id.authorize_btn4); // 확인 버튼
-        user_email_cf = findViewById(R.id.user_email_cf);
+        user_email_cf = findViewById(R.id.user_email_cf); // 인증번호
 
 
+        user_name = findViewById(R.id.user_name); // 이름
         user_id = findViewById(R.id.signup_user_id);  //userId
         user_email2 = findViewById(R.id.user_email2); // useremail
         frameLayout3 = findViewById(R.id.framelayout3);
@@ -72,15 +80,34 @@ public class Signup extends Activity {
         /** 아이디 중복 확인 버튼을 눌렀을 때  **/
         authorize_btn.setOnClickListener(v -> {
 
-            // id를 입력하지 않았다면
-            if(user_id.getText() == null){
-                Toast.makeText(getApplication(), "id를 입력해주세요!",Toast.LENGTH_SHORT).show();
+            // id가 입력되었다면
+            if(user_id.getText().length() != 0) {
+                /** id가 입력 되었다면 api호출 **/
+                getCheck_id(user_id.getText().toString());
+
             }
 
-            // id를 입력하였다면
-            else{
-                //call get method
-                getCheck_id(user_id.getText().toString());
+            else {
+                Toast.makeText(getApplication(), "id를 입력해주세요!", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+
+        /** id 입력 값 변경 **/
+        user_id.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
 
             }
         });
@@ -90,24 +117,35 @@ public class Signup extends Activity {
         /** 인증번호 요청 버튼을 눌렀을 때  **/
         authorize_btn2.setOnClickListener(v -> {
 
-            Sign_up_email_data email_data;
+            if(user_email2.getText().length() != 0){
+                // 인증번호 입력 박스 visible
+                if(authorize_btn2.getText().equals("인증요청")) {
+                    frameLayout3.setVisibility(View.VISIBLE);
+                    authorize_btn2.setText("재요청");
+                    authorize_btn_4.setClickable(true);
+                }
 
-            // 인증번호 입력 박스 visible
-            if(authorize_btn2.getText().equals("인증요청")) {
-                frameLayout3.setVisibility(View.VISIBLE);
-                authorize_btn2.setText("재요청");
+                // 재요청시
+                else if(authorize_btn2.getText().equals("재요청")){
+                    countDownTimer.cancel();
+                    frameLayout3.setVisibility(View.VISIBLE);
+                    authorize_btn_4.setClickable(true);
+                }
+
+                //  카운트 다운 시작
+                countDownTimer();
+
+                // email 전송
+                sendEmail(new Sign_up_email_data(user_email2.getText().toString()));
             }
 
-            // 재요청시
-            else if(authorize_btn2.getText().equals("재요청")){
-                countDownTimer.cancel();
+            // 이메일이 입력되지 않았다면
+            else{
+                Toast.makeText(getApplication(), "이메일을 입력해주세요!", Toast.LENGTH_SHORT).show();
             }
 
-            //  카운트 다운 시작
-            countDownTimer();
 
-            // email 전송
-            sendEmail(new Sign_up_email_data(user_email2.getText().toString()));
+
         });
 
         /** 인증 확인 버튼 Click **/
@@ -117,10 +155,32 @@ public class Signup extends Activity {
         });
 
 
-        /** 가입 버튼을 누르면 로그인 페이지로 이동한다. **/
+        /** 가입하기 버튼 Click **/
         signup_btn.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), Login.class);
-            startActivity(intent);
+
+
+            // 아이디 중복확인 및 메일 인증이 모두 완료 되었다면 (true)
+            if(availale_id && authenticate_email) {
+
+                // 회원가입 api 호출
+                signup(user_email2.getText().toString(), user_id.getText().toString()
+                        , user_password.getText().toString(), user_name.getText().toString());
+
+            }
+
+            // 아이디 중복확인이 완료 되지 않은 경우
+            else if(!availale_id && authenticate_email){
+                Toast.makeText(getApplicationContext(), "아이디 중복확인을 해주세요!", Toast.LENGTH_SHORT).show();
+            }
+
+            // 이메일 인증이 완료되지 않은 경우
+            else if(availale_id && !authenticate_email){
+                Toast.makeText(getApplicationContext(), "이메일 인증요청을 해주세요!", Toast.LENGTH_SHORT).show();
+            }
+
+            else{
+                Toast.makeText(getApplicationContext(), "아이디 중복확인 및 이메일 인증요청을 해주세요!", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -150,6 +210,7 @@ public class Signup extends Activity {
             @Override
             public void onFinish() { // 타이머 시간이 다 되었다면
                 Toast.makeText(getApplicationContext(), "인증시간 만료", Toast.LENGTH_SHORT).show();
+                authorize_btn_4.setClickable(false);
 
             }
 
@@ -234,6 +295,20 @@ public class Signup extends Activity {
 
                 if(response.isSuccessful()){
                     Log.i("info", "통신 성공(num), code : " + response.code());
+                    Log.i("info", "responsebody : " + response.body().getAuthenticateNumber());
+
+
+                    //if(){
+                        frameLayout3.setVisibility(View.GONE);
+                        authenticate_email = true;
+                        Toast.makeText(getApplicationContext(),"이메일 인증이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                    //}
+                    //else{
+                    //    Toast.makeText(getApplicationContext(),"입력하신 인증번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+                    //}
+
+
+
 
                 }
             }
@@ -245,5 +320,12 @@ public class Signup extends Activity {
         });
     }
 
+
+
+
+    /** 회원 가입 API 호출  **/
+    public void signup(String email, String id, String password, String name){
+        Sign_up_DTO sign_up_dto = new Sign_up_DTO(email, id, password, name);
+    }
 }
 

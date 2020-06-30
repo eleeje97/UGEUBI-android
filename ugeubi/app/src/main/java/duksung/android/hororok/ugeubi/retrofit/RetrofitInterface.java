@@ -43,12 +43,9 @@ public interface RetrofitInterface {
 
 
     // 회원 가입 내용 보내기
-    @FormUrlEncoded  // key = value 형태로 데이터를 전달하는 것을 의미, @Field와 함께 사용함
+
     @POST("users/sign-up")
-    Call<Sign_up_data> signup(@Field("email") String email,
-                              @Field("userId") String userId,
-                              @Field("password") String password,
-                              @Field("userName") String userName);
+    Call<Sign_up_DTO> signup(@Body Sign_up_DTO sign_up_dto);
 
 
     /** 로그인 **/
