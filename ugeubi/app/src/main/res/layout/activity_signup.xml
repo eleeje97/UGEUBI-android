@@ -189,6 +189,7 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:hint="비밀번호 확인"
+
         android:textColorHint="#e6e6e6"
         android:inputType="textEmailAddress"
         android:theme="@style/EditTextStyle"
@@ -196,6 +197,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_password" />
 
+
+    <TextView
+        android:id="@+id/pw_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text=""
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_password_confirm" />
 
     <Button
         android:id="@+id/btn_signin"

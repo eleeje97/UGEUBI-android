@@ -1,7 +1,9 @@
 package duksung.android.hororok.ugeubi;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -34,10 +36,10 @@ public class Signup extends Activity {
     // id 중복확인 및 이메일 인증 확인
     boolean availale_id;
     boolean authenticate_email;
-
+    boolean checked_pw;
 
     /** 카운트 다운 구현 **/
-    TextView timer_txt;
+    TextView timer_txt, password_txt;
     CountDownTimer countDownTimer;
     final int MILLISINFUTURE = 300 * 1000; //총 시간 (300초 = 5분)
     final int COUNT_DOWN_INTERVAL = 1000; //onTick 메소드를 호출할 간격 (1초)
@@ -46,13 +48,9 @@ public class Signup extends Activity {
     /** 회원가입 기능 구현 **/
     Button signup_btn;
     Button authorize_btn,authorize_btn2, authorize_btn_4;
-    TextView user_email_cf, user_id, user_email2, user_password, user_name;
+    TextView user_email_cf, user_id, user_email2, user_password, user_password_confirm,user_name;
     FrameLayout frameLayout3;
 
-
-    // Test
-    String id = "uguebi";
-    int num= 1234;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +63,11 @@ public class Signup extends Activity {
         authorize_btn2 = findViewById(R.id.authorize_btn2); // 인증번호 요청 버튼
         authorize_btn_4 = findViewById(R.id.authorize_btn4); // 확인 버튼
         user_email_cf = findViewById(R.id.user_email_cf); // 인증번호
+
+
+        user_password = findViewById(R.id.user_password);
+        user_password_confirm = findViewById(R.id.user_password_confirm);
+        password_txt = findViewById(R.id.pw_txt);
 
 
         user_name = findViewById(R.id.user_name); // 이름
@@ -94,11 +97,42 @@ public class Signup extends Activity {
         });
 
 
+
+        /** password 확인 **/
+        user_password_confirm.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!user_password.getText().toString().equals(user_password_confirm.getText().toString())){
+                    password_txt.setTextColor(Color.RED);
+                    password_txt.setText("입력하신 비밀번호가 일치하지 않습니다.");
+                    checked_pw = false;
+                }
+
+                else{
+                    password_txt.setTextColor(R.color.mainColor);
+                    password_txt.setText("입력하신 비밀번호가 일치합니다.");
+                    checked_pw = true;
+                }
+            }
+        });
+
+
         /** id 입력 값 변경 **/
         user_id.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                
+                availale_id = false;
             }
 
             @Override
@@ -155,12 +189,32 @@ public class Signup extends Activity {
         });
 
 
+
+        /** email 입력 값 변경 **/
+        user_email2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                authenticate_email = false;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
         /** 가입하기 버튼 Click **/
         signup_btn.setOnClickListener(v -> {
 
 
             // 아이디 중복확인 및 메일 인증이 모두 완료 되었다면 (true)
-            if(availale_id && authenticate_email) {
+            if(availale_id && authenticate_email && checked_pw) {
 
                 // 회원가입 api 호출
                 signup(user_email2.getText().toString(), user_id.getText().toString()
@@ -169,17 +223,22 @@ public class Signup extends Activity {
             }
 
             // 아이디 중복확인이 완료 되지 않은 경우
-            else if(!availale_id && authenticate_email){
+            else if(!availale_id && authenticate_email && checked_pw){
                 Toast.makeText(getApplicationContext(), "아이디 중복확인을 해주세요!", Toast.LENGTH_SHORT).show();
             }
 
             // 이메일 인증이 완료되지 않은 경우
-            else if(availale_id && !authenticate_email){
+            else if(availale_id && !authenticate_email && checked_pw){
                 Toast.makeText(getApplicationContext(), "이메일 인증요청을 해주세요!", Toast.LENGTH_SHORT).show();
             }
 
+            // 비밀번호가 일치하지 않는 경우
+            else if(!checked_pw){
+                Toast.makeText(getApplicationContext(), "비밀번호를 확인해주세요!", Toast.LENGTH_SHORT).show();
+            }
+
             else{
-                Toast.makeText(getApplicationContext(), "아이디 중복확인 및 이메일 인증요청을 해주세요!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "중복확인 및 인증요청을 확인해주세요!", Toast.LENGTH_SHORT).show();
             }
         });
     }
