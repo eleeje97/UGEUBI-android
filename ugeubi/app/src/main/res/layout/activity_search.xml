@@ -23,10 +23,13 @@
             android:layout_marginHorizontal="23dp" >
 
             <EditText
+                android:id="@+id/search_keyword"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
                 android:textColor="#040404"
                 android:paddingLeft="20dp"
+                android:singleLine="true"
+                android:imeOptions="actionSearch"
                 android:background="@drawable/bg_search_shape" />
             
             <ImageButton
@@ -87,8 +90,8 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginStart="20dp"
                 android:background="@drawable/durtype_togglebtn"
-                android:textOn="범용금기"
-                android:textOff="범용금기"
+                android:textOn="병용금기"
+                android:textOff="병용금기"
                 android:textSize="10dp"
                 android:textColor="@drawable/durtype_togglebtn_textcolor" />
             <ToggleButton
