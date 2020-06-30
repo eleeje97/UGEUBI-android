@@ -1,7 +1,9 @@
 package duksung.android.hororok.ugeubi;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +21,17 @@ import androidx.fragment.app.Fragment;
 
 import duksung.android.hororok.ugeubi.search.Search_Result;
 
-public class Search_fragment extends Fragment {
+import static android.content.Context.MODE_PRIVATE;
 
+public class Search_fragment extends Fragment {
 
     EditText search_keyword;
     ImageButton search_btn;
 
     ToggleButton dur_none, dur_option1, dur_option2, dur_option3, dur_option4, dur_option5, dur_option6, dur_option7, dur_option8;
     String durType = "None";
+
+    public final String PREFERENCE = "ugeubi.preference";
 
     @Nullable
     @Override
@@ -156,6 +161,10 @@ public class Search_fragment extends Fragment {
     }
 
     public void search() {
+        SharedPreferences pref = getActivity().getSharedPreferences(PREFERENCE, MODE_PRIVATE);
+        String accessToken = pref.getString("accessToken", "");
+
+        Log.e("token", accessToken);
 
         if (durType.equals("None")) {
 

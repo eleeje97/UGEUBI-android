@@ -2,6 +2,7 @@ package duksung.android.hororok.ugeubi;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,8 @@ public class Login extends Activity {
     Button login_btn;
 
     RetrofitInterface apiService;
+
+    public final String PREFERENCE = "ugeubi.preference";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,6 +102,12 @@ public class Login extends Activity {
                 if (response.isSuccessful()) {
                     Log.e("login", "body: " + response.body());
                     Log.e("login", "accessToken: " + response.body().tokens.getAccessToken());
+
+                    // 사용자 accessToken 저장
+                    SharedPreferences pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("accessToken", response.body().tokens.getAccessToken());
+                    editor.apply();
 
                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
