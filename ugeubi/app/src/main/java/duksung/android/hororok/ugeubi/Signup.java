@@ -13,24 +13,14 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.google.gson.Gson;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-
 import duksung.android.hororok.ugeubi.retrofit.Check_id_data;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
-import duksung.android.hororok.ugeubi.retrofit.Sign_up_data;
 import duksung.android.hororok.ugeubi.retrofit.Sign_up_email_data;
-import duksung.android.hororok.ugeubi.retrofit.Sign_up_email_num;
+import duksung.android.hororok.ugeubi.retrofit.authenticationDTO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.content.ContentValues.TAG;
 
 public class Signup extends Activity {
 
@@ -80,70 +70,57 @@ public class Signup extends Activity {
 
 
         /** 아이디 중복 확인 버튼을 눌렀을 때  **/
-        authorize_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        authorize_btn.setOnClickListener(v -> {
 
-                // id를 입력하지 않았다면
-                if(user_id.getText() == null){
-                    Toast.makeText(getApplication(), "id를 입력해주세요!",Toast.LENGTH_SHORT).show();
-                }
+            // id를 입력하지 않았다면
+            if(user_id.getText() == null){
+                Toast.makeText(getApplication(), "id를 입력해주세요!",Toast.LENGTH_SHORT).show();
+            }
 
-                // id를 입력하였다면
-                else{
-                    //call get method
-                    getCheck_id(user_id.getText().toString());
+            // id를 입력하였다면
+            else{
+                //call get method
+                getCheck_id(user_id.getText().toString());
 
-                }
             }
         });
 
 
 
         /** 인증번호 요청 버튼을 눌렀을 때  **/
-        authorize_btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        authorize_btn2.setOnClickListener(v -> {
 
-                Sign_up_email_data email_data;
+            Sign_up_email_data email_data;
 
-                // 인증번호 입력 박스 visible
-                if(authorize_btn2.getText().equals("인증요청")) {
-                    frameLayout3.setVisibility(View.VISIBLE);
-                    authorize_btn2.setText("재요청");
-                }
-
-                // 재요청시
-                else if(authorize_btn2.getText().equals("재요청")){
-                    countDownTimer.cancel();
-                }
-
-                //  카운트 다운 시작
-                countDownTimer();
-
-                // email 전송
-                sendEmail(new Sign_up_email_data(user_email2.getText().toString()));
+            // 인증번호 입력 박스 visible
+            if(authorize_btn2.getText().equals("인증요청")) {
+                frameLayout3.setVisibility(View.VISIBLE);
+                authorize_btn2.setText("재요청");
             }
+
+            // 재요청시
+            else if(authorize_btn2.getText().equals("재요청")){
+                countDownTimer.cancel();
+            }
+
+            //  카운트 다운 시작
+            countDownTimer();
+
+            // email 전송
+            sendEmail(new Sign_up_email_data(user_email2.getText().toString()));
         });
 
-        /** 인증 확인 버튼을 누르면 인증 요청 번호 입력 란이 사라진다. **/
-        authorize_btn_4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                authenticateNum(user_email2.getText().toString(), user_email_cf.getText().toString());
-
-            }
+        /** 인증 확인 버튼 Click **/
+        // authorize_btn_4 == 확인 버튼
+        authorize_btn_4.setOnClickListener(v -> {
+            authenticateNum(user_email_cf.getText().toString(), user_email2.getText().toString());
         });
 
 
         /** 가입 버튼을 누르면 로그인 페이지로 이동한다. **/
-        signup_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent);
-            }
+        signup_btn.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
         });
     }
 
@@ -223,7 +200,7 @@ public class Signup extends Activity {
     }
 
 
-    /** email 인증 요청 **/
+    /** email 인증 요청 API**/
     public void sendEmail(Sign_up_email_data email){
         apiService.sendnum(email).enqueue(new Callback<Sign_up_email_data>() {
             @Override
@@ -244,70 +221,26 @@ public class Signup extends Activity {
     }
 
 
-    /** 인증번호 확인을 위한 POST **/
+    /** 인증번호 확인 API **/
     public void authenticateNum(String authenticateNumber, String email){
 
-        Sign_up_email_num sign_up_email_num = new Sign_up_email_num(authenticateNumber, email);
+        //authenticationDTO 객체 생성
+        authenticationDTO authenticationDTO = new authenticationDTO(authenticateNumber, email);
 
-        Log.i("info", "확인 버튼 클릭됨" );
-        Log.i("info", sign_up_email_num.toString());
-        apiService.authenticate_num(sign_up_email_num).enqueue(new Callback<Sign_up_email_num>() {
+        apiService.authenticate_num(authenticationDTO).enqueue(new Callback<authenticationDTO>() {
+
             @Override
-            public void onResponse(Call<Sign_up_email_num> call, Response<Sign_up_email_num> response) {
-
-
-
-                Log.i("info", "code : " + response.code());
-                Log.i("info", "errorbody : " + response.errorBody());
-                Log.i("info", "body : " + response.body());
-
-
-
-                /////////////////////////
-                JSONObject jsonObject = null;
-                String json = "";
-                try {
-                    json = response.errorBody().string();
-
-                   // String errorCode = jsonObject.getString("errorCode");
-
-                    Log.i("info", "errorcode : " + json);
-
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.i("info", "exception : " + e.getMessage());
-                }
-
-
-
-
+            public void onResponse(Call<authenticationDTO> call, Response<authenticationDTO> response) {
 
                 if(response.isSuccessful()){
                     Log.i("info", "통신 성공(num), code : " + response.code());
 
-
-
-                    /***
-                     * Sign_up_email_num data = response.body();
-                     *
-                     *                     if(user_email_cf.getText().toString().equals(data.getAuthenticateNumber())){
-                     *                         frameLayout3.setVisibility(View.GONE);
-                     *                         Toast.makeText(getApplicationContext(),"인증 완료", Toast.LENGTH_SHORT).show();
-                     *                     }
-                     *                     else{
-                     *                         Toast.makeText(getApplicationContext(),"입력하신 인증번호가 다릅니다.", Toast.LENGTH_SHORT).show();
-                     *                     }
-                     */
-
-
                 }
-
             }
 
             @Override
-            public void onFailure(Call<Sign_up_email_num> call, Throwable t) {
-                Log.e("error", "통신 실패(email)" + t.getMessage());
+            public void onFailure(Call<authenticationDTO> call, Throwable t) {
+                Log.e("error", "통신 실패(authentication)" + t.getMessage());
             }
         });
     }

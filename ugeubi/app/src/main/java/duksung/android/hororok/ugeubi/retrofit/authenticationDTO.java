@@ -3,7 +3,7 @@ package duksung.android.hororok.ugeubi.retrofit;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Sign_up_email_num {
+public class authenticationDTO {
 
 
     @SerializedName("authenticateNumber")
@@ -13,9 +13,8 @@ public class Sign_up_email_num {
     public String email;
 
 
-    public Sign_up_email_num(){}
-
-    public Sign_up_email_num(String authenticateNumber, String email){
+    public authenticationDTO(){}
+    public authenticationDTO(String authenticateNumber, String email){
         this.authenticateNumber = authenticateNumber;
         this.email = email;
     }
