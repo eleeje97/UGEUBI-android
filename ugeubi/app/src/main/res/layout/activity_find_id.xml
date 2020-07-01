@@ -109,30 +109,9 @@
             android:textColorHint="#e6e6e6"
             android:inputType="textEmailAddress" />
 
-        <Button
-            android:layout_gravity="top|right"
-            android:id="@+id/authorize_btn"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:text="인증요청"
-            android:background="@drawable/btn_authorize" />
-
     </FrameLayout>
 
-    <EditText
-        android:theme="@style/EditTextStyle"
-        android:id="@+id/authorize_edittext"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="25.3dp"
-        android:hint="인증번호 입력"
-        android:textSize="17.5sp"
-        android:textColor="#242424"
-        android:textColorHint="#e6e6e6"
-        android:inputType="text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/framelayout" />
+
 
     <Button
         android:id="@+id/find_id_btn"

@@ -11,4 +11,9 @@ public class UserDTO {
 
     @SerializedName("email")
     String email;
+
+    public UserDTO(String userName, String email){
+        this.userName = userName;
+        this.email = email;
+    }
 }

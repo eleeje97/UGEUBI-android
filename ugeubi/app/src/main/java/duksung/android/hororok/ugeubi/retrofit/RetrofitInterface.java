@@ -2,6 +2,7 @@ package duksung.android.hororok.ugeubi.retrofit;
 
 import duksung.android.hororok.ugeubi.retrofit.Login.LoginDTO;
 import duksung.android.hororok.ugeubi.retrofit.Login.LoginResultDTO;
+import duksung.android.hororok.ugeubi.retrofit.Login.UserDTO;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -55,6 +56,15 @@ public interface RetrofitInterface {
             "Transfer-Encoding: chunked"})
     @POST("users/sign-in")
     Call<LoginResultDTO> login(@Body LoginDTO loginDTO);
+
+
+    /** 아이디 찾기 **/
+
+    @Headers({
+            "Content-Type: application/json;charset=UTF-8" ,
+            "Transfer-Encoding: chunked"})
+    @GET("users/find-id")
+    Call<FindIdDTO> find_id(@Query("userName") String userName, @Query("email") String email);
 
 
 
