@@ -412,6 +412,9 @@ public class Signup extends Activity {
                 if(response.isSuccessful()){
                     Intent intent = new Intent(getApplicationContext(), Login.class);
                     startActivity(intent);
+
+                    // 회원가입 액티비티는 종료
+                    finish();
                 }
             }
 

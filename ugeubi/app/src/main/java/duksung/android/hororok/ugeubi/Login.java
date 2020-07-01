@@ -111,6 +111,9 @@ public class Login extends Activity {
 
                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
+
+                    // 현재 액티비티 종료
+                    //finish();
                 } else {
                     Toast.makeText(getApplication(),"아이디와 비밀번호를 다시 확인해주세요.",Toast.LENGTH_SHORT).show();
                 }
