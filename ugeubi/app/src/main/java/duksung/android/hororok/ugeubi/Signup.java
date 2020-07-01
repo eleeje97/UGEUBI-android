@@ -37,6 +37,11 @@ public class Signup extends Activity {
     boolean availale_id;
     boolean authenticate_email;
     boolean checked_pw;
+    boolean checked_name;
+
+    // 이메일 정규식
+    private String emailValidation = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*(\\.[_A-Za-z]{2,})$";
+
 
     /** 카운트 다운 구현 **/
     TextView timer_txt, password_txt;
@@ -87,13 +92,10 @@ public class Signup extends Activity {
             if(user_id.getText().length() != 0) {
                 /** id가 입력 되었다면 api호출 **/
                 getCheck_id(user_id.getText().toString());
-
             }
-
             else {
-                Toast.makeText(getApplication(), "id를 입력해주세요!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(), "아이디를 입력해주세요!", Toast.LENGTH_SHORT).show();
             }
-
         });
 
 
@@ -101,14 +103,9 @@ public class Signup extends Activity {
         /** password 확인 **/
         user_password_confirm.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @SuppressLint("ResourceAsColor")
             @Override
@@ -118,7 +115,6 @@ public class Signup extends Activity {
                     password_txt.setText("입력하신 비밀번호가 일치하지 않습니다.");
                     checked_pw = false;
                 }
-
                 else{
                     password_txt.setTextColor(R.color.mainColor);
                     password_txt.setText("입력하신 비밀번호가 일치합니다.");
@@ -127,12 +123,11 @@ public class Signup extends Activity {
             }
         });
 
-
-        /** id 입력 값 변경 **/
-        user_id.addTextChangedListener(new TextWatcher() {
+        /** user_name 입력 값 확인  **/
+        user_name.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                availale_id = false;
+
             }
 
             @Override
@@ -142,9 +137,26 @@ public class Signup extends Activity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if(user_name.getText().length() != 0){
+                    checked_name = true;
+                }
+                else{
+                    checked_name = false;
+                }
             }
         });
+
+        /** id 입력 값 변경 **/
+        user_id.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                availale_id = false;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable s) { }});
 
 
 
@@ -152,34 +164,39 @@ public class Signup extends Activity {
         authorize_btn2.setOnClickListener(v -> {
 
             if(user_email2.getText().length() != 0){
-                // 인증번호 입력 박스 visible
-                if(authorize_btn2.getText().equals("인증요청")) {
-                    frameLayout3.setVisibility(View.VISIBLE);
-                    authorize_btn2.setText("재요청");
-                    authorize_btn_4.setClickable(true);
+
+                // 올바른 이메일 양식인지 체크
+                if(android.util.Patterns.EMAIL_ADDRESS.matcher(user_email2.getText().toString()).matches()){
+                    // 인증번호 입력 박스 visible
+                    if(authorize_btn2.getText().equals("인증요청")) {
+                        frameLayout3.setVisibility(View.VISIBLE);
+                        authorize_btn2.setText("재요청");
+                        authorize_btn_4.setClickable(true);
+                    }
+
+                    // 재요청시
+                    else if(authorize_btn2.getText().equals("재요청")){
+                        countDownTimer.cancel();
+                        frameLayout3.setVisibility(View.VISIBLE);
+                        authorize_btn_4.setClickable(true);
+                    }
+
+                    //  카운트 다운 시작
+                    countDownTimer();
+
+                    // email 전송
+                    sendEmail(new Sign_up_email_data(user_email2.getText().toString()));
+
                 }
-
-                // 재요청시
-                else if(authorize_btn2.getText().equals("재요청")){
-                    countDownTimer.cancel();
-                    frameLayout3.setVisibility(View.VISIBLE);
-                    authorize_btn_4.setClickable(true);
+                else{
+                    Toast.makeText(getApplication(), "올바른 이메일 형식이 아닙니다.", Toast.LENGTH_SHORT).show();
                 }
-
-                //  카운트 다운 시작
-                countDownTimer();
-
-                // email 전송
-                sendEmail(new Sign_up_email_data(user_email2.getText().toString()));
             }
 
             // 이메일이 입력되지 않았다면
             else{
                 Toast.makeText(getApplication(), "이메일을 입력해주세요!", Toast.LENGTH_SHORT).show();
             }
-
-
-
         });
 
         /** 인증 확인 버튼 Click **/
@@ -196,25 +213,18 @@ public class Signup extends Activity {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 authenticate_email = false;
             }
-
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
             @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+            public void afterTextChanged(Editable s) {}});
 
 
         /** 가입하기 버튼 Click **/
         signup_btn.setOnClickListener(v -> {
 
-
             // 아이디 중복확인 및 메일 인증이 모두 완료 되었다면 (true)
-            if(availale_id && authenticate_email && checked_pw) {
+            // 중복확인 ok, 메일인증 ok, 비밀번호 일치 ok, 이름 입력 ok
+            if(availale_id && authenticate_email && checked_pw && checked_name) {
 
                 // 회원가입 api 호출
                 signup(user_email2.getText().toString(), user_id.getText().toString()
@@ -223,23 +233,36 @@ public class Signup extends Activity {
             }
 
             // 아이디 중복확인이 완료 되지 않은 경우
-            else if(!availale_id && authenticate_email && checked_pw){
+            else if(!availale_id && authenticate_email && checked_pw && checked_name){
                 Toast.makeText(getApplicationContext(), "아이디 중복확인을 해주세요!", Toast.LENGTH_SHORT).show();
             }
 
             // 이메일 인증이 완료되지 않은 경우
-            else if(availale_id && !authenticate_email && checked_pw){
+            else if(availale_id && !authenticate_email && checked_pw && checked_name){
                 Toast.makeText(getApplicationContext(), "이메일 인증요청을 해주세요!", Toast.LENGTH_SHORT).show();
             }
 
             // 비밀번호가 일치하지 않는 경우
-            else if(!checked_pw){
+            else if(availale_id && authenticate_email && !checked_pw && checked_name){
                 Toast.makeText(getApplicationContext(), "비밀번호를 확인해주세요!", Toast.LENGTH_SHORT).show();
             }
 
-            else{
-                Toast.makeText(getApplicationContext(), "중복확인 및 인증요청을 확인해주세요!", Toast.LENGTH_SHORT).show();
+            // 이름이 입력되지 않았을 경우
+            else if(availale_id && authenticate_email && checked_pw && !checked_name){
+                Toast.makeText(getApplicationContext(), "이름을 입력해주세요!", Toast.LENGTH_SHORT).show();
             }
+
+            // 아이디 중복확인 및 이메일 인증이 완료되지 않았을 경우
+            else if(!availale_id && !authenticate_email && checked_pw && checked_name) {
+
+                    Toast.makeText(getApplicationContext(), "중복확인 및 인증요청을 확인해주세요!", Toast.LENGTH_SHORT).show();
+                }
+
+            //
+            else{
+                Toast.makeText(getApplicationContext(), "입력란을 확인해주세요!", Toast.LENGTH_SHORT).show();
+            }
+
         });
     }
 
@@ -353,22 +376,17 @@ public class Signup extends Activity {
             public void onResponse(Call<authenticationDTO> call, Response<authenticationDTO> response) {
 
                 if(response.isSuccessful()){
-                    Log.i("info", "통신 성공(num), code : " + response.code());
-                    Log.i("info", "responsebody : " + response.body().getAuthenticateNumber());
+//                    Log.i("info", "통신 성공(num), code : " + response.code());
+//                    Log.i("info", "responsebody : " + response.body().getAuthenticateNumber());
 
-
-                    //if(){
-                        frameLayout3.setVisibility(View.GONE);
-                        authenticate_email = true;
-                        Toast.makeText(getApplicationContext(),"이메일 인증이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                    //}
-                    //else{
-                    //    Toast.makeText(getApplicationContext(),"입력하신 인증번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-                    //}
-
-
-
-
+                    if(response.code() == 200){
+                    frameLayout3.setVisibility(View.GONE);
+                    authenticate_email = true;
+                    Toast.makeText(getApplicationContext(),"이메일 인증이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"입력하신 인증번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
@@ -385,6 +403,24 @@ public class Signup extends Activity {
     /** 회원 가입 API 호출  **/
     public void signup(String email, String id, String password, String name){
         Sign_up_DTO sign_up_dto = new Sign_up_DTO(email, id, password, name);
+
+        apiService.signup(sign_up_dto).enqueue(new Callback<Sign_up_DTO>() {
+
+            // 통신 성공 => 로그인 페이지로 이동
+            @Override
+            public void onResponse(Call<Sign_up_DTO> call, Response<Sign_up_DTO> response) {
+                if(response.isSuccessful()){
+                    Intent intent = new Intent(getApplicationContext(), Login.class);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Sign_up_DTO> call, Throwable t) {
+                Log.e("error", "통신 실패(sign_up)" + t.getMessage());
+
+            }
+        });
     }
 }
 
