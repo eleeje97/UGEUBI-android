@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 
 import duksung.android.hororok.ugeubi.retrofit.DURInfoSearchDTO;
 import duksung.android.hororok.ugeubi.retrofit.DURInfoSearchResultDTO;
+import duksung.android.hororok.ugeubi.retrofit.ItemInfoDTO;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
 import duksung.android.hororok.ugeubi.search.Search_Result;
@@ -175,7 +176,6 @@ public class Search_fragment extends Fragment {
         SharedPreferences pref = getActivity().getSharedPreferences(PREFERENCE, MODE_PRIVATE);
         String accessToken = "Bearer " + pref.getString("accessToken", "");
         DURInfoSearchDTO durInfoSearchDTO = new DURInfoSearchDTO(search_keyword.getText().toString(), "1");
-        Log.e("Search", "token: " + accessToken + "\nitemName: " + durInfoSearchDTO.getItemName() + " pageNo: " + durInfoSearchDTO.getPageNo());
 
         if (durType.equals("None")) {
             apiService.getDurPrdlstInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
@@ -184,14 +184,16 @@ public class Search_fragment extends Fragment {
                     Log.e("Search", "code: " + response.code());
 
                     if (response.isSuccessful()) {
-                        Log.e("Search", "body: " + response.body());
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
+                        Log.e("Search", "body.size: " + durInfoSearchResultResponse.getItems().size());
 
-                        if (durInfoSearchResultResponse.getItems() == null) {
-                            Log.e("Search", "Null");
-                        } else {
-                            Log.e("Search", "body.size: " + response.body().getItems().size());
+                        for (ItemInfoDTO itemInfoDTO : durInfoSearchResultResponse.getItems()) {
+                            Log.e("Search", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
                         }
+
+                        Intent intent = new Intent(getActivity(), Search_Result.class);
+                        intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        startActivity(intent);
 
                     }
 
@@ -205,23 +207,182 @@ public class Search_fragment extends Fragment {
         } else if (durType.equals("UsjntTaboo")) {
 
         } else if (durType.equals("SpcifyAgrdeTaboo")) {
+            apiService.getSpcifyAgrdeTabooInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
+                @Override
+                public void onResponse(Call<DURInfoSearchResultDTO> call, Response<DURInfoSearchResultDTO> response) {
+                    Log.e("Search", "code: " + response.code());
 
+                    if (response.isSuccessful()) {
+                        DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
+                        Log.e("Search", "body.size: " + durInfoSearchResultResponse.getItems().size());
+
+                        for (ItemInfoDTO itemInfoDTO : durInfoSearchResultResponse.getItems()) {
+                            Log.e("Search", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
+                        }
+
+                        Intent intent = new Intent(getActivity(), Search_Result.class);
+                        intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        startActivity(intent);
+                    }
+                }
+                @Override
+                public void onFailure(Call<DURInfoSearchResultDTO> call, Throwable t) {
+                    Log.e("Search", "통신실패! " + t.getMessage());
+                }
+            });
         } else if (durType.equals("PwnmTaboo")) {
+            apiService.getPwnmTabooInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
+                @Override
+                public void onResponse(Call<DURInfoSearchResultDTO> call, Response<DURInfoSearchResultDTO> response) {
+                    Log.e("Search", "code: " + response.code());
+
+                    if (response.isSuccessful()) {
+                        DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
+                        Log.e("Search", "body.size: " + durInfoSearchResultResponse.getItems().size());
+
+                        for (ItemInfoDTO itemInfoDTO : durInfoSearchResultResponse.getItems()) {
+                            Log.e("Search", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
+                        }
+
+                        Intent intent = new Intent(getActivity(), Search_Result.class);
+                        intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        startActivity(intent);
+                    }
+                }
+                @Override
+                public void onFailure(Call<DURInfoSearchResultDTO> call, Throwable t) {
+                    Log.e("Search", "통신실패! " + t.getMessage());
+                }
+            });
 
         } else if (durType.equals("CpctyAtent")) {
+            apiService.getCpctyAtentInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
+                @Override
+                public void onResponse(Call<DURInfoSearchResultDTO> call, Response<DURInfoSearchResultDTO> response) {
+                    Log.e("Search", "code: " + response.code());
+
+                    if (response.isSuccessful()) {
+                        DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
+                        Log.e("Search", "body.size: " + durInfoSearchResultResponse.getItems().size());
+
+                        for (ItemInfoDTO itemInfoDTO : durInfoSearchResultResponse.getItems()) {
+                            Log.e("Search", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
+                        }
+
+                        Intent intent = new Intent(getActivity(), Search_Result.class);
+                        intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        startActivity(intent);
+                    }
+                }
+                @Override
+                public void onFailure(Call<DURInfoSearchResultDTO> call, Throwable t) {
+                    Log.e("Search", "통신실패! " + t.getMessage());
+                }
+            });
 
         } else if (durType.equals("MdctnPdAtent")) {
+            apiService.getMdctnPdAtentInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
+                @Override
+                public void onResponse(Call<DURInfoSearchResultDTO> call, Response<DURInfoSearchResultDTO> response) {
+                    Log.e("Search", "code: " + response.code());
+
+                    if (response.isSuccessful()) {
+                        DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
+                        Log.e("Search", "body.size: " + durInfoSearchResultResponse.getItems().size());
+
+                        for (ItemInfoDTO itemInfoDTO : durInfoSearchResultResponse.getItems()) {
+                            Log.e("Search", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
+                        }
+
+                        Intent intent = new Intent(getActivity(), Search_Result.class);
+                        intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        startActivity(intent);
+                    }
+                }
+                @Override
+                public void onFailure(Call<DURInfoSearchResultDTO> call, Throwable t) {
+                    Log.e("Search", "통신실패! " + t.getMessage());
+                }
+            });
 
         } else if (durType.equals("OdsnAtent")) {
+            apiService.getOdsnAtentInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
+                @Override
+                public void onResponse(Call<DURInfoSearchResultDTO> call, Response<DURInfoSearchResultDTO> response) {
+                    Log.e("Search", "code: " + response.code());
+
+                    if (response.isSuccessful()) {
+                        DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
+                        Log.e("Search", "body.size: " + durInfoSearchResultResponse.getItems().size());
+
+                        for (ItemInfoDTO itemInfoDTO : durInfoSearchResultResponse.getItems()) {
+                            Log.e("Search", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
+                        }
+
+                        Intent intent = new Intent(getActivity(), Search_Result.class);
+                        intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        startActivity(intent);
+                    }
+                }
+                @Override
+                public void onFailure(Call<DURInfoSearchResultDTO> call, Throwable t) {
+                    Log.e("Search", "통신실패! " + t.getMessage());
+                }
+            });
 
         } else if (durType.equals("EfcyDplct")) {
+            apiService.getEfcyDplctInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
+                @Override
+                public void onResponse(Call<DURInfoSearchResultDTO> call, Response<DURInfoSearchResultDTO> response) {
+                    Log.e("Search", "code: " + response.code());
+
+                    if (response.isSuccessful()) {
+                        DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
+                        Log.e("Search", "body.size: " + durInfoSearchResultResponse.getItems().size());
+
+                        for (ItemInfoDTO itemInfoDTO : durInfoSearchResultResponse.getItems()) {
+                            Log.e("Search", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
+                        }
+
+                        Intent intent = new Intent(getActivity(), Search_Result.class);
+                        intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        startActivity(intent);
+                    }
+                }
+                @Override
+                public void onFailure(Call<DURInfoSearchResultDTO> call, Throwable t) {
+                    Log.e("Search", "통신실패! " + t.getMessage());
+                }
+            });
 
         } else if (durType.equals("SeobangjeongPartitnAtent")) {
+            apiService.getSeobangjeongPartitnAtentInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
+                @Override
+                public void onResponse(Call<DURInfoSearchResultDTO> call, Response<DURInfoSearchResultDTO> response) {
+                    Log.e("Search", "code: " + response.code());
+
+                    if (response.isSuccessful()) {
+                        DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
+                        Log.e("Search", "body.size: " + durInfoSearchResultResponse.getItems().size());
+
+                        for (ItemInfoDTO itemInfoDTO : durInfoSearchResultResponse.getItems()) {
+                            Log.e("Search", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
+                        }
+
+                        Intent intent = new Intent(getActivity(), Search_Result.class);
+                        intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        startActivity(intent);
+                    }
+                }
+                @Override
+                public void onFailure(Call<DURInfoSearchResultDTO> call, Throwable t) {
+                    Log.e("Search", "통신실패! " + t.getMessage());
+                }
+            });
 
         }
 
-        //Intent intent = new Intent(getActivity(), Search_Result.class);
-        //startActivity(intent);
+
 
     }
 

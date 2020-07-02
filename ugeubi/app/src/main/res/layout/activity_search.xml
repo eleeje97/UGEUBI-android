@@ -79,8 +79,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:background="@drawable/durtype_togglebtn"
-                android:textOn="선택안함"
-                android:textOff="선택안함"
+                android:textOn="기본검색"
+                android:textOff="기본검색"
                 android:textSize="10dp"
                 android:textColor="@drawable/durtype_togglebtn_textcolor" />
             <ToggleButton

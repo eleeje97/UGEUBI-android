@@ -71,7 +71,7 @@ public interface RetrofitInterface {
 
     /** 약/DUR 정보 검색 **/
 
-    // 선택안함
+    // 일반검색
     @Headers({
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
@@ -83,56 +83,56 @@ public interface RetrofitInterface {
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @POST("medicine/DURPrdlstInfoService/getUsjntTabooInfoList")
-    Call<DURInfoSearchDTO> getUsjntTabooInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
+    Call<DURInfoSearchResultDTO> getUsjntTabooInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
 
     // 특정연령대금기
     @Headers({
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @POST("medicine/DURPrdlstInfoService/getSpcifyAgrdeTabooInfoList")
-    Call<DURInfoSearchDTO> getSpcifyAgrdeTabooInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
+    Call<DURInfoSearchResultDTO> getSpcifyAgrdeTabooInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
 
     // 임부금기
     @Headers({
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @POST("medicine/DURPrdlstInfoService/getPwnmTabooInfoList")
-    Call<DURInfoSearchDTO> getPwnmTabooInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
+    Call<DURInfoSearchResultDTO> getPwnmTabooInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
 
     // 용량주의
     @Headers({
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @POST("medicine/DURPrdlstInfoService/getCpctyAtentInfoList")
-    Call<DURInfoSearchDTO> getCpctyAtentInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
+    Call<DURInfoSearchResultDTO> getCpctyAtentInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
 
     // 투여기간주의
     @Headers({
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @POST("medicine/DURPrdlstInfoService/getMdctnPdAtentInfoList")
-    Call<DURInfoSearchDTO> getMdctnPdAtentInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
+    Call<DURInfoSearchResultDTO> getMdctnPdAtentInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
 
     // 노인주의
     @Headers({
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @POST("medicine/DURPrdlstInfoService/getOdsnAtentInfoList")
-    Call<DURInfoSearchDTO> getOdsnAtentInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
+    Call<DURInfoSearchResultDTO> getOdsnAtentInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
 
     // 효능군중복
     @Headers({
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @POST("medicine/DURPrdlstInfoService/getEfcyDplctInfoList")
-    Call<DURInfoSearchDTO> getEfcyDplctInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
+    Call<DURInfoSearchResultDTO> getEfcyDplctInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
 
     // 서방형제제 분할주의
     @Headers({
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @POST("medicine/DURPrdlstInfoService/getSeobangjeongPartitnAtentInfoList")
-    Call<DURInfoSearchDTO> getSeobangjeongPartitnAtentInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
+    Call<DURInfoSearchResultDTO> getSeobangjeongPartitnAtentInfoList(@Header("Authorization") String token, @Body DURInfoSearchDTO durInfoSearchDTO);
 
 
 }
