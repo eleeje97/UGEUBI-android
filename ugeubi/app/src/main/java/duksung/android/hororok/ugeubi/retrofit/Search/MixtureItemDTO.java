@@ -10,4 +10,12 @@ public class MixtureItemDTO implements Serializable {
         this.MIXTURE_ITEM_NAME = MIXTURE_ITEM_NAME;
         this.PROHBT_CONTENT = PROHBT_CONTENT;
     }
+
+    public String getMIXTURE_ITEM_NAME() {
+        return MIXTURE_ITEM_NAME;
+    }
+
+    public String getPROHBT_CONTENT() {
+        return PROHBT_CONTENT;
+    }
 }

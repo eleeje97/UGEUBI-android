@@ -46,35 +46,14 @@ public class SearchResultDetail extends Activity {
 
         // 약 정보 가져오기
         Intent intent = getIntent();
-        ArrayList<ItemInfoDTO> resultList = (ArrayList<ItemInfoDTO>) intent.getSerializableExtra("resultList");
+        ArrayList<SearchResultDetailData> resultList = (ArrayList<SearchResultDetailData>) intent.getSerializableExtra("resultList");
 
 
 
         // 약정보를 그리드뷰에 표시
-//        for (ItemInfoDTO itemInfoDTO : resultList) {
-//            adapter.addItem(itemInfoDTO.getITEM_NAME(), itemInfoDTO.getENTP_NAME());
-//        }
-
-
-        adapter.addItem("품목명", "게므론연질캡슐(수출용)");
-        adapter.addItem("URL", "https://nedrug.mfds.go.kr/pbp/cmn/pdfViewer/200409932/NB");
-        adapter.addItem("성상", "백색의 양면이 볼록한 원형 정제");
-        adapter.addItem("성상", "백색의 양면이 볼록한 원형 정제");
-        adapter.addItem("성상", "백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제");
-        adapter.addItem("성상", "백색의 양면이 볼록한 원형 정제");
-        adapter.addItem("성상", "백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제");
-        adapter.addItem("성상", "백색의 양면이 볼록한 원형 정제");
-        adapter.addItem("성상", "백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제");
-        adapter.addItem("성상", "백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제");
-        adapter.addItem("성상", "백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제");
-        adapter.addItem("성상", "백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제");
-        adapter.addItem("성상", "백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제");
-        adapter.addItem("성상", "백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제");
-        adapter.addItem("성상", "백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제");
-        adapter.addItem("성상", "백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제백색의 양면이 볼록한 원형 정제");
-
-
-
+        for (SearchResultDetailData searchResultDetailData : resultList) {
+            adapter.addItem(searchResultDetailData.getContent_key(), searchResultDetailData.getContent_value());
+        }
 
 
 

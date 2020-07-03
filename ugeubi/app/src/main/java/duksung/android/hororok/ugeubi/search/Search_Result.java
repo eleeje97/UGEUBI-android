@@ -29,6 +29,7 @@ import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
 import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchDTO;
 import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchResultDTO;
 import duksung.android.hororok.ugeubi.retrofit.Search.ItemInfoDTO;
+import duksung.android.hororok.ugeubi.retrofit.Search.MixtureItemDTO;
 import duksung.android.hororok.ugeubi.retrofit.Search.UsjntTabooResultDTO;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -51,6 +52,9 @@ public class Search_Result extends Activity {
     int currentPage = 1;
     String keyword;
     public final String PREFERENCE = "ugeubi.preference";
+
+    ArrayList<UsjntTabooResultDTO> usjntTabooResultList = null;
+    ArrayList<ItemInfoDTO> resultList = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,24 +96,26 @@ public class Search_Result extends Activity {
 
 
 
+
+
         // 결과리스트를 그리드뷰에 추가
         if (durType.equals("UsjntTaboo")) {
-            ArrayList<UsjntTabooResultDTO> resultList = (ArrayList<UsjntTabooResultDTO>) intent.getSerializableExtra("resultList");
+            usjntTabooResultList = (ArrayList<UsjntTabooResultDTO>) intent.getSerializableExtra("resultList");
 
-            if (resultList == null) {
+            if (usjntTabooResultList == null) {
                 noResult_textView.setVisibility(View.VISIBLE);
             } else {
                 noResult_textView.setVisibility(View.INVISIBLE);
-                Log.e("병용금기", resultList.toString() + ", size: " + resultList.size());
+                Log.e("병용금기", usjntTabooResultList.toString() + ", size: " + usjntTabooResultList.size());
 
-                for (UsjntTabooResultDTO usjntTabooResultDTO : resultList) {
+                for (UsjntTabooResultDTO usjntTabooResultDTO : usjntTabooResultList) {
                     Log.e("병용금기", "ITEM_NAME: " + usjntTabooResultDTO.getITEM_NAME());
                     adapter.addItem(usjntTabooResultDTO.getITEM_NAME(), usjntTabooResultDTO.getENTP_NAME());
                 }
             }
 
         } else {
-            ArrayList<ItemInfoDTO> resultList = (ArrayList<ItemInfoDTO>) intent.getSerializableExtra("resultList");
+            resultList = (ArrayList<ItemInfoDTO>) intent.getSerializableExtra("resultList");
 
             if (resultList == null) {
                 noResult_textView.setVisibility(View.VISIBLE);
@@ -125,15 +131,53 @@ public class Search_Result extends Activity {
 
 
         // 아이템 리스너 설정
+//        ArrayList<ItemInfoDTO> finalResultList = resultList;
+//        ArrayList<UsjntTabooResultDTO> finalUsjntTabooResultList = usjntTabooResultList;
         search_result_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            ArrayList<SearchResultDetailData> searchResultDetailDataArrayList= new ArrayList<>();
+
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Toast.makeText(getApplicationContext(), ""+position, Toast.LENGTH_SHORT).show();
+                searchResultDetailDataArrayList.clear();
+
+                if (durType.equals("None")) {
+                    ItemInfoDTO itemInfoDTO = resultList.get(position);
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("품목명", itemInfoDTO.getITEM_NAME()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("업체명", itemInfoDTO.getENTP_NAME()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("분류", itemInfoDTO.getCLASS_NO()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("성상", itemInfoDTO.getCHART()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("저장방법", itemInfoDTO.getSTORAGE_METHOD()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("원료성분", itemInfoDTO.getMATERIAL_NAME()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("유효기간", itemInfoDTO.getVALID_TERM()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("용법용량", itemInfoDTO.getUD_DOC_ID()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("주의사항", itemInfoDTO.getNB_DOC_ID()));
+
+                } else if (durType.equals("UsjntTaboo")) {
+                    UsjntTabooResultDTO usjntTabooResultDTO = usjntTabooResultList.get(position);
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("품목명", usjntTabooResultDTO.getITEM_NAME()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("약효분류", usjntTabooResultDTO.getCLASS_NAME()));
+
+                    ArrayList<MixtureItemDTO> mixtureItemList = usjntTabooResultDTO.getMixtureItems();
+                    for (MixtureItemDTO mixtureItemDTO : mixtureItemList) {
+                        searchResultDetailDataArrayList.add(new SearchResultDetailData("병용금기약품", mixtureItemDTO.getMIXTURE_ITEM_NAME()));
+                        searchResultDetailDataArrayList.add(new SearchResultDetailData("주의사항", mixtureItemDTO.getPROHBT_CONTENT()));
+                    }
+
+                } else {
+                    ItemInfoDTO itemInfoDTO = resultList.get(position);
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("품목명", itemInfoDTO.getITEM_NAME()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("업체명", itemInfoDTO.getENTP_NAME()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("약효분류", itemInfoDTO.getCLASS_NAME()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("성상", itemInfoDTO.getCHART()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("주성분", itemInfoDTO.getMAIN_INGR()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("금기내용", itemInfoDTO.getPROHBT_CONTENT()));
+                }
 
 
 
-                // TEST
                 Intent intent = new Intent(getApplicationContext(), SearchResultDetail.class);
+                intent.putExtra("resultList", searchResultDetailDataArrayList);
                 startActivity(intent);
 
 
@@ -230,10 +274,11 @@ public class Search_Result extends Activity {
 
                     if (response.isSuccessful()) {
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
-                        ArrayList<ItemInfoDTO> resultList = durInfoSearchResultResponse.getItems();
+                        ArrayList<ItemInfoDTO> responseItems = durInfoSearchResultResponse.getItems();
 
-                        for (ItemInfoDTO itemInfoDTO : resultList) {
+                        for (ItemInfoDTO itemInfoDTO : responseItems) {
                             adapter.addItem(itemInfoDTO.getITEM_NAME(), itemInfoDTO.getENTP_NAME());
+                            resultList.add(itemInfoDTO);
                         }
                     }
                 }
@@ -251,10 +296,11 @@ public class Search_Result extends Activity {
 
                     if (response.isSuccessful()) {
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
-                        ArrayList<ItemInfoDTO> resultList = durInfoSearchResultResponse.getItems();
+                        ArrayList<ItemInfoDTO> responseItems = durInfoSearchResultResponse.getItems();
 
-                        for (ItemInfoDTO itemInfoDTO : resultList) {
+                        for (ItemInfoDTO itemInfoDTO : responseItems) {
                             adapter.addItem(itemInfoDTO.getITEM_NAME(), itemInfoDTO.getENTP_NAME());
+                            resultList.add(itemInfoDTO);
                         }
                     }
                 }
@@ -271,10 +317,11 @@ public class Search_Result extends Activity {
 
                     if (response.isSuccessful()) {
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
-                        ArrayList<ItemInfoDTO> resultList = durInfoSearchResultResponse.getItems();
+                        ArrayList<ItemInfoDTO> responseItems = durInfoSearchResultResponse.getItems();
 
-                        for (ItemInfoDTO itemInfoDTO : resultList) {
+                        for (ItemInfoDTO itemInfoDTO : responseItems) {
                             adapter.addItem(itemInfoDTO.getITEM_NAME(), itemInfoDTO.getENTP_NAME());
+                            resultList.add(itemInfoDTO);
                         }
                     }
                 }
@@ -292,10 +339,11 @@ public class Search_Result extends Activity {
 
                     if (response.isSuccessful()) {
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
-                        ArrayList<ItemInfoDTO> resultList = durInfoSearchResultResponse.getItems();
+                        ArrayList<ItemInfoDTO> responseItems = durInfoSearchResultResponse.getItems();
 
-                        for (ItemInfoDTO itemInfoDTO : resultList) {
+                        for (ItemInfoDTO itemInfoDTO : responseItems) {
                             adapter.addItem(itemInfoDTO.getITEM_NAME(), itemInfoDTO.getENTP_NAME());
+                            resultList.add(itemInfoDTO);
                         }
                     }
                 }
@@ -313,10 +361,11 @@ public class Search_Result extends Activity {
 
                     if (response.isSuccessful()) {
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
-                        ArrayList<ItemInfoDTO> resultList = durInfoSearchResultResponse.getItems();
+                        ArrayList<ItemInfoDTO> responseItems = durInfoSearchResultResponse.getItems();
 
-                        for (ItemInfoDTO itemInfoDTO : resultList) {
+                        for (ItemInfoDTO itemInfoDTO : responseItems) {
                             adapter.addItem(itemInfoDTO.getITEM_NAME(), itemInfoDTO.getENTP_NAME());
+                            resultList.add(itemInfoDTO);
                         }
                     }
                 }
@@ -334,10 +383,11 @@ public class Search_Result extends Activity {
 
                     if (response.isSuccessful()) {
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
-                        ArrayList<ItemInfoDTO> resultList = durInfoSearchResultResponse.getItems();
+                        ArrayList<ItemInfoDTO> responseItems = durInfoSearchResultResponse.getItems();
 
-                        for (ItemInfoDTO itemInfoDTO : resultList) {
+                        for (ItemInfoDTO itemInfoDTO : responseItems) {
                             adapter.addItem(itemInfoDTO.getITEM_NAME(), itemInfoDTO.getENTP_NAME());
+                            resultList.add(itemInfoDTO);
                         }
                     }
                 }
@@ -355,10 +405,11 @@ public class Search_Result extends Activity {
 
                     if (response.isSuccessful()) {
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
-                        ArrayList<ItemInfoDTO> resultList = durInfoSearchResultResponse.getItems();
+                        ArrayList<ItemInfoDTO> responseItems = durInfoSearchResultResponse.getItems();
 
-                        for (ItemInfoDTO itemInfoDTO : resultList) {
+                        for (ItemInfoDTO itemInfoDTO : responseItems) {
                             adapter.addItem(itemInfoDTO.getITEM_NAME(), itemInfoDTO.getENTP_NAME());
+                            resultList.add(itemInfoDTO);
                         }
                     }
                 }
@@ -376,10 +427,11 @@ public class Search_Result extends Activity {
 
                     if (response.isSuccessful()) {
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
-                        ArrayList<ItemInfoDTO> resultList = durInfoSearchResultResponse.getItems();
+                        ArrayList<ItemInfoDTO> responseItems = durInfoSearchResultResponse.getItems();
 
-                        for (ItemInfoDTO itemInfoDTO : resultList) {
+                        for (ItemInfoDTO itemInfoDTO : responseItems) {
                             adapter.addItem(itemInfoDTO.getITEM_NAME(), itemInfoDTO.getENTP_NAME());
+                            resultList.add(itemInfoDTO);
                         }
                     }
                 }

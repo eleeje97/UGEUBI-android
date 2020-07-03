@@ -1,6 +1,8 @@
 package duksung.android.hororok.ugeubi.search;
 
-public class SearchResultDetailData {
+import java.io.Serializable;
+
+public class SearchResultDetailData implements Serializable {
     String content_key;
     String content_value;
 
