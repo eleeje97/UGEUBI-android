@@ -1,10 +1,11 @@
 package duksung.android.hororok.ugeubi;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spannable;
-import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.widget.TextView;
 
@@ -16,25 +17,42 @@ public class Find_id_result extends Activity {
 
     TextView coment;
 
+    // userid 저장
+    String userid;
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_id_result);
 
 
-        /*
-        int userid_length = 4;
-        // 사용자의 아이디이름을 받아와 색상 변경
         coment = findViewById(R.id.coment_id);
-        String user_id_txt = coment.getText().toString();
 
-        SpannableString spannableString = new SpannableString(user_id_txt);
+        // 사용자 아이디 찾기 결과값을 받아온다.
+        Intent intent = getIntent();
 
-        int start_txt = user_id_txt.indexOf(' ');
-        int end_txt = start_txt;
 
-        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#45ba8e")),, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        coment.setText(spannableString);
-        */
+
+        if(intent.getStringExtra("userId") != null){
+            userid = intent.getStringExtra("userId");
+            coment.setText(userid);
+        }
+
+        else{
+            coment.setText("일치하는 계정이 존재하지 않습니다. \n 다시 시도해주세요!");
+        }
+
+        String str = "고객님의 아이디는 \n" + userid + "입니다.";
+
+
+        // userId 문자열만 색 변경 작업
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(str);
+
+        spannableStringBuilder.setSpan(new ForegroundColorSpan(Color.parseColor("#45ba8e")), 9, str.length()-4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        coment.setText(spannableStringBuilder);
+
+
     }
 }
