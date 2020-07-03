@@ -3,6 +3,7 @@ package duksung.android.hororok.ugeubi.retrofit;
 import duksung.android.hororok.ugeubi.retrofit.FInd.AuthenticationPwDTO;
 import duksung.android.hororok.ugeubi.retrofit.FInd.FindIdDTO;
 import duksung.android.hororok.ugeubi.retrofit.FInd.FindPwDTO;
+import duksung.android.hororok.ugeubi.retrofit.FInd.NewPwDTO;
 import duksung.android.hororok.ugeubi.retrofit.Login.LoginDTO;
 import duksung.android.hororok.ugeubi.retrofit.Login.LoginResultDTO;
 import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchDTO;
@@ -12,6 +13,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -85,6 +87,15 @@ public interface RetrofitInterface {
             "Transfer-Encoding: chunked"})
     @POST("authentication/find-password")
     Call<AuthenticationPwDTO> authenticate_num_pw(@Body AuthenticationPwDTO authenticationPwDTO);
+
+    // 비밀번호 변경
+
+    @Headers({
+            "Content-Type: application/json;charset=UTF-8" ,
+            "Transfer-Encoding: chunked"})
+    @PATCH("users/password")
+    Call<NewPwDTO> setNewPW(@Body NewPwDTO newPwDto);
+
 
     /** 약/DUR 정보 검색 **/
 
