@@ -33,6 +33,7 @@ public class Signup extends Activity {
     private RetrofitInterface apiService;
 
 
+
     // id 중복확인 및 이메일 인증 확인
     boolean availale_id;
     boolean authenticate_email;
@@ -42,12 +43,11 @@ public class Signup extends Activity {
     // 이메일 정규식
     private String emailValidation = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*(\\.[_A-Za-z]{2,})$";
 
-
     /** 카운트 다운 구현 **/
     TextView timer_txt, password_txt;
     CountDownTimer countDownTimer;
-    final int MILLISINFUTURE = 300 * 1000; //총 시간 (300초 = 5분)
-    final int COUNT_DOWN_INTERVAL = 1000; //onTick 메소드를 호출할 간격 (1초)
+    public final int MILLISINFUTURE = 300 * 1000; //총 시간 (300초 = 5분)
+    public final int COUNT_DOWN_INTERVAL = 1000; //onTick 메소드를 호출할 간격 (1초)
 
 
     /** 회원가입 기능 구현 **/
@@ -169,20 +169,20 @@ public class Signup extends Activity {
                 if(android.util.Patterns.EMAIL_ADDRESS.matcher(user_email2.getText().toString()).matches()){
                     // 인증번호 입력 박스 visible
                     if(authorize_btn2.getText().equals("인증요청")) {
-                        frameLayout3.setVisibility(View.VISIBLE);
                         authorize_btn2.setText("재요청");
                         authorize_btn_4.setClickable(true);
                     }
 
                     // 재요청시
                     else if(authorize_btn2.getText().equals("재요청")){
-                        countDownTimer.cancel();
-                        frameLayout3.setVisibility(View.VISIBLE);
+
+                        if(countDownTimer != null){
+                            countDownTimer.cancel();
+                            countDownTimer = null;
+                        }
                         authorize_btn_4.setClickable(true);
                     }
 
-                    //  카운트 다운 시작
-                    countDownTimer();
 
                     // email 전송
                     sendEmail(new Sign_up_email_data(user_email2.getText().toString()));
@@ -270,36 +270,38 @@ public class Signup extends Activity {
     /** 카운트 다운 메소드 **/
     public void countDownTimer() {
 
-        countDownTimer = new CountDownTimer(MILLISINFUTURE, COUNT_DOWN_INTERVAL) {
-            @Override
-            public void onTick(long millisUntilFinished) { //(300초에서 1초 마다 계속 줄어듬)
+        if(countDownTimer == null) {
+            countDownTimer = new CountDownTimer(MILLISINFUTURE, COUNT_DOWN_INTERVAL) {
+                @Override
+                public void onTick(long millisUntilFinished) { //(300초에서 1초 마다 계속 줄어듬)
 
-                long emailAuthCount = millisUntilFinished / 1000;
-                // Log.d("Alex", emailAuthCount + "");
+                    long emailAuthCount = millisUntilFinished / 1000;
+                    // Log.d("Alex", emailAuthCount + "");
 
-                if ((emailAuthCount - ((emailAuthCount / 60) * 60)) >= 10) { //초가 10보다 크면 그냥 출력
-                    timer_txt.setText((emailAuthCount / 60) + " : " + (emailAuthCount - ((emailAuthCount / 60) * 60)));
-                } else { //초가 10보다 작으면 앞에 '0' 붙여서 같이 출력. ex) 02,03,04...
-                    timer_txt.setText((emailAuthCount / 60) + " : 0" + (emailAuthCount - ((emailAuthCount / 60) * 60)));
+                    if ((emailAuthCount - ((emailAuthCount / 60) * 60)) >= 10) { //초가 10보다 크면 그냥 출력
+                        timer_txt.setText((emailAuthCount / 60) + " : " + (emailAuthCount - ((emailAuthCount / 60) * 60)));
+                    } else { //초가 10보다 작으면 앞에 '0' 붙여서 같이 출력. ex) 02,03,04...
+                        timer_txt.setText((emailAuthCount / 60) + " : 0" + (emailAuthCount - ((emailAuthCount / 60) * 60)));
+                    }
                 }
 
-                //emailAuthCount은 종료까지 남은 시간임. 1분 = 60초 되므로,
-                // 분을 나타내기 위해서는 종료까지 남은 총 시간에 60을 나눠주면 그 몫이 분이 된다.
-                // 분을 제외하고 남은 초를 나타내기 위해서는, (총 남은 시간 - (분*60) = 남은 초) 로 하면 된다.
+                @Override
+                public void onFinish() { // 타이머 시간이 다 되었다면
+                    countDownTimer.cancel();
+                    Toast.makeText(getApplicationContext(), "인증시간 만료", Toast.LENGTH_SHORT).show();
+                    authorize_btn_4.setClickable(false);
 
-            }
+                }
 
-            @Override
-            public void onFinish() { // 타이머 시간이 다 되었다면
-                Toast.makeText(getApplicationContext(), "인증시간 만료", Toast.LENGTH_SHORT).show();
-                authorize_btn_4.setClickable(false);
+            }.start();
+        }
 
-            }
 
-        }.start();
+
 
 
     }
+
 
 
 
@@ -350,9 +352,17 @@ public class Signup extends Activity {
             public void onResponse(Call<Sign_up_email_data> call, Response<Sign_up_email_data> response) {
 
                 Log.i("info", "code : " + response.code());
+
                 if(response.isSuccessful()){
                     Log.i("info", "통신 성공(email), code : " + response.code());
 
+                    //  카운트 다운 시작
+                    countDownTimer();
+                    frameLayout3.setVisibility(View.VISIBLE);
+                }
+                else if(response.code() == 400){
+                    Toast.makeText(getApplicationContext(), "이미 존재하는 이메일 입니다.", Toast.LENGTH_SHORT).show();
+                    frameLayout3.setVisibility(View.GONE);
                 }
             }
 
@@ -375,18 +385,13 @@ public class Signup extends Activity {
             @Override
             public void onResponse(Call<authenticationDTO> call, Response<authenticationDTO> response) {
 
-                if(response.isSuccessful()){
-//                    Log.i("info", "통신 성공(num), code : " + response.code());
-//                    Log.i("info", "responsebody : " + response.body().getAuthenticateNumber());
-
-                    if(response.code() == 200){
+                if(response.isSuccessful()) {
                     frameLayout3.setVisibility(View.GONE);
                     authenticate_email = true;
-                    Toast.makeText(getApplicationContext(),"이메일 인증이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(),"입력하신 인증번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-                    }
+                    Toast.makeText(getApplicationContext(), "이메일 인증이 완료되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"입력하신 인증번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 
