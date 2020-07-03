@@ -5,8 +5,10 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,13 +16,27 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import duksung.android.hororok.ugeubi.retrofit.FInd.FindPwDTO;
+import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
+import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
+import duksung.android.hororok.ugeubi.retrofit.Sign_up_email_data;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class Find_pw extends Activity {
+
+    // Retrofit
+    private RetrofitInterface apiService;
 
     // 비밀번호 찾기와 관련된 필드
     TextView new_pw, new_pw_cf;
     Button login_btn, authorize_btn, authorize_btn4;
     FrameLayout frame3;
+
+    // 아이디, 이메일 값
+    EditText userid, email;
 
     // 인증번호 요청에 대한 카운트 다운
     TextView timer_txt;
@@ -35,6 +51,10 @@ public class Find_pw extends Activity {
         setContentView(R.layout.activity_find_password);
 
 
+        // Retrofit
+        apiService = RetrofitClient.getService();
+
+
         // 레이아웃 연결
         login_btn = findViewById(R.id.find_pw_login_btn); // 로그인 버튼
         authorize_btn = findViewById(R.id.authorize_btn); // 이메일로 인증번호 요청 버튼
@@ -42,6 +62,9 @@ public class Find_pw extends Activity {
         authorize_btn4 = findViewById(R.id.find_pw_authorize_btn4); // 인증번호 확인 버튼
         new_pw = findViewById(R.id.new_pw); // 새로운 비밀번호 입력
         new_pw_cf = findViewById(R.id.new_pw_cf); // 새로운 비밀번호 확인
+        userid = findViewById(R.id.user_id);
+        email = findViewById(R.id.user_email);
+
 
         // 카운트 다운
         timer_txt = findViewById(R.id.find_pw_timer);
@@ -50,40 +73,22 @@ public class Find_pw extends Activity {
         authorize_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // 사용자의 이메일로 인증번호 전송하는 코드
-
-                if(authorize_btn.getText().equals("인증요청")) {
-                    // 인증번호 입력 박스 visible
-                    frame3.setVisibility(View.VISIBLE);
-                    authorize_btn.setText("재요청");
-                }
-
-                else if(authorize_btn.getText().equals("재요청")){
-                    countDownTimer.cancel();
-                }
 
 
+                // 사용자의 이름과 이메일을 받아서 sendEmail()호출
 
-
-                //  카운트 다운 시작
-                countDownTimer();
+                sendEmail(userid.getText().toString(), email.getText().toString());
             }
         });
-
 
 
         // 인증번호 확인 버튼
         authorize_btn4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 // 올바른 인증번호가 입력되었다면
-                new_pw.setVisibility(View.VISIBLE);
-                new_pw_cf.setVisibility(View.VISIBLE);
 
-
-                // 올바른 인증번호가 입력되지 않았다면
-                //new_pw.setVisibility(View.GONE);
-                //new_pw_cf.setVisibility(View.GONE);
             }
         });
 
@@ -103,7 +108,9 @@ public class Find_pw extends Activity {
     }
 
 
-
+    /**
+     * 카운트다운메소드
+     **/
     public void countDownTimer() { //카운트 다운 메소드
 
         countDownTimer = new CountDownTimer(MILLISINFUTURE, COUNT_DOWN_INTERVAL) {
@@ -135,6 +142,34 @@ public class Find_pw extends Activity {
         }.start();
 
 
+    }
 
+
+    /**
+     * 비밀번호 찾기 중 이메일 인증 API 호출
+     **/
+    public void sendEmail(String userId, String email) {
+
+        FindPwDTO findPwDTO = new FindPwDTO(userId, email);
+        apiService.find_pw_email(findPwDTO).enqueue(new Callback<FindPwDTO>() {
+            @Override
+            public void onResponse(Call<FindPwDTO> call, Response<FindPwDTO> response) {
+
+                Log.i("info", "code : " + response.code());
+
+                if (response.isSuccessful()) {
+                    Log.i("info", "통신 성공(email), code : " + response.code());
+                    frame3.setVisibility(View.VISIBLE);
+                } else if (response.code() == 400) {
+                    Toast.makeText(getApplicationContext(), "이미 존재하는 이메일 입니다.", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FindPwDTO> call, Throwable t) {
+                Log.e("error", "통신 실패(email)" + t.getMessage());
+            }
+        });
     }
 }

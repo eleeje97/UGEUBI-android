@@ -7,15 +7,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import duksung.android.hororok.ugeubi.retrofit.FindIdDTO;
-import duksung.android.hororok.ugeubi.retrofit.Login.UserDTO;
+import duksung.android.hororok.ugeubi.retrofit.FInd.FindIdDTO;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
 import retrofit2.Call;

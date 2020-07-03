@@ -1,5 +1,8 @@
 package duksung.android.hororok.ugeubi.retrofit;
 
+import duksung.android.hororok.ugeubi.retrofit.FInd.AuthenticationPwDTO;
+import duksung.android.hororok.ugeubi.retrofit.FInd.FindIdDTO;
+import duksung.android.hororok.ugeubi.retrofit.FInd.FindPwDTO;
 import duksung.android.hororok.ugeubi.retrofit.Login.LoginDTO;
 import duksung.android.hororok.ugeubi.retrofit.Login.LoginResultDTO;
 import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchDTO;
@@ -66,7 +69,22 @@ public interface RetrofitInterface {
     Call<FindIdDTO> find_id(@Query("userName") String userName, @Query("email") String email);
 
 
+    /** 비밀번호 찾기 **/
 
+    // 이메일 인증 요청
+    @Headers({
+            "Content-Type: application/json;charset=UTF-8" ,
+            "Transfer-Encoding: chunked"})
+    @POST("authentication-numbers/find-password")
+    Call<FindPwDTO> find_pw_email(@Body FindPwDTO findPwDTO);
+
+
+    // 인증번호 확인
+    @Headers({
+            "Content-Type: application/json;charset=UTF-8" ,
+            "Transfer-Encoding: chunked"})
+    @POST("authentication/find-password")
+    Call<AuthenticationPwDTO> authenticate_num(@Body AuthenticationPwDTO authenticationPwDTO);
 
     /** 약/DUR 정보 검색 **/
 
