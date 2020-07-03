@@ -84,7 +84,7 @@ public interface RetrofitInterface {
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @POST("authentication/find-password")
-    Call<AuthenticationPwDTO> authenticate_num(@Body AuthenticationPwDTO authenticationPwDTO);
+    Call<AuthenticationPwDTO> authenticate_num_pw(@Body AuthenticationPwDTO authenticationPwDTO);
 
     /** 약/DUR 정보 검색 **/
 

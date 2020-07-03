@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import duksung.android.hororok.ugeubi.retrofit.FInd.AuthenticationPwDTO;
 import duksung.android.hororok.ugeubi.retrofit.FInd.FindPwDTO;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
@@ -36,7 +37,7 @@ public class Find_pw extends Activity {
     FrameLayout frame3;
 
     // 아이디, 이메일 값
-    EditText userid, email;
+    EditText userid, email, tempPw;
 
     // 인증번호 요청에 대한 카운트 다운
     TextView timer_txt;
@@ -58,13 +59,13 @@ public class Find_pw extends Activity {
         // 레이아웃 연결
         login_btn = findViewById(R.id.find_pw_login_btn); // 로그인 버튼
         authorize_btn = findViewById(R.id.authorize_btn); // 이메일로 인증번호 요청 버튼
-        frame3 = findViewById(R.id.finde_pw_framelayout3); // 인증번호 입력 레이아웃
-        authorize_btn4 = findViewById(R.id.find_pw_authorize_btn4); // 인증번호 확인 버튼
+        frame3 = findViewById(R.id.finde_pw_framelayout3); // 임시 비밀번호 입력 레이아웃
+        authorize_btn4 = findViewById(R.id.find_pw_authorize_btn4); // 임시 비밀번호 확인 버튼
         new_pw = findViewById(R.id.new_pw); // 새로운 비밀번호 입력
         new_pw_cf = findViewById(R.id.new_pw_cf); // 새로운 비밀번호 확인
         userid = findViewById(R.id.user_id);
         email = findViewById(R.id.user_email);
-
+        tempPw = findViewById(R.id.temp_pw); // 임시 비밀번호 입력
 
         // 카운트 다운
         timer_txt = findViewById(R.id.find_pw_timer);
@@ -87,7 +88,11 @@ public class Find_pw extends Activity {
             @Override
             public void onClick(View v) {
 
-                // 올바른 인증번호가 입력되었다면
+
+                sendtemporaryPassword(userid.getText().toString(),
+                                      email.getText().toString(),
+                                      tempPw.getText().toString());
+
 
             }
         });
@@ -160,14 +165,43 @@ public class Find_pw extends Activity {
                 if (response.isSuccessful()) {
                     Log.i("info", "통신 성공(email), code : " + response.code());
                     frame3.setVisibility(View.VISIBLE);
+
+
                 } else if (response.code() == 400) {
-                    Toast.makeText(getApplicationContext(), "이미 존재하는 이메일 입니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "일치하는 계정이 존재하지 않습니다.", Toast.LENGTH_SHORT).show();
 
                 }
             }
 
             @Override
             public void onFailure(Call<FindPwDTO> call, Throwable t) {
+                Log.e("error", "통신 실패(email)" + t.getMessage());
+            }
+        });
+    }
+
+
+    public void sendtemporaryPassword(String userId, String email, String temporaryPassword){
+
+        AuthenticationPwDTO authenticationPwDTO = new AuthenticationPwDTO(userId, email, temporaryPassword);
+        apiService.authenticate_num_pw(authenticationPwDTO).enqueue(new Callback<AuthenticationPwDTO>() {
+            @Override
+            public void onResponse(Call<AuthenticationPwDTO> call, Response<AuthenticationPwDTO> response) {
+                if(response.isSuccessful()){
+                    Log.i("info", "통신 성공(find_pw_temporarypw), code : " + response.code());
+                    frame3.setVisibility(View.GONE);
+                    new_pw.setVisibility(View.VISIBLE);
+                    new_pw_cf.setVisibility(View.VISIBLE);
+
+                    Toast.makeText(getApplicationContext(), "임시비밀번호가 확인되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "임시비밀번호를 확인해주세요!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AuthenticationPwDTO> call, Throwable t) {
                 Log.e("error", "통신 실패(email)" + t.getMessage());
             }
         });
