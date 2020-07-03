@@ -15,6 +15,7 @@ import com.google.firebase.iid.InstanceIdResult;
 
 import duksung.android.hororok.ugeubi.alarm.Alarm_fragment;
 import duksung.android.hororok.ugeubi.medicine.Medicine_kit_fragment;
+import duksung.android.hororok.ugeubi.search.Search_fragment;
 import duksung.android.hororok.ugeubi.ugeubi.Ugeubi_fragment;
 
 public class MainActivity extends FragmentActivity {

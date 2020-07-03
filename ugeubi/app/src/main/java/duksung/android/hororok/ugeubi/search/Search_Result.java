@@ -64,6 +64,11 @@ public class Search_Result extends Activity {
                 Toast.makeText(getApplicationContext(), ""+position, Toast.LENGTH_SHORT).show();
 
 
+                // TEST
+                Intent intent = new Intent(getApplicationContext(), SearchResultDetail.class);
+                startActivity(intent);
+
+
             }
         });
 
