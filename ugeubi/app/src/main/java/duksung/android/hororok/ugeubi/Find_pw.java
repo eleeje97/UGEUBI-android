@@ -141,12 +141,7 @@ public class Find_pw extends Activity {
 
 
 
-
-
-
-
-
-        // 이메일 인증번호 요청 버튼을 클릭했을 때
+        /** 이메일 인증번호 요청 버튼을 클릭했을 때 **/
         authorize_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
