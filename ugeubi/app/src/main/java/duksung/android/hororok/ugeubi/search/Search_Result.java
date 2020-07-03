@@ -3,6 +3,7 @@ package duksung.android.hororok.ugeubi.search;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -13,31 +14,39 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
+import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 import duksung.android.hororok.ugeubi.R;
-import duksung.android.hororok.ugeubi.medicine.Medicine_data;
-import duksung.android.hororok.ugeubi.medicine.Medicine_kit_fragment;
-import duksung.android.hororok.ugeubi.registerMedicine.RegisterMedicine;
-import duksung.android.hororok.ugeubi.retrofit.ItemInfoDTO;
+import duksung.android.hororok.ugeubi.retrofit.Search.ItemInfoDTO;
+import duksung.android.hororok.ugeubi.retrofit.Search.UsjntTabooResultDTO;
 
 // 검색 결과 페이지
 public class Search_Result extends Activity {
 
 
+    TextView keyword_textView;
     GridView search_result_view;
     Button back_btn;
     TextView noResult_textView;
+
+    SwipyRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_result);
 
+        keyword_textView = findViewById(R.id.keyword);
         back_btn = findViewById(R.id.search_back_btn);
         search_result_view = findViewById(R.id.gridview_search_result);
         noResult_textView = findViewById(R.id.noResult_textView);
+
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
 
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,7 +63,41 @@ public class Search_Result extends Activity {
 
         // 결과리스트 인텐트 가져오기
         Intent intent = getIntent();
-        ArrayList<ItemInfoDTO> resultList = (ArrayList<ItemInfoDTO>) intent.getSerializableExtra("resultList");
+        String durType = intent.getStringExtra("DURType");
+        int totalPage = intent.getIntExtra("totalPage", 1);
+        String keyword = intent.getStringExtra("keyword");
+        keyword_textView.setText(keyword);
+
+
+
+        // 결과리스트를 그리드뷰에 추가
+        if (durType.equals("UsjntTaboo")) {
+            ArrayList<UsjntTabooResultDTO> resultList = (ArrayList<UsjntTabooResultDTO>) intent.getSerializableExtra("resultList");
+
+            if (resultList == null) {
+                noResult_textView.setVisibility(View.VISIBLE);
+            } else {
+                noResult_textView.setVisibility(View.INVISIBLE);
+                for (UsjntTabooResultDTO usjntTabooResultDTO : resultList) {
+                    Log.e("병용금기", "ITEM_NAME: " + usjntTabooResultDTO.getITEM_NAME());
+                    adapter.addItem(usjntTabooResultDTO.getITEM_NAME(), usjntTabooResultDTO.getENTP_NAME());
+                }
+            }
+
+        } else {
+            ArrayList<ItemInfoDTO> resultList = (ArrayList<ItemInfoDTO>) intent.getSerializableExtra("resultList");
+
+            if (resultList == null) {
+                noResult_textView.setVisibility(View.VISIBLE);
+            } else {
+                noResult_textView.setVisibility(View.INVISIBLE);
+                for (ItemInfoDTO itemInfoDTO : resultList) {
+                    adapter.addItem(itemInfoDTO.getITEM_NAME(), itemInfoDTO.getENTP_NAME());
+                }
+            }
+        }
+
+
 
 
         // 아이템 리스너 설정
@@ -73,23 +116,13 @@ public class Search_Result extends Activity {
         });
 
 
-
-        // 결과리스트를 그리드뷰에 추가
-        if (resultList.size() == 0) {
-            noResult_textView.setVisibility(View.VISIBLE);
-        } else {
-            noResult_textView.setVisibility(View.INVISIBLE);
-            for (ItemInfoDTO itemInfoDTO : resultList) {
-                adapter.addItem(itemInfoDTO.getITEM_NAME(), itemInfoDTO.getENTP_NAME());
+        swipeRefreshLayout.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh(SwipyRefreshLayoutDirection direction) {
+                Toast.makeText(getApplicationContext(), "새로고침", Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
             }
-
-        }
-
-
-
-
-
-
+        });
 
 
     }

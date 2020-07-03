@@ -1,4 +1,4 @@
-package duksung.android.hororok.ugeubi.retrofit;
+package duksung.android.hororok.ugeubi.retrofit.Search;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -34,6 +34,9 @@ public class ItemInfoDTO implements Serializable {
     // 주의사항
     @SerializedName("NB_DOC_ID") String NB_DOC_ID;
 
+
+    /** 병용금기 **/
+    @SerializedName("MIXTURE_ITEM_NAME") String MIXTURE_ITEM_NAME;
 
     /** 나머지 검색 **/
     // 분류
@@ -96,5 +99,9 @@ public class ItemInfoDTO implements Serializable {
 
     public String getPROHBT_CONTENT() {
         return PROHBT_CONTENT;
+    }
+
+    public String getMIXTURE_ITEM_NAME() {
+        return MIXTURE_ITEM_NAME;
     }
 }

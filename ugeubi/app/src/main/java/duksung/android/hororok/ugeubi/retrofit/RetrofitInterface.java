@@ -2,11 +2,10 @@ package duksung.android.hororok.ugeubi.retrofit;
 
 import duksung.android.hororok.ugeubi.retrofit.Login.LoginDTO;
 import duksung.android.hororok.ugeubi.retrofit.Login.LoginResultDTO;
-import duksung.android.hororok.ugeubi.retrofit.Login.UserDTO;
+import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchDTO;
+import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchResultDTO;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;

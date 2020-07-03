@@ -19,13 +19,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import duksung.android.hororok.ugeubi.R;
-import duksung.android.hororok.ugeubi.retrofit.DURInfoSearchDTO;
-import duksung.android.hororok.ugeubi.retrofit.DURInfoSearchResultDTO;
-import duksung.android.hororok.ugeubi.retrofit.ItemInfoDTO;
+import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchDTO;
+import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchResultDTO;
+import duksung.android.hororok.ugeubi.retrofit.Search.ItemInfoDTO;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
-import duksung.android.hororok.ugeubi.search.Search_Result;
+import duksung.android.hororok.ugeubi.retrofit.Search.MixtureItemDTO;
+import duksung.android.hororok.ugeubi.retrofit.Search.UsjntTabooResultDTO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -176,7 +180,8 @@ public class Search_fragment extends Fragment {
     public void search() {
         SharedPreferences pref = getActivity().getSharedPreferences(PREFERENCE, MODE_PRIVATE);
         String accessToken = "Bearer " + pref.getString("accessToken", "");
-        DURInfoSearchDTO durInfoSearchDTO = new DURInfoSearchDTO(search_keyword.getText().toString(), "1");
+        String keyword = search_keyword.getText().toString();
+        DURInfoSearchDTO durInfoSearchDTO = new DURInfoSearchDTO(keyword, "1");
 
         if (durType.equals("None")) {
             apiService.getDurPrdlstInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
@@ -186,14 +191,18 @@ public class Search_fragment extends Fragment {
 
                     if (response.isSuccessful()) {
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
-                        Log.e("Search", "body.size: " + durInfoSearchResultResponse.getItems().size());
+                        int totalCount = durInfoSearchResultResponse.getTotalCount();
+                        int totalPage = totalCount/10 + 1;
 
-                        for (ItemInfoDTO itemInfoDTO : durInfoSearchResultResponse.getItems()) {
-                            Log.e("Search", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
-                        }
+                        Log.e("Search", "body.totalCount: " + totalCount);
+                        Log.e("Search", "body.totalPage: " + totalPage);
+
 
                         Intent intent = new Intent(getActivity(), Search_Result.class);
                         intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        intent.putExtra("DURType", "None");
+                        intent.putExtra("totalPage", totalPage);
+                        intent.putExtra("keyword", keyword);
                         startActivity(intent);
 
                     }
@@ -206,6 +215,7 @@ public class Search_fragment extends Fragment {
                 }
             });
         } else if (durType.equals("UsjntTaboo")) {
+            getUsjntTaboo(accessToken, keyword);
 
         } else if (durType.equals("SpcifyAgrdeTaboo")) {
             apiService.getSpcifyAgrdeTabooInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
@@ -215,14 +225,16 @@ public class Search_fragment extends Fragment {
 
                     if (response.isSuccessful()) {
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
-                        Log.e("Search", "body.size: " + durInfoSearchResultResponse.getItems().size());
+                        int totalCount = durInfoSearchResultResponse.getTotalCount();
+                        int totalPage = totalCount/10 + 1;
 
-                        for (ItemInfoDTO itemInfoDTO : durInfoSearchResultResponse.getItems()) {
-                            Log.e("Search", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
-                        }
+
 
                         Intent intent = new Intent(getActivity(), Search_Result.class);
                         intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        intent.putExtra("DURType", "SpcifyAgrdeTaboo");
+                        intent.putExtra("totalPage", totalPage);
+                        intent.putExtra("keyword", keyword);
                         startActivity(intent);
                     }
                 }
@@ -239,14 +251,15 @@ public class Search_fragment extends Fragment {
 
                     if (response.isSuccessful()) {
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
-                        Log.e("Search", "body.size: " + durInfoSearchResultResponse.getItems().size());
+                        int totalCount = durInfoSearchResultResponse.getTotalCount();
+                        int totalPage = totalCount/10 + 1;
 
-                        for (ItemInfoDTO itemInfoDTO : durInfoSearchResultResponse.getItems()) {
-                            Log.e("Search", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
-                        }
 
                         Intent intent = new Intent(getActivity(), Search_Result.class);
                         intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        intent.putExtra("DURType", "PwnmTaboo");
+                        intent.putExtra("totalPage", totalPage);
+                        intent.putExtra("keyword", keyword);
                         startActivity(intent);
                     }
                 }
@@ -264,14 +277,15 @@ public class Search_fragment extends Fragment {
 
                     if (response.isSuccessful()) {
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
-                        Log.e("Search", "body.size: " + durInfoSearchResultResponse.getItems().size());
+                        int totalCount = durInfoSearchResultResponse.getTotalCount();
+                        int totalPage = totalCount/10 + 1;
 
-                        for (ItemInfoDTO itemInfoDTO : durInfoSearchResultResponse.getItems()) {
-                            Log.e("Search", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
-                        }
 
                         Intent intent = new Intent(getActivity(), Search_Result.class);
                         intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        intent.putExtra("DURType", "CpctyAtent");
+                        intent.putExtra("totalPage", totalPage);
+                        intent.putExtra("keyword", keyword);
                         startActivity(intent);
                     }
                 }
@@ -289,14 +303,15 @@ public class Search_fragment extends Fragment {
 
                     if (response.isSuccessful()) {
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
-                        Log.e("Search", "body.size: " + durInfoSearchResultResponse.getItems().size());
+                        int totalCount = durInfoSearchResultResponse.getTotalCount();
+                        int totalPage = totalCount/10 + 1;
 
-                        for (ItemInfoDTO itemInfoDTO : durInfoSearchResultResponse.getItems()) {
-                            Log.e("Search", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
-                        }
 
                         Intent intent = new Intent(getActivity(), Search_Result.class);
                         intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        intent.putExtra("DURType", "MdctnPdAtent");
+                        intent.putExtra("totalPage", totalPage);
+                        intent.putExtra("keyword", keyword);
                         startActivity(intent);
                     }
                 }
@@ -314,14 +329,15 @@ public class Search_fragment extends Fragment {
 
                     if (response.isSuccessful()) {
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
-                        Log.e("Search", "body.size: " + durInfoSearchResultResponse.getItems().size());
+                        int totalCount = durInfoSearchResultResponse.getTotalCount();
+                        int totalPage = totalCount/10 + 1;
 
-                        for (ItemInfoDTO itemInfoDTO : durInfoSearchResultResponse.getItems()) {
-                            Log.e("Search", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
-                        }
 
                         Intent intent = new Intent(getActivity(), Search_Result.class);
                         intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        intent.putExtra("DURType", "OdsnAtent");
+                        intent.putExtra("totalPage", totalPage);
+                        intent.putExtra("keyword", keyword);
                         startActivity(intent);
                     }
                 }
@@ -339,14 +355,15 @@ public class Search_fragment extends Fragment {
 
                     if (response.isSuccessful()) {
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
-                        Log.e("Search", "body.size: " + durInfoSearchResultResponse.getItems().size());
+                        int totalCount = durInfoSearchResultResponse.getTotalCount();
+                        int totalPage = totalCount/10 + 1;
 
-                        for (ItemInfoDTO itemInfoDTO : durInfoSearchResultResponse.getItems()) {
-                            Log.e("Search", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
-                        }
 
                         Intent intent = new Intent(getActivity(), Search_Result.class);
                         intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        intent.putExtra("DURType", "EfcyDplct");
+                        intent.putExtra("totalPage", totalPage);
+                        intent.putExtra("keyword", keyword);
                         startActivity(intent);
                     }
                 }
@@ -364,14 +381,15 @@ public class Search_fragment extends Fragment {
 
                     if (response.isSuccessful()) {
                         DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
-                        Log.e("Search", "body.size: " + durInfoSearchResultResponse.getItems().size());
+                        int totalCount = durInfoSearchResultResponse.getTotalCount();
+                        int totalPage = totalCount/10 + 1;
 
-                        for (ItemInfoDTO itemInfoDTO : durInfoSearchResultResponse.getItems()) {
-                            Log.e("Search", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
-                        }
 
                         Intent intent = new Intent(getActivity(), Search_Result.class);
                         intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        intent.putExtra("DURType", "SeobangjeongPartitnAtent");
+                        intent.putExtra("totalPage", totalPage);
+                        intent.putExtra("keyword", keyword);
                         startActivity(intent);
                     }
                 }
@@ -385,6 +403,67 @@ public class Search_fragment extends Fragment {
 
 
 
+    }
+
+
+    ArrayList<ItemInfoDTO> usjntTabooList = new ArrayList<>();
+
+    // 병용금기 response 데이터 가공
+    public void getUsjntTaboo(String accessToken, String keyword) {
+        usjntTabooList.clear();
+
+        int totalPage = callUsjntTabooAPI(accessToken, keyword, "1");
+        for (int i = 2; i <= totalPage; i++) {
+            callUsjntTabooAPI(accessToken, keyword, i + "");
+        }
+
+
+        HashMap<String, UsjntTabooResultDTO> hashMap = new HashMap<>();
+        for (ItemInfoDTO itemInfoDTO : usjntTabooList) {
+            String itemName = itemInfoDTO.getITEM_NAME();
+            if(!hashMap.containsKey(itemName)) {
+                hashMap.put(itemName, new UsjntTabooResultDTO(itemName, itemInfoDTO.getENTP_NAME(), itemInfoDTO.getCLASS_NAME(), new ArrayList<MixtureItemDTO>()));
+            }
+
+            hashMap.get(itemName).getMixtureItems().add(new MixtureItemDTO(itemInfoDTO.getMIXTURE_ITEM_NAME(), itemInfoDTO.getPROHBT_CONTENT()));
+        }
+
+
+        ArrayList<UsjntTabooResultDTO> arrayList = new ArrayList<>(hashMap.values());
+        Intent intent = new Intent(getActivity(), Search_Result.class);
+        intent.putExtra("resultList", arrayList);
+        intent.putExtra("DURType", "UsjntTaboo");
+        intent.putExtra("totalPage", totalPage);
+        intent.putExtra("keyword", keyword);
+        startActivity(intent);
+    }
+
+    // 병용금기 api 호출
+    public int callUsjntTabooAPI(String accessToken, String keyword, String pageNo) {
+        final int[] totalPage = new int[1];
+        DURInfoSearchDTO durInfoSearchDTO = new DURInfoSearchDTO(keyword, pageNo);
+
+        apiService.getUsjntTabooInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
+            @Override
+            public void onResponse(Call<DURInfoSearchResultDTO> call, Response<DURInfoSearchResultDTO> response) {
+                Log.e("Search", "code: " + response.code());
+
+                if (response.isSuccessful()) {
+                    DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
+                    int totalCount = durInfoSearchResultResponse.getTotalCount();
+                    totalPage[0] = totalCount/10 + 1;
+                    usjntTabooList = durInfoSearchResultResponse.getItems();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<DURInfoSearchResultDTO> call, Throwable t) {
+                Log.e("Search", "통신실패! " + t.getMessage());
+            }
+        });
+
+        return totalPage[0];
     }
 
 }
