@@ -2,6 +2,7 @@ package duksung.android.hororok.ugeubi.search;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -19,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -215,7 +217,7 @@ public class Search_fragment extends Fragment {
                 }
             });
         } else if (durType.equals("UsjntTaboo")) {
-            getUsjntTaboo(accessToken, keyword);
+            callUsjntTabooAPI(accessToken, keyword, "1");
 
         } else if (durType.equals("SpcifyAgrdeTaboo")) {
             apiService.getSpcifyAgrdeTabooInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
@@ -408,39 +410,10 @@ public class Search_fragment extends Fragment {
 
     ArrayList<ItemInfoDTO> usjntTabooList = new ArrayList<>();
 
-    // 병용금기 response 데이터 가공
-    public void getUsjntTaboo(String accessToken, String keyword) {
-        usjntTabooList.clear();
-
-        int totalPage = callUsjntTabooAPI(accessToken, keyword, "1");
-        for (int i = 2; i <= totalPage; i++) {
-            callUsjntTabooAPI(accessToken, keyword, i + "");
-        }
-
-
-        HashMap<String, UsjntTabooResultDTO> hashMap = new HashMap<>();
-        for (ItemInfoDTO itemInfoDTO : usjntTabooList) {
-            String itemName = itemInfoDTO.getITEM_NAME();
-            if(!hashMap.containsKey(itemName)) {
-                hashMap.put(itemName, new UsjntTabooResultDTO(itemName, itemInfoDTO.getENTP_NAME(), itemInfoDTO.getCLASS_NAME(), new ArrayList<MixtureItemDTO>()));
-            }
-
-            hashMap.get(itemName).getMixtureItems().add(new MixtureItemDTO(itemInfoDTO.getMIXTURE_ITEM_NAME(), itemInfoDTO.getPROHBT_CONTENT()));
-        }
-
-
-        ArrayList<UsjntTabooResultDTO> arrayList = new ArrayList<>(hashMap.values());
-        Intent intent = new Intent(getActivity(), Search_Result.class);
-        intent.putExtra("resultList", arrayList);
-        intent.putExtra("DURType", "UsjntTaboo");
-        intent.putExtra("totalPage", totalPage);
-        intent.putExtra("keyword", keyword);
-        startActivity(intent);
-    }
-
-    // 병용금기 api 호출
-    public int callUsjntTabooAPI(String accessToken, String keyword, String pageNo) {
-        final int[] totalPage = new int[1];
+    int totalPage = -1;
+    int count = 0;
+    // 병용금기 api 호출, response 데이터 가공
+    public void callUsjntTabooAPI(String accessToken, String keyword, String pageNo) {
         DURInfoSearchDTO durInfoSearchDTO = new DURInfoSearchDTO(keyword, pageNo);
 
         apiService.getUsjntTabooInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
@@ -451,8 +424,44 @@ public class Search_fragment extends Fragment {
                 if (response.isSuccessful()) {
                     DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
                     int totalCount = durInfoSearchResultResponse.getTotalCount();
-                    totalPage[0] = totalCount/10 + 1;
+                    totalPage = totalCount/10 + 1;
+                    count++;
+
+                    Log.e("병용금기", "["+count+"/"+totalPage+"], pageNo: " + pageNo);
+
                     usjntTabooList = durInfoSearchResultResponse.getItems();
+
+                    Log.e("병용금기", "api response size: " + durInfoSearchResultResponse.getItems().size());
+                    Log.e("병용금기", "api totalPage: " + totalPage);
+
+
+                    if(count == totalPage) {
+                        HashMap<String, UsjntTabooResultDTO> hashMap = new HashMap<>();
+                        for (ItemInfoDTO itemInfoDTO : usjntTabooList) {
+                            String itemName = itemInfoDTO.getITEM_NAME();
+                            if(!hashMap.containsKey(itemName)) {
+                                hashMap.put(itemName, new UsjntTabooResultDTO(itemName, itemInfoDTO.getENTP_NAME(), itemInfoDTO.getCLASS_NAME(), new ArrayList<MixtureItemDTO>()));
+                            }
+
+                            hashMap.get(itemName).getMixtureItems().add(new MixtureItemDTO(itemInfoDTO.getMIXTURE_ITEM_NAME(), itemInfoDTO.getPROHBT_CONTENT()));
+                            Log.e("병용금기", "hashmap에 데이터 추가");
+                        }
+
+
+                        ArrayList<UsjntTabooResultDTO> arrayList = new ArrayList<>(hashMap.values());
+                        Log.e("병용금기", "hashmap.size: " + hashMap.values().size());
+                        Log.e("병용금기", arrayList.toString() + ", size: " + arrayList.size());
+                        Intent intent = new Intent(getActivity(), Search_Result.class);
+                        intent.putExtra("resultList", arrayList);
+                        intent.putExtra("DURType", "UsjntTaboo");
+                        intent.putExtra("totalPage", totalPage);
+                        intent.putExtra("keyword", keyword);
+                        startActivity(intent);
+
+                    } else {
+                        callUsjntTabooAPI(accessToken, keyword, (count + 1) + "");
+                    }
+
                 }
 
             }
@@ -463,7 +472,9 @@ public class Search_fragment extends Fragment {
             }
         });
 
-        return totalPage[0];
+
+        Log.e("병용금기", "callUsjntTabooAPI-totalPage: " + totalPage);
     }
+
 
 }

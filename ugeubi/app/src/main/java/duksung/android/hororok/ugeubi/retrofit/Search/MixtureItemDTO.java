@@ -1,6 +1,8 @@
 package duksung.android.hororok.ugeubi.retrofit.Search;
 
-public class MixtureItemDTO {
+import java.io.Serializable;
+
+public class MixtureItemDTO implements Serializable {
     String MIXTURE_ITEM_NAME;
     String PROHBT_CONTENT;
 
