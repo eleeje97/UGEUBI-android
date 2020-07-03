@@ -123,6 +123,29 @@ public class Signup extends Activity {
             }
         });
 
+
+        user_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!user_password.getText().toString().equals(user_password_confirm.getText().toString())){
+                    password_txt.setTextColor(Color.RED);
+                    password_txt.setText("입력하신 비밀번호가 일치하지 않습니다.");
+                    checked_pw = false;
+                }
+                else{
+                    password_txt.setTextColor(R.color.mainColor);
+                    password_txt.setText("입력하신 비밀번호가 일치합니다.");
+                    checked_pw = true;
+                }
+            }
+        });
+
         /** user_name 입력 값 확인  **/
         user_name.addTextChangedListener(new TextWatcher() {
             @Override

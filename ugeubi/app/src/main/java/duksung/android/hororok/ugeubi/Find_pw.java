@@ -146,8 +146,23 @@ public class Find_pw extends Activity {
             @Override
             public void onClick(View v) {
 
+                if(email.getText().length() != 0){
 
-                // 사용자의 이름과 이메일을 받아서 sendEmail()호출
+                    // 올바른 이메일 양식인지 체크
+                    if(android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+                        // 인증번호 입력 박스 visible
+                        if (authorize_btn.getText().equals("인증요청")) {
+                            authorize_btn.setText("재요청");
+                        }
+
+                        // 재요청시
+                        else if (authorize_btn.getText().equals("재요청")) {
+
+                            if (countDownTimer != null) {
+                                countDownTimer.cancel();
+                                countDownTimer = null;
+                            }
+                        }
 
                 // 아이디와 이메일 모두 올바르게 입력되었다면
                 if(checked_email && checked_id) {
@@ -163,7 +178,7 @@ public class Find_pw extends Activity {
                     Toast.makeText(getApplicationContext(), "아이디와 이메일을 입력하세요!", Toast.LENGTH_SHORT).show();
                 }
 
-            }
+            }}}
         });
 
 
@@ -200,7 +215,29 @@ public class Find_pw extends Activity {
             @SuppressLint("ResourceAsColor")
             @Override
             public void afterTextChanged(Editable s) {
-                if(!new_pw.getText().toString().equals(new_pw.getText().toString())){
+                if(!new_pw.getText().toString().equals(new_pw_cf.getText().toString())){
+                    password_txt.setTextColor(Color.RED);
+                    password_txt.setText("입력하신 비밀번호가 일치하지 않습니다.");
+                    checked_pw = false;
+                }
+                else{
+                    password_txt.setTextColor(R.color.mainColor);
+                    password_txt.setText("입력하신 비밀번호가 일치합니다.");
+                    checked_pw = true;
+                }
+            }
+        });
+
+        new_pw.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @SuppressLint("ResourceAsColor")
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!new_pw.getText().toString().equals(new_pw_cf.getText().toString())){
                     password_txt.setTextColor(Color.RED);
                     password_txt.setText("입력하신 비밀번호가 일치하지 않습니다.");
                     checked_pw = false;
@@ -250,11 +287,11 @@ public class Find_pw extends Activity {
 
             @Override
             public void onFinish() { // 타이머 시간이 다 되었다면
+                countDownTimer.cancel();
                 Toast.makeText(getApplicationContext(), "인증시간 만료", Toast.LENGTH_SHORT).show();
-
             }
 
-        }.start();
+            }.start();
 
 
     }
@@ -274,6 +311,10 @@ public class Find_pw extends Activity {
 
                 if (response.isSuccessful()) {
                     Log.i("info", "통신 성공(email), code : " + response.code());
+
+
+                    //  카운트 다운 시작
+                    countDownTimer();
                     frame3.setVisibility(View.VISIBLE);
 
 
@@ -327,6 +368,8 @@ public class Find_pw extends Activity {
             public void onResponse(Call<NewPwDTO> call, Response<NewPwDTO> response) {
                 if(response.isSuccessful()){
 
+                    Intent intent = new Intent(getApplicationContext(),Login.class);
+                    startActivity(intent);
                     Toast.makeText(getApplicationContext(), "비밀번호 변경이 완료되었습니다!", Toast.LENGTH_SHORT).show();
                 }
 
