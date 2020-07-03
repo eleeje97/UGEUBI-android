@@ -86,6 +86,22 @@ public class Login extends Activity {
                 startActivity(intent);
             }
         });
+
+
+
+        // 자동로그인
+        SharedPreferences pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE);
+        String userId = pref.getString("userId","");
+        String userPassword = pref.getString("userPassword", "");
+
+        Log.e("Auto-login", "userid: " + userId);
+        Log.e("Auto-login", "userPassword: " + userPassword);
+
+        if((userId.length() > 0) && (userPassword.length() > 0)) {
+            login(userId, userPassword);
+        }
+
+
     }
 
 
@@ -107,15 +123,20 @@ public class Login extends Activity {
                     SharedPreferences pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("accessToken", response.body().tokens.getAccessToken());
+                    editor.putString("userId", id);
+                    editor.putString("userPassword", password);
+                    editor.putString("userName", response.body().user.getUserName());
+                    editor.putString("userEmail", response.body().user.getEmail());
                     editor.apply();
 
                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
 
                     // 현재 액티비티 종료
-                    //finish();
+                    finish();
+
                 } else {
-                    Toast.makeText(getApplication(),"아이디와 비밀번호를 다시 확인해주세요.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(),"아이디와 비밀번호를 다시 확인해주세요.", Toast.LENGTH_SHORT).show();
                 }
 
             }

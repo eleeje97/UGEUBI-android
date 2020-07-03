@@ -16,4 +16,16 @@ public class UserDTO {
         this.userName = userName;
         this.email = email;
     }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 }
