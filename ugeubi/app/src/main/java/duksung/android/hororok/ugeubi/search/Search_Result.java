@@ -129,10 +129,7 @@ public class Search_Result extends Activity {
 
 
 
-
         // 아이템 리스너 설정
-//        ArrayList<ItemInfoDTO> finalResultList = resultList;
-//        ArrayList<UsjntTabooResultDTO> finalUsjntTabooResultList = usjntTabooResultList;
         search_result_view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             ArrayList<SearchResultDetailData> searchResultDetailDataArrayList= new ArrayList<>();
 
