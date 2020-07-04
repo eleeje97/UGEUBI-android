@@ -53,10 +53,6 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="19dp"
-                android:layout_height="match_parent"/>
-
 
             <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
                 android:id="@+id/swipe_refresh_layout"
