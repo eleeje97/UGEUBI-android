@@ -1,5 +1,7 @@
 package duksung.android.hororok.ugeubi.retrofit;
 
+import duksung.android.hororok.ugeubi.medicine.MedicineDTO;
+import duksung.android.hororok.ugeubi.medicine.MedicineResultDTO;
 import duksung.android.hororok.ugeubi.retrofit.FInd.AuthenticationPwDTO;
 import duksung.android.hororok.ugeubi.retrofit.FInd.FindIdDTO;
 import duksung.android.hororok.ugeubi.retrofit.FInd.FindPwDTO;
@@ -96,6 +98,15 @@ public interface RetrofitInterface {
     @PATCH("users/password")
     Call<NewPwDTO> setNewPW(@Body NewPwDTO newPwDto);
 
+
+    /** 우리집 구급상자 **/
+
+    // 구급상자 약등록
+    @Headers({
+            "Content-Type: application/json;charset=UTF-8" ,
+            "Transfer-Encoding: chunked"})
+    @POST("first-aid-kit/medicines")
+    Call<MedicineResultDTO> register_medicine(@Body MedicineDTO medicineDTO);
 
     /** 약/DUR 정보 검색 **/
 

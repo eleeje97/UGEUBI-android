@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import duksung.android.hororok.ugeubi.R;
-import duksung.android.hororok.ugeubi.medicine.Medicine_data;
 
 public class Search_viewer extends LinearLayout {
 

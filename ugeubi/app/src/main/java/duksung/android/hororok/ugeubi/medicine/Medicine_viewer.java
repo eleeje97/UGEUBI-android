@@ -44,7 +44,7 @@ public class Medicine_viewer extends LinearLayout {
 
         }
 
-public void setItem(Medicine_data singerItem){
+public void setItem(MedicineDTO singerItem){
 
         medicine_icon.setImageResource(singerItem.getImage());
         medicine_name.setText(singerItem.getName());

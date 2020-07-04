@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 // 어댑터
 public class MedicineAdapter extends BaseAdapter {
-    ArrayList<Medicine_data> items = new ArrayList<Medicine_data>();
+    ArrayList<MedicineDTO> items = new ArrayList<MedicineDTO>();
     @Override
     public int getCount() {
         return items.size();
@@ -17,12 +17,12 @@ public class MedicineAdapter extends BaseAdapter {
 
 
     // 아이템 등록
-    public void addItem(Medicine_data data){
+    public void addItem(MedicineDTO data){
         items.add(data);
     }
 
     @Override
-    public Medicine_data getItem(int i) {
+    public MedicineDTO getItem(int i) {
         return items.get(i);
     }
 

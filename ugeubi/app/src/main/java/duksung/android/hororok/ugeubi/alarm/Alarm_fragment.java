@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import duksung.android.hororok.ugeubi.R;
-import duksung.android.hororok.ugeubi.medicine.Medicine_data;
 
 public class    Alarm_fragment extends Fragment {
 
