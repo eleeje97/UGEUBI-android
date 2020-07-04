@@ -197,10 +197,14 @@ public class Modify_pw extends Activity {
             public void onResponse(Call<NewPwDTO> call, Response<NewPwDTO> response) {
                 if(response.isSuccessful()){
 
+                    // 수정 페이지 액티비티 종료
+                    onBackPressed();
+
                     // 비밀번호 변경이 되었다면 다시 로그인으로?
                     Intent intent = new Intent(getApplicationContext(), Login.class);
                     startActivity(intent);
                     Toast.makeText(getApplicationContext(), "비밀번호 변경이 완료되었습니다!", Toast.LENGTH_SHORT).show();
+
                 }
 
                 else{
