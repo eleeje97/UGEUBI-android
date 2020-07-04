@@ -1,10 +1,10 @@
 package duksung.android.hororok.ugeubi.registerMedicine;
 
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -14,18 +14,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -34,14 +31,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import duksung.android.hororok.ugeubi.R;
-import duksung.android.hororok.ugeubi.medicine.MedicineAdapter;
+import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineDTO;
+import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineResultDTO;
 import duksung.android.hororok.ugeubi.medicine.Medicine_kit_fragment;
+import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
+import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegisterMedicine extends AppCompatActivity {
+
+    // retrofit
+    RetrofitInterface apiService;
+
+    public final String PREFERENCE = "ugeubi.preference";
+
+    // medicineDTO
+    MedicineDTO medicineDTO;
 
     // 약 이름 EditText
     EditText medicineName;
@@ -100,6 +110,10 @@ public class RegisterMedicine extends AppCompatActivity {
         setContentView(R.layout.activity_add_medicine);
 
         /************************** init ***************************/
+
+        // retrofit
+        apiService = RetrofitClient.getService();
+
         // 약 이름 EditText
         medicineName = findViewById(R.id.medicine_name);
 
@@ -161,6 +175,7 @@ public class RegisterMedicine extends AppCompatActivity {
         back_btn = findViewById(R.id.btn_back);
         add_btn = findViewById(R.id.btn_ok);
 
+
         /************************** init end ***************************/
 
 
@@ -179,7 +194,7 @@ public class RegisterMedicine extends AppCompatActivity {
                 case R.id.add_btn:
 
                     /** 약 등록 API 호출 **/
-
+                    //registerMedicine(new medicineDTO());
                     // 약 등록 후 > 우리집 구급상자 페이지로 이동
                     Intent intent = new Intent(getApplicationContext(), Medicine_kit_fragment.class);
                     startActivity(intent);
@@ -530,5 +545,26 @@ public class RegisterMedicine extends AppCompatActivity {
 
 
 
+    /** 약 등록 API 호출 **/
+    public void registerMedicine(MedicineDTO medicineDTO){
 
+        // token
+        SharedPreferences pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE);
+        String accessToken = "Bearer " + pref.getString("accessToken", "");
+        apiService.register_medicine(accessToken, medicineDTO).enqueue(new Callback<MedicineResultDTO>() {
+            @Override
+            public void onResponse(Call<MedicineResultDTO> call, Response<MedicineResultDTO> response) {
+                if(response.isSuccessful()){
+
+                    Log.i("info", "통신성공(register medicine)");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MedicineResultDTO> call, Throwable t) {
+                Log.e("error", "통신실패(register medicine)");
+            }
+        });
+
+    }
 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import duksung.android.hororok.ugeubi.R;
+import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineDTO;
 
 public class Medicine_viewer extends LinearLayout {
 

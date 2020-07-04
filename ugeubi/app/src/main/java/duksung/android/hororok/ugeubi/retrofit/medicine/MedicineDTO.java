@@ -1,4 +1,4 @@
-package duksung.android.hororok.ugeubi.medicine;
+package duksung.android.hororok.ugeubi.retrofit.medicine;
 
 import com.google.gson.annotations.SerializedName;
 

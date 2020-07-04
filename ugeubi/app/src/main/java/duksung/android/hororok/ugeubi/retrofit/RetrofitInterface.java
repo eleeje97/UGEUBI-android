@@ -1,7 +1,9 @@
 package duksung.android.hororok.ugeubi.retrofit;
 
-import duksung.android.hororok.ugeubi.medicine.MedicineDTO;
-import duksung.android.hororok.ugeubi.medicine.MedicineResultDTO;
+import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineDTO;
+import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineDetailDTO;
+import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineListDTO;
+import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineResultDTO;
 import duksung.android.hororok.ugeubi.retrofit.FInd.AuthenticationPwDTO;
 import duksung.android.hororok.ugeubi.retrofit.FInd.FindIdDTO;
 import duksung.android.hororok.ugeubi.retrofit.FInd.FindPwDTO;
@@ -106,7 +108,22 @@ public interface RetrofitInterface {
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @POST("first-aid-kit/medicines")
-    Call<MedicineResultDTO> register_medicine(@Body MedicineDTO medicineDTO);
+    Call<MedicineResultDTO> register_medicine(@Header("Authorization") String token, @Body MedicineDTO medicineDTO);
+
+    // 구급상자 약 리스트 조회
+    @Headers({
+            "Content-Type: application/json;charset=UTF-8" ,
+            "Transfer-Encoding: chunked"})
+    @GET("first-aid-kit/medicines")
+    Call<MedicineListDTO> getMedicineList();
+
+
+    @Headers({
+            "Content-Type: application/json;charset=UTF-8" ,
+            "Transfer-Encoding: chunked"})
+    @GET("first-aid-kit/medicines/1")
+    Call<MedicineDetailDTO> getMedicineDetailInfo();
+
 
     /** 약/DUR 정보 검색 **/
 

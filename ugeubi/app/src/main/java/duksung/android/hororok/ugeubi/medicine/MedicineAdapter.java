@@ -7,6 +7,8 @@ import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
 
+import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineDTO;
+
 // 어댑터
 public class MedicineAdapter extends BaseAdapter {
     ArrayList<MedicineDTO> items = new ArrayList<MedicineDTO>();
