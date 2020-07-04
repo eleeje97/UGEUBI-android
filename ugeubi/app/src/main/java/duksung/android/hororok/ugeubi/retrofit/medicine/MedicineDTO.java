@@ -22,6 +22,17 @@ public class MedicineDTO {
     @SerializedName("takingInfoDayDto")
     public TakingInfoDayDTO takingInfoDayDto;
 
+    public MedicineDTO(){}
+
+    public MedicineDTO(String medicineName, String medicineType, String medicineValidTerm, boolean isTaken, String memo, TakingInfoDayDTO takingInfoDayDTO){
+        this.medicineName = medicineName;
+        this.medicineType = medicineType;
+        this.medicineValidTerm = medicineValidTerm;
+        this.isTaken = isTaken;
+        this.memo = memo;
+        this.takingInfoDayDto = takingInfoDayDTO;
+    }
+
     public String getMedicineName() {
         return medicineName;
     }

@@ -29,8 +29,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import duksung.android.hororok.ugeubi.R;
@@ -39,6 +41,7 @@ import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineResultDTO;
 import duksung.android.hororok.ugeubi.medicine.Medicine_kit_fragment;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
+import duksung.android.hororok.ugeubi.retrofit.medicine.TakingInfoDayDTO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,7 +54,7 @@ public class RegisterMedicine extends AppCompatActivity {
     public final String PREFERENCE = "ugeubi.preference";
 
     // medicineDTO
-    MedicineDTO medicineDTO;
+    MedicineDTO medicineDTO = null;
 
     // 약 이름 EditText
     EditText medicineName;
@@ -187,17 +190,28 @@ public class RegisterMedicine extends AppCompatActivity {
 
                 // back_btn
                 case R.id.btn_back:
-                    onBackPressed();
+                    Toast.makeText(getApplicationContext(),"버튼 눌림",Toast.LENGTH_SHORT).show();
+
+                    // test
+                    List<String> t = new ArrayList<>();
+                    t.add("11:11:00");
+
+                    List<String> t2 = new ArrayList<>();
+                    t.add("화");
+
+                    /** 약 등록 API 호출 **/
+                    registerMedicine(new MedicineDTO("약이름","PILL","2020-04-02",true,"test"
+                            ,new TakingInfoDayDTO(t,t2,1)));
+                   // onBackPressed();
                     break;
 
                 // add_btn
                 case R.id.add_btn:
 
-                    /** 약 등록 API 호출 **/
-                    //registerMedicine(new medicineDTO());
+
                     // 약 등록 후 > 우리집 구급상자 페이지로 이동
-                    Intent intent = new Intent(getApplicationContext(), Medicine_kit_fragment.class);
-                    startActivity(intent);
+                    //Intent intent = new Intent(getApplicationContext(), Medicine_kit_fragment.class);
+                    //startActivity(intent);
 
                     break;
 
@@ -562,7 +576,7 @@ public class RegisterMedicine extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<MedicineResultDTO> call, Throwable t) {
-                Log.e("error", "통신실패(register medicine)");
+                Log.e("error", "통신실패(register medicine)" + t.getCause());
             }
         });
 
