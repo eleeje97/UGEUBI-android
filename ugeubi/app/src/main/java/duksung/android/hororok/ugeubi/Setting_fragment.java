@@ -82,7 +82,20 @@ public class Setting_fragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(getContext(), Login.class);
                         Toast.makeText(getContext(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+
+                        SharedPreferences pref = getActivity().getSharedPreferences(PREFERENCE, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("accessToken", "");
+                        editor.putString("userId", "");
+                        editor.putString("userPassword", "");
+                        editor.putString("userName", "");
+                        editor.putString("userEmail", "");
+                        editor.apply();
+
+
                         startActivity(intent);
+
+                        getActivity().finish();
                     }
                 }).show();
 

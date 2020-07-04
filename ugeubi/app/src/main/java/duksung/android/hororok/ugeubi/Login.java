@@ -89,19 +89,6 @@ public class Login extends Activity {
 
 
 
-        // 자동로그인
-        SharedPreferences pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE);
-        String userId = pref.getString("userId","");
-        String userPassword = pref.getString("userPassword", "");
-
-        Log.e("Auto-login", "userid: " + userId);
-        Log.e("Auto-login", "userPassword: " + userPassword);
-
-        if((userId.length() > 0) && (userPassword.length() > 0)) {
-            login(userId, userPassword);
-        }
-
-
     }
 
 

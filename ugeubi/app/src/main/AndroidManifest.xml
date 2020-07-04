@@ -14,13 +14,14 @@
         android:theme="@style/Theme.AppCompat.NoActionBar"
         android:usesCleartextTraffic="true" >
 
-        <activity android:name=".Login">
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Login"/>
         <activity android:name=".setting.Modify_pw"/>
         <activity android:name=".search.Search_Result"/>
         <activity android:name=".medicine.AddMedicine"/>
