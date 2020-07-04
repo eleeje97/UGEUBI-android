@@ -80,6 +80,37 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView"/>
 
             <TextView
+                android:id="@+id/memo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:textSize="15.5sp"
+                android:textColor="#040404"
+                android:text="메모"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/scrollView"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/medicone_memo"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:hint="ex) 진통제"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="6.3dp"
+                android:textColor="#040404"
+                android:paddingLeft="20dp"
+                android:singleLine="true"
+                android:background="@drawable/bg_search_shape"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"/>
+
+
+
+            <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -175,10 +206,10 @@
                         android:background="@drawable/durtype_togglebtn" />
 
                 </LinearLayout>
-                
+
             </LinearLayout>
 
-            
+
             <LinearLayout
                 android:id="@+id/generic_section"
                 android:visibility="visible"

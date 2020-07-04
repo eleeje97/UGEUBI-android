@@ -112,7 +112,6 @@ public class Modify_pw extends Activity {
             }
         });
 
-
         new_pw_cf.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -136,9 +135,6 @@ public class Modify_pw extends Activity {
         });
 
 
-
-
-
         // 확인 버튼이 눌렸을 때
         confirm_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,8 +156,6 @@ public class Modify_pw extends Activity {
                 }
             }
         });
-
-
 
         /** 이전 비밀번호 입력 체크 **/
         origin_pw.addTextChangedListener(new TextWatcher() {
@@ -205,12 +199,8 @@ public class Modify_pw extends Activity {
 
                     // 비밀번호 후 뒤로가기 > 세팅페이지로 이동됨
                     onBackPressed();
-
-
                     Toast.makeText(getApplicationContext(), "비밀번호 변경이 완료되었습니다!", Toast.LENGTH_SHORT).show();
-
                 }
-
                 else{
                     Toast.makeText(getApplicationContext(), "입력하신 정보를 확인해주세요!", Toast.LENGTH_SHORT).show();
                 }

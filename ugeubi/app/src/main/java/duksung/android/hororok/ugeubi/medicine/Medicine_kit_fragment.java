@@ -32,7 +32,7 @@ public class Medicine_kit_fragment  extends Fragment {
 
 
     // adapter
-    private Medicine_adapter medicine_adapter = null;
+    public MedicineAdapter medicine_adapter = null;
     private ListView listView = null;
 
 
@@ -62,30 +62,41 @@ public class Medicine_kit_fragment  extends Fragment {
         // 등록된 약이 없다는 멘트를 담은 레이아웃
         linearLayout = rootView.findViewById(R.id.medicine_kit_init);
 
+        // 어댑터 생성
+        medicine_adapter = new MedicineAdapter();
+
         // 약 추가 버튼이 클릭시
         add_btn.setOnClickListener(new View.OnClickListener() {
 
-            // 어댑터 생성
-            Medicine_adapter adapter = new Medicine_adapter();
             @Override
             public void onClick(View v) {
 
-                // 페이지 이동
+                // 약 등록하기 버튼 누름 > 약 등록 페이지로 이동
                 Intent intent = new Intent(getActivity(), RegisterMedicine.class);
                 startActivity(intent);
 
-                // 작동 확인
-                linearLayout.setVisibility(View.GONE);
-                gridView.setVisibility(View.VISIBLE);
+                // 등록된 약이 있다면 그리드뷰 활성화
+                //linearLayout.setVisibility(View.GONE);
+                //gridView.setVisibility(View.VISIBLE);
 
-                // 약 추가
-                //adapter.addItem(new Medicine_data("날짜1",R.drawable.medicine_icon_pill1,"타이레놀","해열 및 진통제"));
+                // 약 정보를 어댑터에 추가
+                //medicine_adapter.addItem(new Medicine_data("날짜1",R.drawable.medicine_icon_pill1,"타이레놀","해열 및 진통제"));
 
-
-                gridView.setAdapter(adapter);
-
+                // 그리드뷰에 등록된 약 아이템 추가
+                //gridView.setAdapter(adapter);
             }
         });
+
+
+        // 아이템 등록하기
+        //Intent intent = getActivity().getIntent();
+
+        /*
+        medicine_adapter.addItem(new Medicine_data("날짜", R.drawable.icon_pill3,
+                                 intent.getStringExtra("MedicineName"),
+                                 intent.getStringExtra("MedicineMemo")));
+        */
+
 
 
         // 그리드 뷰에 아이템 클릭시
@@ -106,37 +117,7 @@ public class Medicine_kit_fragment  extends Fragment {
     }
 
 
-    // 어댑터
-    class Medicine_adapter extends BaseAdapter {
-        ArrayList<Medicine_data> items = new ArrayList<Medicine_data>();
-        @Override
-        public int getCount() {
-            return items.size();
-        }
 
-
-        // 아이템 등록
-       public void addItem(Medicine_data data){
-            items.add(data);
-        }
-
-        @Override
-        public Medicine_data getItem(int i) {
-            return items.get(i);
-        }
-
-        @Override
-        public long getItemId(int i) {
-            return i;
-        }
-
-        @Override
-        public View getView(int i, View view, ViewGroup viewGroup) {
-            Medicine_viewer medicineViewer = new Medicine_viewer(getContext());
-            medicineViewer.setItem(items.get(i));
-            return medicineViewer;
-        }
-    }
 
 
 

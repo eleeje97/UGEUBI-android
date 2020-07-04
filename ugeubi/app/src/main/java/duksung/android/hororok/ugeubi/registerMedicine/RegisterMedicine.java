@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -37,6 +38,8 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import duksung.android.hororok.ugeubi.R;
+import duksung.android.hororok.ugeubi.medicine.MedicineAdapter;
+import duksung.android.hororok.ugeubi.medicine.Medicine_kit_fragment;
 
 public class RegisterMedicine extends AppCompatActivity {
 
@@ -86,6 +89,10 @@ public class RegisterMedicine extends AppCompatActivity {
 
     // section
     LinearLayout generic_section, prescription_section, takingType_section, takingDay_section, takingTerm_section, takingTime_section;
+
+
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -158,22 +165,28 @@ public class RegisterMedicine extends AppCompatActivity {
 
 
         // 뒤로가기 및 약 등록 버튼 리스너 설정
-        View.OnClickListener btn_listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        View.OnClickListener btn_listener = v -> {
 
-                // 버튼의 id를 받아와 동작
-                switch (v.getId()){
+            // 버튼의 id를 받아와 동작
+            switch (v.getId()){
 
-                    // back_btn
-                    case R.id.btn_back:
-                        onBackPressed();
-                        break;
+                // back_btn
+                case R.id.btn_back:
+                    onBackPressed();
+                    break;
 
-                    // add_btn
-                    case R.id.add_btn:
+                // add_btn
+                case R.id.add_btn:
 
-                }
+                    /** 약 등록 API 호출 **/
+
+                    // 약 등록 후 > 우리집 구급상자 페이지로 이동
+                    Intent intent = new Intent(getApplicationContext(), Medicine_kit_fragment.class);
+                    startActivity(intent);
+
+                    break;
+
+
             }
         };
 
