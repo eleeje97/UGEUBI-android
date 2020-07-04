@@ -32,7 +32,7 @@ public class Modify_pw extends Activity {
 
     Button back_btn, confirm_btn;
     EditText new_pw, new_pw_cf, origin_pw;
-    TextView password_txt;
+    TextView password_txt, userid_txt;
 
 
     // 비밀번호 체크
@@ -63,6 +63,9 @@ public class Modify_pw extends Activity {
         origin_pw = findViewById(R.id.origin_pw);
         password_txt = findViewById(R.id.pw_txt);
 
+        // userId
+        userid_txt =findViewById(R.id.modify_pw_userid);
+
         // 비밀번호 체크
         checked_pw = false;
         checked_origin_pw = false;
@@ -72,6 +75,9 @@ public class Modify_pw extends Activity {
         String userId = pref.getString("userId","");
         String userPassword = pref.getString("userPassword", "");
 
+
+        // 회원 아이디 정보 보여주기
+        userid_txt.setText(userId + "님의 \n 비밀번호를 변경합니다.");
 
         // 뒤로 가기 버튼이 눌렸을 때
         back_btn.setOnClickListener(new View.OnClickListener() {
@@ -197,12 +203,10 @@ public class Modify_pw extends Activity {
             public void onResponse(Call<NewPwDTO> call, Response<NewPwDTO> response) {
                 if(response.isSuccessful()){
 
-                    // 수정 페이지 액티비티 종료
+                    // 비밀번호 후 뒤로가기 > 세팅페이지로 이동됨
                     onBackPressed();
 
-                    // 비밀번호 변경이 되었다면 다시 로그인으로?
-                    Intent intent = new Intent(getApplicationContext(), Login.class);
-                    startActivity(intent);
+
                     Toast.makeText(getApplicationContext(), "비밀번호 변경이 완료되었습니다!", Toast.LENGTH_SHORT).show();
 
                 }
