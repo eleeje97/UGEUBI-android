@@ -86,6 +86,7 @@ public class Find_pw extends Activity {
 
 
 
+
         /** 아이디 입력 값 확인 **/
         userid.addTextChangedListener(new TextWatcher() {
             @Override
