@@ -71,7 +71,6 @@ public class Ugeubi_fragment extends Fragment {
 
 
         dose_list = rootView.findViewById(R.id.dose_list);
-        add_btn = rootView.findViewById(R.id.add_btn);
         calendarBtn = rootView.findViewById(R.id.calendar_btn);
         dateTextView = rootView.findViewById(R.id.date);
 
@@ -81,16 +80,10 @@ public class Ugeubi_fragment extends Fragment {
 
         ugeubiDialog = new UgeubiDialog(getContext(), positiveListener, negativeListener);
 
-        add_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ugeubiDialog.show();
-            }
-        });
 
 
-        /** 업데이트 **/
-        // 12시가 되면 api 호출?
+
+
 
 
         /** 캘린더 **/

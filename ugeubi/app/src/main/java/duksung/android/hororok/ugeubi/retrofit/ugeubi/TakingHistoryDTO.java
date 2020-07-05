@@ -7,8 +7,8 @@ public class TakingHistoryDTO {
     @SerializedName("id")
     public int id;
 
-    @SerializedName("user_id")
-    public int user_id;
+    @SerializedName("userId")
+    public int userId;
 
     @SerializedName("medicineId")
     public int medicineId;
@@ -36,12 +36,12 @@ public class TakingHistoryDTO {
         this.id = id;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getMedicineId() {
