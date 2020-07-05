@@ -1,6 +1,8 @@
 package duksung.android.hororok.ugeubi.alarm;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +13,29 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import duksung.android.hororok.ugeubi.R;
+import java.util.List;
 
-public class    Alarm_fragment extends Fragment {
+import duksung.android.hororok.ugeubi.R;
+import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
+import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
+import duksung.android.hororok.ugeubi.retrofit.alarm.NotificationDTO;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.Context.MODE_PRIVATE;
+
+public class Alarm_fragment extends Fragment {
 
     // 리사이클러 뷰와 어댑터
     RecyclerView recyclerView;
     Alarm_adapter alarm_adapter;
+
+    // retrofit
+    RetrofitInterface apiService;
+
+    public final String PREFERENCE = "ugeubi.preference";
+
 
     @Nullable
     @Override
@@ -31,8 +49,12 @@ public class    Alarm_fragment extends Fragment {
         alarm_adapter = new Alarm_adapter();
         recyclerView.setAdapter(alarm_adapter);
 
-        alarm_adapter.addItem(new Alarm_data("2020년06월18일","18:00AM","타이레놀 복용시간 입니다.","당일"));
 
+        apiService = RetrofitClient.getService();
+        getNotifications();
+
+        // Test
+        alarm_adapter.addItem(new Alarm_data("2020년06월18일","18:00AM","타이레놀 복용시간 입니다.","당일"));
         alarm_adapter.addItem(new Alarm_data("2020년06월16일","19:00AM","비타민D 복용시간 입니다.","2일전"));
 
 
@@ -40,6 +62,36 @@ public class    Alarm_fragment extends Fragment {
     }
 
 
+
+    /** 약 목록 조회 API 호출 **/
+    public void getNotifications(){
+
+        // token
+        SharedPreferences pref = getActivity().getSharedPreferences(PREFERENCE, MODE_PRIVATE);
+        String accessToken = "Bearer " + pref.getString("accessToken", "");
+        apiService.getNotifications(accessToken).enqueue(new Callback<List<NotificationDTO>>() {
+            @Override
+            public void onResponse(Call<List<NotificationDTO>> call, Response<List<NotificationDTO>> response) {
+                if(response.isSuccessful()){
+                    Log.i("info", "통신성공(register medicine)");
+                    List<NotificationDTO> apiResponse = response.body();
+
+                    for (NotificationDTO notificationDTO : apiResponse) {
+                        Log.e("Notification", "medicine_name: " + notificationDTO.medicine_name);
+                        Log.e("Notification", "notificatioin_date: " + notificationDTO.notification_date);
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<NotificationDTO>> call, Throwable t) {
+                Log.e("error", "통신실패(register medicine)" + t.getCause());
+            }
+        });
+
+    }
 
 
 }

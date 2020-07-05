@@ -4,12 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-/**
- * "medicine_id" : "2",
- *     "user_id" : "1",
- *     "notification_date" : "2015-04-18",
- *     "notification_type" : "valid_term"
- */
 public class NotificationDTO {
 
     @SerializedName("createdTime")

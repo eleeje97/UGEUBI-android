@@ -111,22 +111,14 @@ public interface RetrofitInterface {
 
     /** 알람 **/
 
-    // 알람 등록
-    @Headers({
-            "Content-Type: application/json;charset=UTF-8" ,
-            "Transfer-Encoding: chunked"})
-    @POST("notifications/registerNotifications")
-    Call<NotificationDTO> register_notification();
-
-
     // 알람 조회
-    /*
     @Headers({
-            "Content-Type: application/json;charset=UTF-8" ,
-            "Transfer-Encoding: chunked"})
-   @GET("getNotifications")
-    Call<> getNotification(@Header("Authorization") String token, @Path("medicineId") int medicineId);
-    */
+        "Content-Type: application/json;charset=UTF-8",
+        "Transfer-Encoding: chunked"})
+    @GET("getNotifications")
+    Call<List<NotificationDTO>> getNotifications(@Header("Authorization") String token);
+
+
 
     /** 우리집 구급상자 **/
 
