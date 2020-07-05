@@ -50,6 +50,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.view.View.VISIBLE;
+
 public class RegisterMedicine extends AppCompatActivity {
 
     // retrofit
@@ -113,7 +115,7 @@ public class RegisterMedicine extends AppCompatActivity {
 
 
     // section
-    LinearLayout generic_section, prescription_section, takingType_section, takingDay_section, takingTerm_section, takingTime_section;
+    LinearLayout expiration_date_section, isTaken_section, prescription_section, takingType_section, takingDay_section, takingTerm_section, takingTime_section;
 
 
     public String medicineType_txt = "";
@@ -200,7 +202,8 @@ public class RegisterMedicine extends AppCompatActivity {
         takingDoseNum = findViewById(R.id.taking_dose_num);
 
         // section
-        generic_section = findViewById(R.id.generic_section);
+        expiration_date_section = findViewById(R.id.expiration_date_section);
+        isTaken_section = findViewById(R.id.isTaken_section);
         prescription_section = findViewById(R.id.prescription_section);
         takingType_section = findViewById(R.id.taking_type_section);
         takingDay_section = findViewById(R.id.taking_day_section);
@@ -317,6 +320,11 @@ public class RegisterMedicine extends AppCompatActivity {
                     // 연고, 물약, 가루약 확인
                     if(medicineType_txt.equals("CREAM") || medicineType_txt.equals("LIQUID") || medicineType_txt.equals("POWDER")  ){
                         takingDoseNum.setText("0");
+                    }
+
+
+                    if(medicineType_txt.equals("PRESCRIPTION")){
+                        isTaken = true;
                     }
 
 
@@ -491,7 +499,8 @@ public class RegisterMedicine extends AppCompatActivity {
             takingTerm_section.setVisibility(View.GONE);
             takingTime_section.setVisibility(View.GONE);
             prescription_section.setVisibility(View.GONE);
-            generic_section.setVisibility(View.VISIBLE);
+            expiration_date_section.setVisibility(VISIBLE);
+            isTaken_section.setVisibility(VISIBLE);
             takingBtnGroup.check(R.id.notTakingBtn);
 
 
@@ -502,8 +511,8 @@ public class RegisterMedicine extends AppCompatActivity {
                     medicineType_txt = "PILL";
                     textView3.setText("유통기한");
                     takingMedicine_q.setText("언제 약을 복용하시나요?");
-                    medicinetext.setVisibility(View.VISIBLE); // 몇 알 복용
-                    takinglayout.setVisibility(View.VISIBLE);
+                    medicinetext.setVisibility(VISIBLE); // 몇 알 복용
+                    takinglayout.setVisibility(VISIBLE);
                     break ;
                 case R.id.liquidMedicine :
                     liquidMedicine.setChecked(true);
@@ -534,11 +543,12 @@ public class RegisterMedicine extends AppCompatActivity {
                     medicineType_txt = "PRESCRIPTION";
                     textView3.setText("최종복용일");
                     takingMedicine_q.setText("언제 약을 사용하시나요?");
-                    takingType_section.setVisibility(View.VISIBLE);
-                    takingDay_section.setVisibility(View.VISIBLE);
-                    takingTime_section.setVisibility(View.VISIBLE);
+                    takingType_section.setVisibility(VISIBLE);
+                    takingDay_section.setVisibility(VISIBLE);
+                    takingTime_section.setVisibility(VISIBLE);
                     medicinetext.setVisibility(View.GONE);
                     takinglayout.setVisibility(View.GONE);
+                    isTaken_section.setVisibility(View.GONE);
                     break ;
             }
         }
@@ -561,9 +571,9 @@ public class RegisterMedicine extends AppCompatActivity {
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if(checkedId == R.id.takingBtn) {
                 isTaken = true;
-                takingType_section.setVisibility(View.VISIBLE);
-                takingDay_section.setVisibility(View.VISIBLE);
-                takingTime_section.setVisibility(View.VISIBLE);
+                takingType_section.setVisibility(VISIBLE);
+                takingDay_section.setVisibility(VISIBLE);
+                takingTime_section.setVisibility(VISIBLE);
                 takingTypeBtnGroup.check(R.id.dayOption);
             } else {
                 isTaken = false;
@@ -582,10 +592,10 @@ public class RegisterMedicine extends AppCompatActivity {
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if(checkedId == R.id.dayOption) {
                 takingTerm_section.setVisibility(View.GONE);
-                takingDay_section.setVisibility(View.VISIBLE);
+                takingDay_section.setVisibility(VISIBLE);
             } else {
                 takingDay_section.setVisibility(View.GONE);
-                takingTerm_section.setVisibility(View.VISIBLE);
+                takingTerm_section.setVisibility(VISIBLE);
             }
         }
     }
