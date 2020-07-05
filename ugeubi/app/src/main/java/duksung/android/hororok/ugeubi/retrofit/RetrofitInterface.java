@@ -15,6 +15,7 @@ import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchDTO;
 import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchResultDTO;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -127,6 +128,9 @@ public interface RetrofitInterface {
     @GET("first-aid-kit/medicines/{medicineId}")
     Call<MedicineItemDTO> getMedicineDetailInfo(@Header("Authorization") String token, @Path("medicineId") int medicineId);
 
+    // 구급상자 약 삭제
+    @DELETE("first-aid-kit/medicines/{medicineId}")
+    Call<Void> deleteMedicine(@Header("Authorization") String token, @Path("medicineId") int medicineId);
 
     /** 약/DUR 정보 검색 **/
 

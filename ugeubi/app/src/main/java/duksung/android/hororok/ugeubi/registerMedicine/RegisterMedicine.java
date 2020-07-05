@@ -343,6 +343,9 @@ public class RegisterMedicine extends AppCompatActivity {
                         break;
 
                     }
+                    else{
+                        Toast.makeText(getApplicationContext(),"입력란을 확인하세요!",Toast.LENGTH_SHORT).show();
+                    }
 
 
 
