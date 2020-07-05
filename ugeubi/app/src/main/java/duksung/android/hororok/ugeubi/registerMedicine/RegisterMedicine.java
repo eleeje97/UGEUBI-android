@@ -1,6 +1,7 @@
 package duksung.android.hororok.ugeubi.registerMedicine;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +41,7 @@ import java.util.Locale;
 
 import duksung.android.hororok.ugeubi.MainActivity;
 import duksung.android.hororok.ugeubi.R;
+import duksung.android.hororok.ugeubi.retrofit.alarm.NotificationDTO;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineDTO;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineResultDTO;
 import duksung.android.hororok.ugeubi.medicine.Medicine_kit_fragment;
@@ -341,10 +343,13 @@ public class RegisterMedicine extends AppCompatActivity {
                         Log.i("info","약 메모 : " + memo.getText().toString());
 
 
+
+
                         registerMedicine(new MedicineDTO(medicineName.getText().toString(),
                                 medicineType_txt, medicineValidterm, isTaken,
                                 memo.getText().toString(), new TakingInfoDayDTO(takingTime,
                                 takingDayOfWeek, Integer.parseInt(takingDoseNum.getText().toString()))));
+
 
                         // 약 등록 후 > 우리집 구급상자 페이지로 이동
 
@@ -750,9 +755,10 @@ public class RegisterMedicine extends AppCompatActivity {
 
                 if(response.isSuccessful()){
 
-
+                    registerNotification(new NotificationDTO());
                     Log.i("info", "통신성공(register medicine)");
                     finish();
+                    //getSupportFragmentManager().findFragmentById(R.id)
 
                 }
 
@@ -767,5 +773,24 @@ public class RegisterMedicine extends AppCompatActivity {
             }
         });
 
+    }
+
+    /** 알람 등록 API 호출 **/
+    public void registerNotification(NotificationDTO notificationDTO){
+
+        apiService.register_notification(notificationDTO).enqueue(new Callback<NotificationDTO>() {
+            @Override
+            public void onResponse(Call<NotificationDTO> call, Response<NotificationDTO> response) {
+
+                if(response.isSuccessful()){
+                    Log.i("info", "통신성공(register medicine)");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotificationDTO> call, Throwable t) {
+                Log.e("error", "통신실패(register notification)" + t.getCause());
+            }
+        });
     }
 }

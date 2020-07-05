@@ -556,7 +556,11 @@
 
             </LinearLayout>
 
-
+            <LinearLayout
+                android:id="@+id/delete_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
             <TextView
                 android:layout_marginTop="100dp"
                 android:layout_marginBottom="30dp"
@@ -564,17 +568,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textSize="12.5sp"
+                android:textStyle="bold"
                 android:textColor="@color/mainColor"
                 android:letterSpacing="0.08"
                 android:lineSpacingExtra="6sp"
                 android:text="삭제하기" />
 
             <View
-                android:layout_width="50dp"
-                android:layout_height="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
                 android:background="@color/mainColor"/>
 
-
+            </LinearLayout>
 
 
         </LinearLayout>

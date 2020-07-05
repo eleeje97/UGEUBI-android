@@ -1,5 +1,6 @@
 package duksung.android.hororok.ugeubi.retrofit;
 
+import duksung.android.hororok.ugeubi.retrofit.alarm.NotificationDTO;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineDTO;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineDetailDTO;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineItemDTO;
@@ -104,6 +105,25 @@ public interface RetrofitInterface {
     Call<NewPwDTO> setNewPW(@Body NewPwDTO newPwDto);
 
 
+    /** 알람 **/
+
+    // 알람 등록
+    @Headers({
+            "Content-Type: application/json;charset=UTF-8" ,
+            "Transfer-Encoding: chunked"})
+    @POST("notifications/registerNotifications")
+    Call<NotificationDTO> register_notification(@Body NotificationDTO notificationDto);
+
+
+    // 알람 조회
+    /*
+    @Headers({
+            "Content-Type: application/json;charset=UTF-8" ,
+            "Transfer-Encoding: chunked"})
+   @GET("getNotifications")
+    Call<> getNotification(@Header("Authorization") String token, @Path("medicineId") int medicineId);
+    */
+
     /** 우리집 구급상자 **/
 
     // 구급상자 약등록
@@ -132,7 +152,17 @@ public interface RetrofitInterface {
     @DELETE("first-aid-kit/medicines/{medicineId}")
     Call<Void> deleteMedicine(@Header("Authorization") String token, @Path("medicineId") int medicineId);
 
-    /** 약/DUR 정보 검색 **/
+
+    /** 메인 **/
+
+    @GET("taking/getTakingHistory?date=2020-07-04")
+    Call<Void> getTakingHistory();
+
+
+
+
+
+   /** 약/DUR 정보 검색 **/
 
     // 일반검색
     @Headers({

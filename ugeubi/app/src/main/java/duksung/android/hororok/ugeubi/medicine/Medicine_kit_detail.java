@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
@@ -46,6 +47,10 @@ public class Medicine_kit_detail extends Activity {
     ToggleButton mon, tue, wed, thu, fri, sat, sun;
     EditText taking_dose_num;
 
+    // 삭제 버튼
+    LinearLayout delete_btn;
+
+
     RadioGroup takingBtnGroup;
 
     RecyclerView takingTimeList;
@@ -64,6 +69,8 @@ public class Medicine_kit_detail extends Activity {
 
         /** init **/
 
+
+        delete_btn = findViewById(R.id.delete_btn);
         back_btn = findViewById(R.id.btn_back);
         medicine_name = findViewById(R.id.medicine_name);
         medicine_memo = findViewById(R.id.medicine_memo);
@@ -103,13 +110,25 @@ public class Medicine_kit_detail extends Activity {
         /** init end **/
 
 
+        Intent intent = getIntent();
+        int medicineId = intent.getIntExtra("medicineId", 0);
+        getMedicineDetailInfo(medicineId);
+
+
+        delete_btn.setOnClickListener(v -> {
+
+            /** deleteAPI 호출 **/
+
+            deleteMedicine(medicineId);
+
+        });
+
+
+
         // 뒤로가기 버튼이 눌렸다면
-        back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 뒤로가기 함수 호출
-                onBackPressed();
-            }
+        back_btn.setOnClickListener(v -> {
+            // 뒤로가기 함수 호출
+            onBackPressed();
         });
 
 
@@ -127,9 +146,7 @@ public class Medicine_kit_detail extends Activity {
         takingBtnGroup.setOnCheckedChangeListener(takingBtnOnClickListener);
 
 
-        Intent intent = getIntent();
-        int medicineId = intent.getIntExtra("medicineId", 0);
-        getMedicineDetailInfo(medicineId);
+
 
     }
 
@@ -200,22 +217,14 @@ public class Medicine_kit_detail extends Activity {
                             takingTimeListAdapter.addItem(time.substring(0,5));
                         }
 
-
                     }
-
-
-
-
-
-
-
 
                 }
             }
 
             @Override
             public void onFailure(Call<MedicineItemDTO> call, Throwable t) {
-                Log.e("error", "통신실패(register medicine)" + t.getCause());
+                Log.e("error", "통신실패(register detail)" + t.getCause());
             }
         });
 
@@ -287,6 +296,32 @@ public class Medicine_kit_detail extends Activity {
         }
 
     }
+
+
+    public void deleteMedicine(int medicineID){
+
+
+        SharedPreferences pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE);
+        String accessToken = "Bearer " + pref.getString("accessToken", "");
+        apiService.deleteMedicine(accessToken,medicineID).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+
+                    finish();
+                    Toast.makeText(getApplicationContext(), "해당 약이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("error", "통신실패(register medicine)" + t.getCause());
+            }
+        });
+    }
+
 
 }
 
