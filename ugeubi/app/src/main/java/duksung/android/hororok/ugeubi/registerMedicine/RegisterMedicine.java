@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -57,7 +58,7 @@ public class RegisterMedicine extends AppCompatActivity {
     MedicineDTO medicineDTO = null;
 
     // 약 이름 EditText
-    EditText medicineName;
+    EditText medicineName, memo;
 
     // 약 종류 버튼
     ToggleButton pill, liquidMedicine, powderedMedicine, ointment, prescriptionDrug;
@@ -104,7 +105,12 @@ public class RegisterMedicine extends AppCompatActivity {
     LinearLayout generic_section, prescription_section, takingType_section, takingDay_section, takingTerm_section, takingTime_section;
 
 
-
+    public String medicineType_txt = "";
+    public String medicineValidterm = "";
+    public boolean isTaken = false;
+    public Date date_txt;
+    public List<String> takingTime;
+    public List<String> takingDayOfWeek;
 
 
     @Override
@@ -119,6 +125,9 @@ public class RegisterMedicine extends AppCompatActivity {
 
         // 약 이름 EditText
         medicineName = findViewById(R.id.medicine_name);
+
+        // 약 메모
+        memo = findViewById(R.id.medicine_memo);
 
         // 약 종류 버튼
         pill = findViewById(R.id.pill);
@@ -190,28 +199,44 @@ public class RegisterMedicine extends AppCompatActivity {
 
                 // back_btn
                 case R.id.btn_back:
-                    Toast.makeText(getApplicationContext(),"버튼 눌림",Toast.LENGTH_SHORT).show();
 
-                    // test
-                    List<String> t = new ArrayList<>();
-                    t.add("11:11:00");
 
-                    List<String> t2 = new ArrayList<>();
-                    t.add("화");
+                    // 날짜 포맷
+                    try {
+                        date_txt = new SimpleDateFormat("yyyy년 MM월 dd일").parse(expirationDate.getText().toString());
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        medicineValidterm = sdf.format(date_txt);
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
 
                     /** 약 등록 API 호출 **/
-                    registerMedicine(new MedicineDTO("약이름","PILL","2020-04-02",true,"test"
-                            ,new TakingInfoDayDTO(t,t2,1)));
-                   // onBackPressed();
+
+                    Log.i("info","약이름 : " + medicineName.getText().toString());
+                    Log.i("info","약타입 : " + medicineType_txt);
+                    Log.i("info","약유통기한 : " + medicineValidterm);
+                    Log.i("info","약 복용유무 : " + isTaken);
+                    Log.i("info","약 메모 : " + memo.getText().toString());
+
+                    registerMedicine(new MedicineDTO(medicineName.getText().toString(),
+                            medicineType_txt, medicineValidterm, isTaken,
+                            memo.getText().toString(), new TakingInfoDayDTO(null,
+                            null,
+                            Integer.parseInt(takingDoseNum.getText().toString()))));
+
+                    // 약 등록 후 > 우리집 구급상자 페이지로 이동
+
+                    finish();
+
+
+
                     break;
 
                 // add_btn
                 case R.id.add_btn:
 
-
-                    // 약 등록 후 > 우리집 구급상자 페이지로 이동
-                    //Intent intent = new Intent(getApplicationContext(), Medicine_kit_fragment.class);
-                    //startActivity(intent);
+                    onBackPressed();
 
                     break;
 
@@ -240,6 +265,7 @@ public class RegisterMedicine extends AppCompatActivity {
 
         // 유통기한 DatePickerDialog
         Date currentTime = Calendar.getInstance().getTime();
+        medicineValidterm = new SimpleDateFormat("yyyy-mm-dd",Locale.getDefault()).format(currentTime);
         String today = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault()).format(currentTime);
         expirationDate.setText(today);
 
@@ -249,6 +275,7 @@ public class RegisterMedicine extends AppCompatActivity {
             @Override
             public void onPositiveClicked(int yy, int mm, int dd) {
                 expirationDate.setText(yy + "년 " + mm + "월 " + dd + "일");
+                // medicineValidterm = yy + "-" + mm + "-" + dd ;
             }
 
             @Override
@@ -356,21 +383,27 @@ public class RegisterMedicine extends AppCompatActivity {
             takingBtnGroup.check(R.id.notTakingBtn);
 
 
+            //PILL(알약),LIQUID(물약), POWDER(가루약),CREAM(연고), PRESCRIPTION(처방약)
             switch (view.getId()) {
                 case R.id.pill :
                     pill.setChecked(true);
+                    medicineType_txt = "PILL";
                     break ;
                 case R.id.liquidMedicine :
                     liquidMedicine.setChecked(true);
+                    medicineType_txt = "LIQUID";
                     break ;
                 case R.id.powderedMedicine :
                     powderedMedicine.setChecked(true);
+                    medicineType_txt = "POWDER";
                     break ;
                 case R.id.ointment :
                     ointment.setChecked(true);
+                    medicineType_txt = "CREAM";
                     break ;
                 case R.id.prescriptionDrug :
                     prescriptionDrug.setChecked(true);
+                    medicineType_txt = "PRESCRIPTION";
                     generic_section.setVisibility(View.GONE);
                     prescription_section.setVisibility(View.VISIBLE);
                     takingType_section.setVisibility(View.VISIBLE);
@@ -397,11 +430,13 @@ public class RegisterMedicine extends AppCompatActivity {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             if(checkedId == R.id.takingBtn) {
+                isTaken = true;
                 takingType_section.setVisibility(View.VISIBLE);
                 takingDay_section.setVisibility(View.VISIBLE);
                 takingTime_section.setVisibility(View.VISIBLE);
                 takingTypeBtnGroup.check(R.id.dayOption);
             } else {
+                isTaken = false;
                 takingType_section.setVisibility(View.GONE);
                 takingDay_section.setVisibility(View.GONE);
                 takingTerm_section.setVisibility(View.GONE);
@@ -566,8 +601,12 @@ public class RegisterMedicine extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE);
         String accessToken = "Bearer " + pref.getString("accessToken", "");
         apiService.register_medicine(accessToken, medicineDTO).enqueue(new Callback<MedicineResultDTO>() {
+
             @Override
             public void onResponse(Call<MedicineResultDTO> call, Response<MedicineResultDTO> response) {
+
+                Log.e("error","code : " + response.code());
+
                 if(response.isSuccessful()){
 
                     Log.i("info", "통신성공(register medicine)");

@@ -33,7 +33,7 @@ public class MedicineResultDTO {
     public String medicineName;
 
     @SerializedName("medicineType")
-    public MedicineType medicineType;
+    public String medicineType;
 
     @SerializedName("medicineValidTerm")
     public String medicineValidTerm;
@@ -63,11 +63,11 @@ public class MedicineResultDTO {
         this.medicineName = medicineName;
     }
 
-    public MedicineType getMedicineType() {
+    public String  getMedicineType() {
         return medicineType;
     }
 
-    public void setMedicineType(MedicineType medicineType) {
+    public void setMedicineType(String medicineType) {
         this.medicineType = medicineType;
     }
 
