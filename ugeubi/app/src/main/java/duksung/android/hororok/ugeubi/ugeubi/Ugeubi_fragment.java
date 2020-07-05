@@ -25,12 +25,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import duksung.android.hororok.ugeubi.R;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
+import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineItemDTO;
 import duksung.android.hororok.ugeubi.retrofit.ugeubi.TakingHistoryDTO;
+import duksung.android.hororok.ugeubi.retrofit.ugeubi.TakingHistoryListDTO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -75,7 +78,6 @@ public class Ugeubi_fragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         dose_list.setLayoutManager(layoutManager);
         adapter = new DoseListAdapter(getContext());
-        dose_list.setAdapter(adapter);
 
         ugeubiDialog = new UgeubiDialog(getContext(), positiveListener, negativeListener);
 
@@ -120,7 +122,7 @@ public class Ugeubi_fragment extends Fragment {
 
 
                     /** 약 알림 기록 API 호출 **/
-                    //getTakingHistory(date_txt);
+                    getTakingHistory(date_txt);
 
 
                 }
@@ -135,12 +137,7 @@ public class Ugeubi_fragment extends Fragment {
         });
 
 
-        // Test 코드
-        adapter.addItem("7:00", "비타민 D", "2알 복용하세요", false);
-        adapter.addItem("8:00", "타이레놀", "2알 복용하세요", false);
 
-        adapter.addItem("7:00", "비타민 D", "2알 복용하세요", true);
-        adapter.addItem("8:00", "타이레놀", "2알 복용하세요", true);
 
         return rootView;
     }
@@ -161,53 +158,44 @@ public class Ugeubi_fragment extends Fragment {
     };
 
 
-/*
+
     public void getTakingHistory(String date){
 
         SharedPreferences pref = getActivity().getSharedPreferences(PREFERENCE, MODE_PRIVATE);
         String accessToken = "Bearer " + pref.getString("accessToken", "");
-        apiService.getTakingHistory(accessToken,date).enqueue(new Callback<TakingHistoryDTO>() {
+        apiService.getTakingHistory(accessToken,date).enqueue(new Callback <TakingHistoryListDTO>() {
             @Override
-            public void onResponse(Call<TakingHistoryDTO> call, Response<TakingHistoryDTO> response) {
+            public void onResponse(Call<TakingHistoryListDTO> call, Response<TakingHistoryListDTO> response) {
 
 
                 Log.e("error", "code : " + response.code());
 
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
 
-                    Log.i("info", "통신성공(업데이트알람)");
+                    TakingHistoryListDTO dto = response.body();
+
+                    for (TakingHistoryDTO takingHistoryDTO : dto.getItems()) {
+                        Log.i("medicine_kit", "이름: " + takingHistoryDTO.getMedicineName());
+                        Log.i("medicine_kit", "몇시: " + takingHistoryDTO.getTakingTime());
+                        Log.i("medicine_kit", "몇알: " + takingHistoryDTO.getTakingNumber());
+                        adapter.addItem(takingHistoryDTO.takingTime,
+                                takingHistoryDTO.medicineName,
+                                takingHistoryDTO.takingNumber,
+                                takingHistoryDTO.taking_history_is_taken);
+                        adapter.notifyDataSetChanged();
+                        dose_list.setAdapter(adapter);
+
+                        Log.i("info", "통신성공(업데이트알람)");
+                    }
                 }
             }
 
             @Override
-            public void onFailure(Call<TakingHistoryDTO> call, Throwable t) {
-
+            public void onFailure(Call<TakingHistoryListDTO> call, Throwable t) {
                 Log.e("error", "통신실패(업데이트알람)"+ t.getMessage() + t.getCause());
-
-            }
-        });
-
-    }
-
-*/
-
-    /** 업데이트 API **/
-    public void updateAlarm(){
-
-        SharedPreferences pref = getActivity().getSharedPreferences(PREFERENCE, MODE_PRIVATE);
-        String accessToken = "Bearer " + pref.getString("accessToken", "");
-        apiService.updateAlarm(accessToken).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if(response.isSuccessful()){
-                    Log.i("info", "통신성공(업데이트)");
-                }
             }
 
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Log.e("error", "통신실패(업데이트)");
-            }
         });
     }
+
 }

@@ -17,6 +17,7 @@ import duksung.android.hororok.ugeubi.retrofit.Login.LoginResultDTO;
 import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchDTO;
 import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchResultDTO;
 import duksung.android.hororok.ugeubi.retrofit.ugeubi.TakingHistoryDTO;
+import duksung.android.hororok.ugeubi.retrofit.ugeubi.TakingHistoryListDTO;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -164,7 +165,7 @@ public interface RetrofitInterface {
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @GET("taking/getTakingHistory")
-    Call<List<TakingHistoryDTO>> getTakingHistory(@Header("Authorization") String token, @Query("date") String date);
+    Call<TakingHistoryListDTO> getTakingHistory(@Header("Authorization") String token, @Query("date") String date);
 
 
     // 12시 업데이트
