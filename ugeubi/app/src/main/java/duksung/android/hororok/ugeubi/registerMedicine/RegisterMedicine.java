@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -81,10 +83,13 @@ public class RegisterMedicine extends AppCompatActivity {
 
     // 요일 버튼
     ToggleButton mon, tue, wed, thu, fri, sat, sun;
-     ToggleButton[] week = new ToggleButton[7];
+    ToggleButton[] week = new ToggleButton[7];
 
 
+    // 언제 약을 복용하시나요
+    TextView takingMedicine_q, medicinetext;
 
+    LinearLayout takinglayout;
 
     // 복용간격 버튼
     ToggleButton term_everyday, term2, term3, term4, term5, term6, term_week;
@@ -100,7 +105,8 @@ public class RegisterMedicine extends AppCompatActivity {
 
     // 약 복용갯수 EditText
     EditText takingDoseNum;
-    String takingDoseNum_input = "";
+
+    TextView textView3;
 
     // 취소 및 등록 버튼
     Button back_btn, add_btn;
@@ -119,6 +125,9 @@ public class RegisterMedicine extends AppCompatActivity {
     public List<String> takingDayOfWeek;
 
 
+    public boolean checkedName = false;
+    public boolean checkedTakingNum = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,7 +144,14 @@ public class RegisterMedicine extends AppCompatActivity {
         // 약 메모
         memo = findViewById(R.id.medicine_memo);
 
-        // 약 종류 버튼
+        takingMedicine_q = findViewById(R.id.textView6);
+        medicinetext = findViewById(R.id.textView7);
+        takinglayout = findViewById(R.id.taking_layout);
+        textView3 = findViewById(R.id.textView3);
+
+
+
+                // 약 종류 버튼
         pill = findViewById(R.id.pill);
         liquidMedicine = findViewById(R.id.liquidMedicine);
         powderedMedicine = findViewById(R.id.powderedMedicine);
@@ -163,9 +179,9 @@ public class RegisterMedicine extends AppCompatActivity {
         week[5] = findViewById(R.id.sat);
         week[6] = findViewById(R.id.sun);
 
-        // 요일버튼 배열
 
         // 복용간격 버튼
+        /*
         term_everyday = findViewById(R.id.term_everyday);
         term2 = findViewById(R.id.term_2);
         term3 = findViewById(R.id.term_3);
@@ -173,7 +189,7 @@ public class RegisterMedicine extends AppCompatActivity {
         term5 = findViewById(R.id.term_5);
         term6 = findViewById(R.id.term_6);
         term_week = findViewById(R.id.term_week);
-
+        */
         // 약 복용횟수 스피너
         spinner = findViewById(R.id.taking_num_spinner);
 
@@ -196,7 +212,55 @@ public class RegisterMedicine extends AppCompatActivity {
         add_btn = findViewById(R.id.btn_ok);
 
 
+
         /************************** init end ***************************/
+
+
+
+        medicineName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(medicineName.getText().toString().length() != 0){
+                    checkedName = true;
+                }
+                else{
+                    checkedName = false;
+                }
+            }
+        });
+
+        takingDoseNum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(takingDoseNum.getText().toString().length() != 0){
+                    checkedTakingNum = true;
+                }
+                else{
+                    checkedTakingNum = false;
+                }
+            }
+        });
+
 
 
         // 뒤로가기 및 약 등록 버튼 리스너 설정
@@ -207,10 +271,10 @@ public class RegisterMedicine extends AppCompatActivity {
 
                 // back_btn
                 case R.id.btn_back:
-
                     onBackPressed();
-
                     break;
+
+
 
                 // add_btn
                 case R.id.btn_ok:
@@ -221,9 +285,7 @@ public class RegisterMedicine extends AppCompatActivity {
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                         medicineValidterm = sdf.format(date_txt);
 
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
+                    } catch (ParseException e) { e.printStackTrace(); }
 
                     // 선택된 날짜 리스트에 저장
                     int count = 0;
@@ -247,30 +309,42 @@ public class RegisterMedicine extends AppCompatActivity {
                     int countList = takingTimeListAdapter.getList().size();
                     takingTimeDataList = takingTimeListAdapter.getList();
                     takingTime = new ArrayList<>(countList);
+
                     for(TakingTimeData takingTimeData : takingTimeDataList){
                         takingTime.add(takingTimeData.time);
                     }
 
-
-                    /** 약 등록 API 호출 **/
-
-                    Log.i("info","약이름 : " + medicineName.getText().toString());
-                    Log.i("info","약타입 : " + medicineType_txt);
-                    Log.i("info","약유통기한 : " + medicineValidterm);
-                    Log.i("info","약 복용유무 : " + isTaken);
-                    Log.i("info","약 날짜 : " + takingDayOfWeek.size());
-                    Log.i("info","약 시간 : " + takingTime.size());
-                    Log.i("info","약 메모 : " + memo.getText().toString());
+                    // 연고, 물약, 가루약 확인
+                    if(medicineType_txt.equals("CREAM") || medicineType_txt.equals("LIQUID") || medicineType_txt.equals("POWDER")  ){
+                        takingDoseNum.setText("0");
+                    }
 
 
-                    registerMedicine(new MedicineDTO(medicineName.getText().toString(),
-                            medicineType_txt, medicineValidterm, isTaken,
-                            memo.getText().toString(), new TakingInfoDayDTO(takingTime,
-                            takingDayOfWeek, Integer.parseInt(takingDoseNum.getText().toString()))));
+                    if(takingDoseNum.getText().length() !=0 && medicineName.getText().length() != 0){
 
-                    // 약 등록 후 > 우리집 구급상자 페이지로 이동
+                        /** 약 등록 API 호출 **/
 
-                    break;
+                        Log.i("info","약이름 : " + medicineName.getText().toString());
+                        Log.i("info","약타입 : " + medicineType_txt);
+                        Log.i("info","약유통기한 : " + medicineValidterm);
+                        Log.i("info","약 복용유무 : " + isTaken);
+                        Log.i("info","약 날짜 : " + takingDayOfWeek.size());
+                        Log.i("info","약 시간 : " + takingTime.size());
+                        Log.i("info","약 메모 : " + memo.getText().toString());
+
+
+                        registerMedicine(new MedicineDTO(medicineName.getText().toString(),
+                                medicineType_txt, medicineValidterm, isTaken,
+                                memo.getText().toString(), new TakingInfoDayDTO(takingTime,
+                                takingDayOfWeek, Integer.parseInt(takingDoseNum.getText().toString()))));
+
+                        // 약 등록 후 > 우리집 구급상자 페이지로 이동
+
+                        break;
+
+                    }
+
+
 
 
 
@@ -336,6 +410,7 @@ public class RegisterMedicine extends AppCompatActivity {
         takingTypeBtnGroup.setOnCheckedChangeListener(takingTypeBtnOnClickListener);
 
         // 복용간격 버튼 리스너
+        /*
         TakingTermBtnOnClickListener takingTermBtnOnClickListener = new TakingTermBtnOnClickListener();
         term_everyday.setOnClickListener(takingTermBtnOnClickListener);
         term2.setOnClickListener(takingTermBtnOnClickListener);
@@ -344,7 +419,7 @@ public class RegisterMedicine extends AppCompatActivity {
         term5.setOnClickListener(takingTermBtnOnClickListener);
         term6.setOnClickListener(takingTermBtnOnClickListener);
         term_week.setOnClickListener(takingTermBtnOnClickListener);
-
+        */
 
         // 약 복용횟수 스피너에 아이템 담기
         String[] item = {"1번", "2번", "3번", "4번", "5번"};
@@ -422,27 +497,45 @@ public class RegisterMedicine extends AppCompatActivity {
                 case R.id.pill :
                     pill.setChecked(true);
                     medicineType_txt = "PILL";
+                    textView3.setText("유통기한");
+                    takingMedicine_q.setText("언제 약을 복용하시나요?");
+                    medicinetext.setVisibility(View.VISIBLE); // 몇 알 복용
+                    takinglayout.setVisibility(View.VISIBLE);
                     break ;
                 case R.id.liquidMedicine :
                     liquidMedicine.setChecked(true);
                     medicineType_txt = "LIQUID";
+                    textView3.setText("유통기한");
+                    takingMedicine_q.setText("언제 약을 복용하시나요?");
+                    medicinetext.setVisibility(View.GONE); // 몇 알 복용
+                    takinglayout.setVisibility(View.GONE);
                     break ;
                 case R.id.powderedMedicine :
                     powderedMedicine.setChecked(true);
                     medicineType_txt = "POWDER";
+                    textView3.setText("유통기한");
+                    takingMedicine_q.setText("언제 약을 복용하시나요?");
+                    medicinetext.setVisibility(View.GONE); // 몇 알 복용
+                    takinglayout.setVisibility(View.GONE);
                     break ;
                 case R.id.ointment :
                     ointment.setChecked(true);
                     medicineType_txt = "CREAM";
+                    textView3.setText("유통기한");
+                    takingMedicine_q.setText("언제 약을 사용하시나요?");
+                    medicinetext.setVisibility(View.GONE);
+                    takinglayout.setVisibility(View.GONE);
                     break ;
                 case R.id.prescriptionDrug :
                     prescriptionDrug.setChecked(true);
                     medicineType_txt = "PRESCRIPTION";
-                    generic_section.setVisibility(View.GONE);
-                    prescription_section.setVisibility(View.VISIBLE);
+                    textView3.setText("최종복용일");
+                    takingMedicine_q.setText("언제 약을 사용하시나요?");
                     takingType_section.setVisibility(View.VISIBLE);
                     takingDay_section.setVisibility(View.VISIBLE);
                     takingTime_section.setVisibility(View.VISIBLE);
+                    medicinetext.setVisibility(View.GONE);
+                    takinglayout.setVisibility(View.GONE);
                     break ;
             }
         }
@@ -496,6 +589,7 @@ public class RegisterMedicine extends AppCompatActivity {
 
 
     /** 복용간격 버튼 리스너 **/
+    /*
     class TakingTermBtnOnClickListener implements Button.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -537,7 +631,7 @@ public class RegisterMedicine extends AppCompatActivity {
             term_week.setChecked(false);
         }
     }
-
+    */
 
     /** 약 복용횟수 스피너 리스너 **/
     class SpinnerOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
@@ -643,9 +737,14 @@ public class RegisterMedicine extends AppCompatActivity {
 
                 if(response.isSuccessful()){
 
+
                     Log.i("info", "통신성공(register medicine)");
                     finish();
 
+                }
+
+                else if(response.code() == 400){
+                    Toast.makeText(getApplicationContext(), "입력란을 확인하세요!", Toast.LENGTH_SHORT).show();
                 }
             }
 

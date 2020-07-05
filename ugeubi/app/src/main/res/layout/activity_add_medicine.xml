@@ -397,13 +397,13 @@
                         android:textColor="#242424"
                         android:buttonTint="#45ba8e"/>
 
-                    <RadioButton
+                    <!--RadioButton
                         android:id="@+id/termOption"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="복용간격으로 선택"
                         android:textColor="#242424"
-                        android:buttonTint="#45ba8e"/>
+                        android:buttonTint="#45ba8e"/ -->
 
                 </RadioGroup>
 
@@ -453,6 +453,7 @@
                             android:layout_marginHorizontal="20dp"
                             android:textOn="월"
                             android:textOff="월"
+                            android:checked="true"
                             android:textSize="12sp"
                             android:textColor="@drawable/durtype_togglebtn_textcolor"
                             android:background="@drawable/durtype_togglebtn" />
@@ -745,6 +746,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/taking_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
