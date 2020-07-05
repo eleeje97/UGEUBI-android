@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import duksung.android.hororok.ugeubi.MainActivity;
 import duksung.android.hororok.ugeubi.R;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineDTO;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineResultDTO;
@@ -80,6 +81,10 @@ public class RegisterMedicine extends AppCompatActivity {
 
     // 요일 버튼
     ToggleButton mon, tue, wed, thu, fri, sat, sun;
+     ToggleButton[] week = new ToggleButton[7];
+
+
+
 
     // 복용간격 버튼
     ToggleButton term_everyday, term2, term3, term4, term5, term6, term_week;
@@ -110,6 +115,7 @@ public class RegisterMedicine extends AppCompatActivity {
     public boolean isTaken = false;
     public Date date_txt;
     public List<String> takingTime;
+    public List<TakingTimeData> takingTimeDataList;
     public List<String> takingDayOfWeek;
 
 
@@ -149,13 +155,15 @@ public class RegisterMedicine extends AppCompatActivity {
         takingTypeBtnGroup = findViewById(R.id.takingtype);
 
         // 요일 버튼
-        mon = findViewById(R.id.mon);
-        tue = findViewById(R.id.tue);
-        wed = findViewById(R.id.wed);
-        thu = findViewById(R.id.thu);
-        fri = findViewById(R.id.fri);
-        sat = findViewById(R.id.sat);
-        sun = findViewById(R.id.sun);
+        week[0] = findViewById(R.id.mon);
+        week[1] = findViewById(R.id.tue);
+        week[2] = findViewById(R.id.wed);
+        week[3] = findViewById(R.id.thu);
+        week[4] = findViewById(R.id.fri);
+        week[5] = findViewById(R.id.sat);
+        week[6] = findViewById(R.id.sun);
+
+        // 요일버튼 배열
 
         // 복용간격 버튼
         term_everyday = findViewById(R.id.term_everyday);
@@ -200,6 +208,12 @@ public class RegisterMedicine extends AppCompatActivity {
                 // back_btn
                 case R.id.btn_back:
 
+                    onBackPressed();
+
+                    break;
+
+                // add_btn
+                case R.id.btn_ok:
 
                     // 날짜 포맷
                     try {
@@ -211,34 +225,54 @@ public class RegisterMedicine extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
+                    // 선택된 날짜 리스트에 저장
+                    int count = 0;
+                    for(int i=0; i<week.length; i++){
+                        if(week[i].isChecked()){
+                            count ++;
+                        }
+                    }
+
+                    Log.i("info","count : " + count );
+
+
+                    takingDayOfWeek = new ArrayList<>(count);
+                    for(int i=0; i<week.length; i++){
+                        if(week[i].isChecked()) {
+                            takingDayOfWeek.add(week[i].getText().toString());
+                        }
+                    }
+
+                    // 선택된 시간 리스트에 저장
+                    int countList = takingTimeListAdapter.getList().size();
+                    takingTimeDataList = takingTimeListAdapter.getList();
+                    takingTime = new ArrayList<>(countList);
+                    for(TakingTimeData takingTimeData : takingTimeDataList){
+                        takingTime.add(takingTimeData.time);
+                    }
+
+
                     /** 약 등록 API 호출 **/
 
                     Log.i("info","약이름 : " + medicineName.getText().toString());
                     Log.i("info","약타입 : " + medicineType_txt);
                     Log.i("info","약유통기한 : " + medicineValidterm);
                     Log.i("info","약 복용유무 : " + isTaken);
+                    Log.i("info","약 날짜 : " + takingDayOfWeek.size());
+                    Log.i("info","약 시간 : " + takingTime.size());
                     Log.i("info","약 메모 : " + memo.getText().toString());
+
 
                     registerMedicine(new MedicineDTO(medicineName.getText().toString(),
                             medicineType_txt, medicineValidterm, isTaken,
-                            memo.getText().toString(), new TakingInfoDayDTO(null,
-                            null,
-                            Integer.parseInt(takingDoseNum.getText().toString()))));
+                            memo.getText().toString(), new TakingInfoDayDTO(takingTime,
+                            takingDayOfWeek, Integer.parseInt(takingDoseNum.getText().toString()))));
 
                     // 약 등록 후 > 우리집 구급상자 페이지로 이동
 
-                    finish();
-
-
-
                     break;
 
-                // add_btn
-                case R.id.add_btn:
 
-                    onBackPressed();
-
-                    break;
 
 
             }
@@ -461,7 +495,7 @@ public class RegisterMedicine extends AppCompatActivity {
     }
 
 
-    /** 약종류 버튼 리스너 **/
+    /** 복용간격 버튼 리스너 **/
     class TakingTermBtnOnClickListener implements Button.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -610,6 +644,8 @@ public class RegisterMedicine extends AppCompatActivity {
                 if(response.isSuccessful()){
 
                     Log.i("info", "통신성공(register medicine)");
+                    finish();
+
                 }
             }
 

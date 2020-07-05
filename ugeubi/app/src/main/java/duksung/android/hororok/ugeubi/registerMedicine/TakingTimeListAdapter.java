@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import duksung.android.hororok.ugeubi.R;
 
@@ -43,7 +44,7 @@ public class TakingTimeListAdapter extends RecyclerView.Adapter<TakingTimeListAd
         return takingTimeDataList.size();
     }
 
-
+    public List<TakingTimeData> getList(){ return takingTimeDataList;}
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView taking_time;
