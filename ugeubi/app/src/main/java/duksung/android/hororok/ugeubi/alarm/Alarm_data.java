@@ -2,48 +2,49 @@ package duksung.android.hororok.ugeubi.alarm;
 
 public class Alarm_data {
 
-    public String alarm_date;
-    public String alarm_time;
-    public String dose_name;
-    public String dday;
+    public String notification_date;
+    public String notification_time;
+    public String notification_content;
+    public String passedDay;
 
-    public Alarm_data(String alarm_date, String alarm_time, String dose_name, String dday){
-        this.alarm_date = alarm_date;
-        this.alarm_time = alarm_time;
-        this.dose_name = dose_name;
-        this.dday = dday;
+
+    public Alarm_data(String notification_date, String notification_time, String notification_content, String passedDay) {
+        this.notification_date = notification_date;
+        this.notification_time = notification_time;
+        this.notification_content = notification_content;
+        this.passedDay = passedDay;
     }
 
 
-    public String getAlarm_date() {
-        return alarm_date;
+    public String getNotification_date() {
+        return notification_date;
     }
 
-    public void setAlarm_date(String alarm_date) {
-        this.alarm_date = alarm_date;
+    public void setNotification_date(String notification_date) {
+        this.notification_date = notification_date;
     }
 
-    public String getAlarm_time() {
-        return alarm_time;
+    public String getNotification_time() {
+        return notification_time;
     }
 
-    public void setAlarm_time(String alarm_time) {
-        this.alarm_time = alarm_time;
+    public void setNotification_time(String notification_time) {
+        this.notification_time = notification_time;
     }
 
-    public String getDose_name() {
-        return dose_name;
+    public String getMedicine_content() {
+        return notification_content;
     }
 
-    public void setDose_name(String dose_name) {
-        this.dose_name = dose_name;
+    public void setMedicine_content(String notification_content) {
+        this.notification_content = notification_content;
     }
 
-    public String getDday() {
-        return dday;
+    public String getPassedDay() {
+        return passedDay;
     }
 
-    public void setDday(String dday) {
-        this.dday = dday;
+    public void setPassedDay(String passedDay) {
+        this.passedDay = passedDay;
     }
 }

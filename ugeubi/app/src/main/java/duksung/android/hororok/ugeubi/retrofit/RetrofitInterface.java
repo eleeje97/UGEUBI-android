@@ -115,7 +115,7 @@ public interface RetrofitInterface {
     @Headers({
         "Content-Type: application/json;charset=UTF-8",
         "Transfer-Encoding: chunked"})
-    @GET("getNotifications")
+    @GET("notifications/getNotifications")
     Call<List<NotificationDTO>> getNotifications(@Header("Authorization") String token);
 
 

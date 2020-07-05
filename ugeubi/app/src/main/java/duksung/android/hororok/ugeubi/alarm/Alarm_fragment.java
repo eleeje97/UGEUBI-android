@@ -72,13 +72,32 @@ public class Alarm_fragment extends Fragment {
         apiService.getNotifications(accessToken).enqueue(new Callback<List<NotificationDTO>>() {
             @Override
             public void onResponse(Call<List<NotificationDTO>> call, Response<List<NotificationDTO>> response) {
-                if(response.isSuccessful()){
-                    Log.i("info", "통신성공(register medicine)");
+                Log.i("Notification", "code: " + response.code());
+                if(response.isSuccessful()) {
+                    Log.i("Notification", "통신성공");
                     List<NotificationDTO> apiResponse = response.body();
 
                     for (NotificationDTO notificationDTO : apiResponse) {
                         Log.e("Notification", "medicine_name: " + notificationDTO.medicine_name);
                         Log.e("Notification", "notificatioin_date: " + notificationDTO.notification_date);
+                        Log.e("Notification", "notification_type: " + notificationDTO.notification_type);
+
+                        if (notificationDTO.notification_type.equals("taking_time")) {
+
+                        } else {
+
+                        }
+
+                        // 알람날짜, 약 시간 - Format 설정
+                        String notification_date = notificationDTO.notification_date;
+                        String notification_time = "time"; //notificationDTO.notification_time;
+                        String notification_content = notificationDTO.medicine_name;
+                        String passedDay = "passedDay";
+
+                        //alarm_adapter.addItem(new Alarm_data("2020년06월18일","18:00AM","타이레놀 복용시간 입니다.","당일"));
+                        alarm_adapter.addItem(new Alarm_data(notification_date, notification_time, notification_content, passedDay));
+                        alarm_adapter.notifyDataSetChanged();
+                        recyclerView.setAdapter(alarm_adapter);
                     }
 
 
@@ -87,7 +106,7 @@ public class Alarm_fragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<NotificationDTO>> call, Throwable t) {
-                Log.e("error", "통신실패(register medicine)" + t.getCause());
+                Log.e("error", "통신실패" + t.getCause());
             }
         });
 
