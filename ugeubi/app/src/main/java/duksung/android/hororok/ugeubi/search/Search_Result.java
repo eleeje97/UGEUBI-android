@@ -210,7 +210,7 @@ public class Search_Result extends Activity {
         ArrayList<Search_data> items = new ArrayList<Search_data>();
 
         // 알약 아이콘을 랜덤으로 보여주기 위해 사용
-        int[] pill_icons = {R.drawable.medicine_icon_pill1, R.drawable.pill_icon2,R.drawable.icon_pill3};
+        int[] pill_icons = {R.drawable.icon_pill1, R.drawable.icon_pill2,R.drawable.icon_pill3};
         Random random = new Random();
 
         @Override

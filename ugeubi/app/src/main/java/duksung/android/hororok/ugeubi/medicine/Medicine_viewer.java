@@ -9,17 +9,20 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import java.util.Random;
+
 import duksung.android.hororok.ugeubi.R;
-import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineDTO;
+import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineItemDTO;
 
 public class Medicine_viewer extends LinearLayout {
 
         // 알약 아이콘을 랜덤으로 보여주기 위해 사용
-        int[] pill_icons = {R.drawable.medicine_icon_pill1, R.drawable.pill_icon2,R.drawable.icon_pill3};
+        int[] pill_icons = {R.drawable.icon_pill1, R.drawable.icon_pill2,R.drawable.icon_pill3};
+        Random random = new Random();
 
         // 이미지뷰, 텍스트뷰
         ImageView period, medicine_icon;
-        TextView medicine_name, medicine_content;
+        TextView medicine_name, medicine_content, medicine_validTerm;
 
 
         public Medicine_viewer(Context context) {
@@ -28,8 +31,8 @@ public class Medicine_viewer extends LinearLayout {
         }
 
         public Medicine_viewer(Context context, @Nullable AttributeSet attrs) {
-           super(context, attrs);
-           init(context);
+                super(context, attrs);
+                init(context);
         }
 
         // 초기 설정
@@ -42,14 +45,44 @@ public class Medicine_viewer extends LinearLayout {
                 medicine_icon = findViewById(R.id.medicine_icon);
                 medicine_name = findViewById(R.id.medicine_name);
                 medicine_content = findViewById(R.id.medicine_content);
+                medicine_validTerm = findViewById(R.id.medicine_validTerm);
 
         }
 
-public void setItem(MedicineDTO singerItem){
+        public void setItem(MedicineItemDTO singerItem) {
+                // 유통기한 임박 아이콘
+                if(singerItem.isImminent()) {
+                        period.setVisibility(VISIBLE);
+                } else {
+                        period.setVisibility(INVISIBLE);
+                }
 
-        //medicine_icon.setImageResource(singerItem.getImage());
-        //medicine_name.setText(singerItem.getName());
-        //medicine_content.setText(singerItem.getContent());
+
+                // 약 아이콘 - 알약(물약,처방약 포함) / 가루약 / 연고
+                if(singerItem.getMedicineType().equals("가루약")) {
+                        medicine_icon.setImageResource(R.drawable.icon_powder);
+                } else if (singerItem.getMedicineType().equals("연고")) {
+                        medicine_icon.setImageResource(R.drawable.icon_cream);
+                } else {
+                        int num = random.nextInt(3);
+                        medicine_icon.setImageResource(pill_icons[num]);
+                }
+
+
+                // 약 이름
+                medicine_name.setText(singerItem.getMedicineName());
+
+                // 메모
+                String memo = singerItem.getMemo();
+                if (memo.length() > 10) {
+                        memo = memo.substring(0,10) + "...";
+                }
+                medicine_content.setText(memo);
+
+
+                // 유통기한
+                medicine_validTerm.setText(singerItem.getMedicineValidTerm());
 
         }
-        }
+
+}

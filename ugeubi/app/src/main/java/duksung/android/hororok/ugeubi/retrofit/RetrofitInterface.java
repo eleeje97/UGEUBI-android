@@ -115,7 +115,7 @@ public interface RetrofitInterface {
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @GET("first-aid-kit/medicines")
-    Call<MedicineListDTO> getMedicineList();
+    Call<MedicineListDTO> getMedicineList(@Header("Authorization") String token);
 
 
     @Headers({

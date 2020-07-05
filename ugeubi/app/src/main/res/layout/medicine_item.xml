@@ -22,7 +22,7 @@
         android:id="@+id/medicine_icon"
         android:layout_width="50dp"
         android:layout_height="78dp"
-        android:src="@drawable/medicine_icon_pill1"
+        android:src="@drawable/icon_pill1"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="14dp"/>
@@ -45,7 +45,16 @@
         android:text="생리통, 두통, 해열"
         android:textColor="@color/black"
         android:textSize="12.5sp"
-        android:layout_marginBottom="45dp"
+        android:layout_marginBottom="15dp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/medicine_validTerm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2021-07-05"
+        android:textColor="@color/black"
+        android:textSize="12.5sp"
         android:layout_gravity="center"/>
 
 
