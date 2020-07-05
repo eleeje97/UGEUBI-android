@@ -1,9 +1,11 @@
 package duksung.android.hororok.ugeubi.medicine;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -11,13 +13,18 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import duksung.android.hororok.ugeubi.MainActivity;
 import duksung.android.hororok.ugeubi.R;
+import duksung.android.hororok.ugeubi.registerMedicine.RegisterMedicine;
+import duksung.android.hororok.ugeubi.registerMedicine.TakingTimeListAdapter;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineItemDTO;
@@ -39,8 +46,13 @@ public class Medicine_kit_detail extends Activity {
     ToggleButton mon, tue, wed, thu, fri, sat, sun;
     EditText taking_dose_num;
 
+    RadioGroup takingBtnGroup;
+
+    RecyclerView takingTimeList;
+    TakingTimeListAdapter takingTimeListAdapter;
+
     // section
-    LinearLayout expiration_date_section, isTaken_section, takingType_section, takingDay_section, takingTime_section;
+    LinearLayout expiration_date_section, isTaken_section, takingDay_section, takingTime_section, taking_dose_num_section;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,12 +85,20 @@ public class Medicine_kit_detail extends Activity {
         sun = findViewById(R.id.sun);
         taking_dose_num = findViewById(R.id.taking_dose_num);
 
+        takingBtnGroup = findViewById(R.id.takingBtnGroup);
+
+        takingTimeList = findViewById(R.id.takingTimeList);
+        LinearLayoutManagerWrapper linearLayoutManagerWrapper = new LinearLayoutManagerWrapper(this, LinearLayoutManager.HORIZONTAL, false);
+        takingTimeList.setLayoutManager(linearLayoutManagerWrapper);
+        takingTimeListAdapter = new TakingTimeListAdapter(this);
+        takingTimeList.setAdapter(takingTimeListAdapter);
+
         // section
         expiration_date_section = findViewById(R.id.expiration_date_section);
         isTaken_section = findViewById(R.id.isTaken_section);
-        takingType_section = findViewById(R.id.taking_type_section);
         takingDay_section = findViewById(R.id.taking_day_section);
         takingTime_section = findViewById(R.id.taking_time_section);
+        taking_dose_num_section = findViewById(R.id.taking_dose_num_section);
 
         /** init end **/
 
@@ -101,6 +121,10 @@ public class Medicine_kit_detail extends Activity {
         powderedMedicine.setOnCheckedChangeListener(medicineTypeBtnOnClickListener);
         ointment.setOnCheckedChangeListener(medicineTypeBtnOnClickListener);
         prescriptionDrug.setOnCheckedChangeListener(medicineTypeBtnOnClickListener);
+
+        // 약 복용유무 버튼 리스너
+        TakingBtnOnClickListener takingBtnOnClickListener = new TakingBtnOnClickListener();
+        takingBtnGroup.setOnCheckedChangeListener(takingBtnOnClickListener);
 
 
         Intent intent = getIntent();
@@ -135,6 +159,8 @@ public class Medicine_kit_detail extends Activity {
 
                     if (apiResponse.getMedicineType().equals("알약")) {
                         pill.setChecked(true);
+                        taking_dose_num_section.setVisibility(View.INVISIBLE);
+                        taking_dose_num.setText(apiResponse.getTakingInfo().takingNumber);
                     } else if (apiResponse.getMedicineType().equals("물약")) {
                         liquidMedicine.setChecked(true);
                     } else if (apiResponse.getMedicineType().equals("가루약")) {
@@ -150,7 +176,34 @@ public class Medicine_kit_detail extends Activity {
 
                     if (apiResponse.isTaken()) {
                         takingBtn.setChecked(true);
+
+                        for (String day : apiResponse.getTakingInfo().takingDayOfWeek) {
+                            if (day.equals("월")) {
+                                mon.setChecked(true);
+                            } else if (day.equals("화")) {
+                                tue.setChecked(true);
+                            } else if (day.equals("수")) {
+                                wed.setChecked(true);
+                            } else if (day.equals("목")) {
+                                thu.setChecked(true);
+                            } else if (day.equals("금")) {
+                                fri.setChecked(true);
+                            } else if (day.equals("토")) {
+                                sat.setChecked(true);
+                            } else if (day.equals("일")) {
+                                sun.setChecked(true);
+                            }
+                        }
+
+
+                        for (String time : apiResponse.getTakingInfo().takingTime) {
+                            takingTimeListAdapter.addItem(time.substring(0,5));
+                        }
+
+
                     }
+
+
 
 
 
@@ -175,7 +228,6 @@ public class Medicine_kit_detail extends Activity {
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             setAllBtnUnChecked();
-            takingType_section.setVisibility(View.GONE);
             takingDay_section.setVisibility(View.GONE);
             takingTime_section.setVisibility(View.GONE);
             expiration_date_section.setVisibility(View.VISIBLE);
@@ -185,7 +237,6 @@ public class Medicine_kit_detail extends Activity {
             buttonView.setChecked(isChecked);
 
             if (buttonView.getId() == R.id.prescriptionDrug) {
-                takingType_section.setVisibility(View.VISIBLE);
                 takingDay_section.setVisibility(View.VISIBLE);
                 takingTime_section.setVisibility(View.VISIBLE);
                 isTaken_section.setVisibility(View.GONE);
@@ -199,6 +250,42 @@ public class Medicine_kit_detail extends Activity {
             ointment.setChecked(false);
             prescriptionDrug.setChecked(false);
         }
+    }
+
+
+    /** 약 복용유무 버튼 리스너 **/
+    class TakingBtnOnClickListener implements RadioGroup.OnCheckedChangeListener {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if(checkedId == R.id.takingBtn) {
+                takingDay_section.setVisibility(View.VISIBLE);
+                takingTime_section.setVisibility(View.VISIBLE);
+            } else {
+                takingDay_section.setVisibility(View.GONE);
+                takingTime_section.setVisibility(View.GONE);
+            }
+        }
+    }
+
+
+    class LinearLayoutManagerWrapper extends LinearLayoutManager {
+        LinearLayoutManagerWrapper(Context context) {
+            super(context);
+        }
+
+        LinearLayoutManagerWrapper(Context context, int orientation, boolean reverseLayout) {
+            super(context, orientation, reverseLayout);
+        }
+
+        LinearLayoutManagerWrapper(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+            super(context, attrs, defStyleAttr, defStyleRes);
+        }
+
+        @Override
+        public boolean supportsPredictiveItemAnimations() {
+            return false;
+        }
+
     }
 
 }
