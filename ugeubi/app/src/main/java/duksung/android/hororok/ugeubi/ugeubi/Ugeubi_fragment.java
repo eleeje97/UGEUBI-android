@@ -1,7 +1,11 @@
 package duksung.android.hororok.ugeubi.ugeubi;
 
 import android.app.DatePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,16 +21,29 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 import duksung.android.hororok.ugeubi.R;
+import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
+import duksung.android.hororok.ugeubi.retrofit.ugeubi.TakingHistoryDTO;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class Ugeubi_fragment extends Fragment {
     private RecyclerView dose_list;
     private DoseListAdapter adapter;
+
+    public final String PREFERENCE = "ugeubi.preference";
+    public String datetxt = "";
+    public Date date_f;
+
 
     private Button add_btn;
 
@@ -35,6 +52,11 @@ public class Ugeubi_fragment extends Fragment {
     private LinearLayout calendarBtn;
     private TextView dateTextView;
     private int mYear, mMonth, mDay;
+
+    public String m, d;
+    public String date_txt = "";
+
+    RetrofitInterface apiService;
 
     @Nullable
     @Override
@@ -61,30 +83,52 @@ public class Ugeubi_fragment extends Fragment {
         });
 
 
+        /** 업데이트 **/
+        // 12시가 되면 api 호출?
 
+
+        /** 캘린더 **/
         final Calendar calendar = Calendar.getInstance();
         mYear = calendar.get(Calendar.YEAR);
         mMonth = calendar.get(Calendar.MONTH) + 1;
         mDay = calendar.get(Calendar.DAY_OF_MONTH);
         dateTextView.setText(mYear + "년 " + mMonth + "월 " + mDay + "일");
-        calendarBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        mYear = year;
-                        mMonth = month + 1;
-                        mDay = dayOfMonth;
-                        dateTextView.setText(mYear + "년 " + mMonth + "월 " + mDay + "일");
-                    }
-                }, mYear, mMonth - 1, mDay);
 
-                datePickerDialog.setMessage("메시지");
-                datePickerDialog.show();
-            }
+
+        // 캘린더 버튼 클릭했을 때
+        calendarBtn.setOnClickListener(v -> {
+            final DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    mYear = year;
+                    mMonth = month + 1;
+                    mDay = dayOfMonth;
+                    dateTextView.setText(mYear + "년 " + mMonth + "월 " + mDay + "일");
+
+                    if(mMonth < 10){ m = "0" + mMonth; }
+                    else{ m = mMonth + ""; }
+
+                    if(mDay < 10){ d = "0" + mDay; }
+                    else{ d = mDay + ""; }
+
+                    date_txt = mYear + "-" + m + "-" + d;
+                    Log.e("error", date_txt);
+
+
+                    /** 약 알림 기록 API 호출 **/
+                    //getTakingHistory(date_txt);
+
+
+                }
+            }, mYear, mMonth - 1, mDay);
+
+            datePickerDialog.setMessage("메시지");
+            datePickerDialog.show();
+
+
+
+
         });
-
 
 
         // Test 코드
@@ -113,4 +157,49 @@ public class Ugeubi_fragment extends Fragment {
     };
 
 
+
+    public void getTakingHistory(String date){
+
+        SharedPreferences pref = getActivity().getSharedPreferences(PREFERENCE, MODE_PRIVATE);
+        String accessToken = "Bearer " + pref.getString("accessToken", "");
+        apiService.getTakingHistory(accessToken,date).enqueue(new Callback<TakingHistoryDTO>() {
+            @Override
+            public void onResponse(Call<TakingHistoryDTO> call, Response<TakingHistoryDTO> response) {
+                if(response.isSuccessful()){
+
+                    Log.i("info", "통신성공(업데이트알람)");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TakingHistoryDTO> call, Throwable t) {
+
+                Log.e("error", "통신실패(업데이트알람)");
+
+            }
+        });
+
+    }
+
+
+
+    /** 업데이트 API **/
+    public void updateAlarm(){
+
+        SharedPreferences pref = getActivity().getSharedPreferences(PREFERENCE, MODE_PRIVATE);
+        String accessToken = "Bearer " + pref.getString("accessToken", "");
+        apiService.updateAlarm(accessToken).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    Log.i("info", "통신성공(업데이트)");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("error", "통신실패(업데이트)");
+            }
+        });
+    }
 }

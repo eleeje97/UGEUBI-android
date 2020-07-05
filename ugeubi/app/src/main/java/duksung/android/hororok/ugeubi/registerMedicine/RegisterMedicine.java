@@ -778,7 +778,7 @@ public class RegisterMedicine extends AppCompatActivity {
     /** 알람 등록 API 호출 **/
     public void registerNotification(NotificationDTO notificationDTO){
 
-        apiService.register_notification(notificationDTO).enqueue(new Callback<NotificationDTO>() {
+        apiService.register_notification().enqueue(new Callback<NotificationDTO>() {
             @Override
             public void onResponse(Call<NotificationDTO> call, Response<NotificationDTO> response) {
 

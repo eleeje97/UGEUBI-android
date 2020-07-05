@@ -14,6 +14,7 @@ import duksung.android.hororok.ugeubi.retrofit.Login.LoginDTO;
 import duksung.android.hororok.ugeubi.retrofit.Login.LoginResultDTO;
 import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchDTO;
 import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchResultDTO;
+import duksung.android.hororok.ugeubi.retrofit.ugeubi.TakingHistoryDTO;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -112,7 +113,7 @@ public interface RetrofitInterface {
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @POST("notifications/registerNotifications")
-    Call<NotificationDTO> register_notification(@Body NotificationDTO notificationDto);
+    Call<NotificationDTO> register_notification();
 
 
     // 알람 조회
@@ -148,6 +149,7 @@ public interface RetrofitInterface {
     @GET("first-aid-kit/medicines/{medicineId}")
     Call<MedicineItemDTO> getMedicineDetailInfo(@Header("Authorization") String token, @Path("medicineId") int medicineId);
 
+
     // 구급상자 약 삭제
     @DELETE("first-aid-kit/medicines/{medicineId}")
     Call<Void> deleteMedicine(@Header("Authorization") String token, @Path("medicineId") int medicineId);
@@ -155,12 +157,28 @@ public interface RetrofitInterface {
 
     /** 메인 **/
 
-    @GET("taking/getTakingHistory?date=2020-07-04")
-    Call<Void> getTakingHistory();
+    // 복용약 기록 가져오기
+    @Headers({
+            "Content-Type: application/json;charset=UTF-8" ,
+            "Transfer-Encoding: chunked"})
+    @GET("taking/getTakingHistory")
+    Call<TakingHistoryDTO> getTakingHistory(@Header("Authorization") String token, @Query("date") String date);
 
 
+    // 12시 업데이트
+    @Headers({
+            "Content-Type: application/json;charset=UTF-8" ,
+            "Transfer-Encoding: chunked"})
+    @POST("taking/registerTakingHistory")
+    Call<Void> updateAlarm(@Header("Authorization") String token);
 
 
+    // 먹은 약 체크
+    @Headers({
+            "Content-Type: application/json;charset=UTF-8" ,
+            "Transfer-Encoding: chunked"})
+    @POST("taking/updateIsTaken")
+    Call<Void> checkedTakingMedicine(@Header("Authorization") String token);
 
    /** 약/DUR 정보 검색 **/
 
