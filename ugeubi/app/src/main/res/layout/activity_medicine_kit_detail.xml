@@ -49,7 +49,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="100dp"
             android:orientation="vertical" >
 
             <TextView
@@ -556,6 +555,26 @@
 
 
             </LinearLayout>
+
+
+            <TextView
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="30dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="12.5sp"
+                android:textColor="@color/mainColor"
+                android:letterSpacing="0.08"
+                android:lineSpacingExtra="6sp"
+                android:text="삭제하기" />
+
+            <View
+                android:layout_width="50dp"
+                android:layout_height="2dp"
+                android:background="@color/mainColor"/>
+
+
 
 
         </LinearLayout>
