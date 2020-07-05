@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import duksung.android.hororok.ugeubi.R;
+import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
 import duksung.android.hororok.ugeubi.retrofit.ugeubi.TakingHistoryDTO;
 import retrofit2.Call;
@@ -62,6 +63,9 @@ public class Ugeubi_fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_ugeubi, container, false);
+
+        apiService = RetrofitClient.getService();
+
 
         dose_list = rootView.findViewById(R.id.dose_list);
         add_btn = rootView.findViewById(R.id.add_btn);
@@ -157,7 +161,7 @@ public class Ugeubi_fragment extends Fragment {
     };
 
 
-
+/*
     public void getTakingHistory(String date){
 
         SharedPreferences pref = getActivity().getSharedPreferences(PREFERENCE, MODE_PRIVATE);
@@ -165,6 +169,10 @@ public class Ugeubi_fragment extends Fragment {
         apiService.getTakingHistory(accessToken,date).enqueue(new Callback<TakingHistoryDTO>() {
             @Override
             public void onResponse(Call<TakingHistoryDTO> call, Response<TakingHistoryDTO> response) {
+
+
+                Log.e("error", "code : " + response.code());
+
                 if(response.isSuccessful()){
 
                     Log.i("info", "통신성공(업데이트알람)");
@@ -174,14 +182,14 @@ public class Ugeubi_fragment extends Fragment {
             @Override
             public void onFailure(Call<TakingHistoryDTO> call, Throwable t) {
 
-                Log.e("error", "통신실패(업데이트알람)");
+                Log.e("error", "통신실패(업데이트알람)"+ t.getMessage() + t.getCause());
 
             }
         });
 
     }
 
-
+*/
 
     /** 업데이트 API **/
     public void updateAlarm(){

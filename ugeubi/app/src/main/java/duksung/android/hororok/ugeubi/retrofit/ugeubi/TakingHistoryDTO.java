@@ -19,7 +19,7 @@ public class TakingHistoryDTO {
     @SerializedName("medicineName")
     public String medicineName;
 
-    @SerializedName("takinTime")
+    @SerializedName("takingTime")
     public String takingTime;
 
     @SerializedName("takingNumber")

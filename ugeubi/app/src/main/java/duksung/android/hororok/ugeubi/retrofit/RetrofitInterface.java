@@ -1,5 +1,7 @@
 package duksung.android.hororok.ugeubi.retrofit;
 
+import java.util.List;
+
 import duksung.android.hororok.ugeubi.retrofit.alarm.NotificationDTO;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineDTO;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineDetailDTO;
@@ -162,7 +164,7 @@ public interface RetrofitInterface {
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @GET("taking/getTakingHistory")
-    Call<TakingHistoryDTO> getTakingHistory(@Header("Authorization") String token, @Query("date") String date);
+    Call<List<TakingHistoryDTO>> getTakingHistory(@Header("Authorization") String token, @Query("date") String date);
 
 
     // 12시 업데이트
