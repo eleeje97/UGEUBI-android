@@ -163,18 +163,20 @@ public class Ugeubi_fragment extends Fragment {
 
         SharedPreferences pref = getActivity().getSharedPreferences(PREFERENCE, MODE_PRIVATE);
         String accessToken = "Bearer " + pref.getString("accessToken", "");
-        apiService.getTakingHistory(accessToken,date).enqueue(new Callback <TakingHistoryListDTO>() {
+        apiService.getTakingHistory(accessToken,date).enqueue(new Callback <List<TakingHistoryDTO>>() {
             @Override
-            public void onResponse(Call<TakingHistoryListDTO> call, Response<TakingHistoryListDTO> response) {
+            public void onResponse(Call<List<TakingHistoryDTO>> call, Response<List<TakingHistoryDTO>> response) {
 
 
                 Log.e("error", "code : " + response.code());
 
                 if (response.isSuccessful()) {
+                    Log.e("error", "size() : " +response.body().size());
 
-                    TakingHistoryListDTO dto = response.body();
+                    List<TakingHistoryDTO> apiResponse = response.body();
 
-                    for (TakingHistoryDTO takingHistoryDTO : dto.getItems()) {
+                    Log.e("error", "size2() : " +response.body().size());
+                    for (TakingHistoryDTO takingHistoryDTO : apiResponse ) {
                         Log.i("medicine_kit", "이름: " + takingHistoryDTO.getMedicineName());
                         Log.i("medicine_kit", "몇시: " + takingHistoryDTO.getTakingTime());
                         Log.i("medicine_kit", "몇알: " + takingHistoryDTO.getTakingNumber());
@@ -191,7 +193,7 @@ public class Ugeubi_fragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<TakingHistoryListDTO> call, Throwable t) {
+            public void onFailure(Call<List<TakingHistoryDTO>> call, Throwable t) {
                 Log.e("error", "통신실패(업데이트알람)"+ t.getMessage() + t.getCause());
             }
 
