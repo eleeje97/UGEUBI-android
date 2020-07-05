@@ -2,6 +2,7 @@ package duksung.android.hororok.ugeubi.retrofit;
 
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineDTO;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineDetailDTO;
+import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineItemDTO;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineListDTO;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineResultDTO;
 import duksung.android.hororok.ugeubi.retrofit.FInd.AuthenticationPwDTO;
@@ -19,6 +20,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RetrofitInterface {
@@ -118,11 +120,12 @@ public interface RetrofitInterface {
     Call<MedicineListDTO> getMedicineList(@Header("Authorization") String token);
 
 
+    // 구급상자 약 상세조회
     @Headers({
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
-    @GET("first-aid-kit/medicines/1")
-    Call<MedicineDetailDTO> getMedicineDetailInfo();
+    @GET("first-aid-kit/medicines/{medicineId}")
+    Call<MedicineItemDTO> getMedicineDetailInfo(@Header("Authorization") String token, @Path("medicineId") int medicineId);
 
 
     /** 약/DUR 정보 검색 **/

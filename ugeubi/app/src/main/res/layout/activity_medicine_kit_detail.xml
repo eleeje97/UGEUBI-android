@@ -1,201 +1,585 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#dbdbdb">
-
+    android:orientation="vertical"
+    android:background="#FFFFFF">
 
     <FrameLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:paddingVertical="10dp"
+        android:layout_marginTop="27.5dp"
+        android:layout_marginHorizontal="15.8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
 
-        <!-- 약 사진 지정, 이미지 뷰-->
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_gravity="top"
-            android:adjustViewBounds="true"
-            android:background="#dbdbdb" />
-
-        <!-- 뒤로가기 버튼 -->
         <Button
-            android:id="@+id/medicine_detail_back_btn"
-            android:layout_width="10dp"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/btn_back"
+            android:layout_width="9.5dp"
             android:layout_height="19dp"
-            android:layout_marginLeft="19dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginRight="335dp"
             android:background="@drawable/btn_back" />
 
-        <!-- 수정버튼 -->
 
         <Button
-            android:id="@+id/medicine_modify_btn"
-            android:layout_width="19dp"
-            android:layout_height="19dp"
-            android:layout_marginLeft="365dp"
-            android:layout_marginTop="28dp"
-            android:background="@drawable/btn_edit_off"
-            android:paddingRight="7dp" />
+            android:id="@+id/btn_edit"
+            android:layout_gravity="center_vertical|right"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/btn_edit_off" />
 
-
-        <!-- 구급 상자 내용 -->
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:layout_gravity="bottom"
-            android:src="@drawable/medicine_kit_detail_info_bg" />
-
-
-        <GridLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="2"
-            android:layout_marginTop="291dp"
-            android:orientation="horizontal"
-            android:rowCount="1000">
-
-            <!-- 약이름-->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="약 이름"
-                android:textSize="16.3sp"
-                android:layout_marginRight="28dp"
-                android:textColor="#2f2d33"
-                android:layout_marginTop="20dp"
-                android:layout_marginLeft="71dp"
-                android:layout_marginBottom="21.3dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="타이레놀"
-                android:textSize="16.3sp"
-                android:textColor="#2f2d33"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="21.3dp"/>
-
-            <!-- 식별 -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="식별"
-                android:textSize="16.3sp"
-                android:layout_marginRight="28dp"
-                android:textColor="#2f2d33"
-                android:layout_marginLeft="71dp"
-                android:layout_marginBottom="21.3dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="MD246"
-                android:textSize="16.3sp"
-                android:textColor="#2f2d33"
-                android:layout_marginBottom="21.3dp"/>
-
-            <!-- 유통기한 -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="유통기한"
-               android:textSize="16.3sp"
-                android:layout_marginRight="28dp"
-                android:textColor="#2f2d33"
-                android:layout_marginLeft="71dp"
-                android:layout_marginBottom="21.3dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="2020-07-04"
-                android:textSize="16.3sp"
-                android:textColor="#2f2d33"
-                android:layout_marginBottom="21.3dp"/>
-            <!-- 효능 -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="효능"
-                android:textSize="16.3sp"
-                android:layout_marginRight="28dp"
-                android:textColor="#2f2d33"
-                android:layout_marginLeft="71dp"
-                android:layout_marginBottom="21.3dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="진통 및 해열"
-                android:textSize="16.3sp"
-                android:textColor="#2f2d33"
-                android:layout_marginBottom="21.3dp"/>
-
-            <!-- 용법 -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="용법"
-                android:textSize="16.3sp"
-                android:layout_marginRight="28dp"
-                android:textColor="#2f2d33"
-                android:layout_marginLeft="71dp"
-                android:layout_marginBottom="21.3dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="식후 1알씩"
-                android:textSize="16.3sp"
-                android:textColor="#2f2d33"
-                android:layout_marginBottom="21.3dp"/>
-            <!-- 주의 -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="주의"
-                android:textSize="16.3sp"
-                android:layout_marginRight="28dp"
-                android:textColor="#2f2d33"
-                android:layout_marginLeft="71dp"
-                android:layout_marginBottom="21.3dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="어린이 섭취시, 주의 필요"
-                android:textSize="16.3sp"
-                android:textColor="#2f2d33"
-                android:layout_marginBottom="21.3dp"/>
-            <!-- DUR -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="DUR"
-                android:textSize="16.3sp"
-                android:layout_marginRight="28dp"
-                android:textColor="#2f2d33"
-                android:layout_marginLeft="71dp"
-                android:layout_marginBottom="21.3dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="DUR 정보"
-                android:textSize="16.3sp"
-                android:textColor="#2f2d33"
-                android:layout_marginBottom="21.3dp"/>
-        </GridLayout>
     </FrameLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ScrollView
+        android:fillViewport="true"
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/layout"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="100dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:textSize="15.5sp"
+                android:textColor="#040404"
+                android:text="약 이름"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/scrollView"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/medicine_name"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="6.3dp"
+                android:textColor="#040404"
+                android:paddingLeft="20dp"
+                android:singleLine="true"
+                android:enabled="false"
+                android:background="@drawable/bg_search_shape"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"/>
+
+            <TextView
+                android:id="@+id/memo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:textSize="15.5sp"
+                android:textColor="#040404"
+                android:text="메모"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@+id/scrollView"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/medicine_memo"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="6.3dp"
+                android:textColor="#040404"
+                android:paddingLeft="20dp"
+                android:singleLine="true"
+                android:enabled="false"
+                android:background="@drawable/bg_search_shape"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"/>
+
+
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16.3dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:textSize="15.5sp"
+                android:textColor="#040404"
+                android:text="약 종류"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/medicine_name"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <LinearLayout
+                android:id="@+id/medicine_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                app:layout_constraintTop_toBottomOf="@id/textView2"
+                app:layout_constraintStart_toStartOf="parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ToggleButton
+                        android:id="@+id/pill"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:textOn="알약"
+                        android:textOff="알약"
+                        android:checked="true"
+                        android:textSize="12sp"
+                        android:enabled="false"
+                        android:textColor="@drawable/durtype_togglebtn_textcolor"
+                        android:background="@drawable/durtype_togglebtn" />
+
+                    <ToggleButton
+                        android:id="@+id/liquidMedicine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:textOn="물약"
+                        android:textOff="물약"
+                        android:textSize="12sp"
+                        android:enabled="false"
+                        android:textColor="@drawable/durtype_togglebtn_textcolor"
+                        android:background="@drawable/durtype_togglebtn" />
+
+                    <ToggleButton
+                        android:id="@+id/powderedMedicine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:textOn="가루약"
+                        android:textOff="가루약"
+                        android:textSize="12sp"
+                        android:enabled="false"
+                        android:textColor="@drawable/durtype_togglebtn_textcolor"
+                        android:background="@drawable/durtype_togglebtn" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_marginTop="13.5dp"
+                    android:gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <ToggleButton
+                        android:id="@+id/ointment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:textOn="연고"
+                        android:textOff="연고"
+                        android:textSize="12sp"
+                        android:enabled="false"
+                        android:textColor="@drawable/durtype_togglebtn_textcolor"
+                        android:background="@drawable/durtype_togglebtn" />
+
+                    <ToggleButton
+                        android:id="@+id/prescriptionDrug"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:textOn="처방약"
+                        android:textOff="처방약"
+                        android:textSize="12sp"
+                        android:enabled="false"
+                        android:textColor="@drawable/durtype_togglebtn_textcolor"
+                        android:background="@drawable/durtype_togglebtn" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/expiration_date_section"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/expiration_date_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16.3dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
+                    android:textSize="15.5sp"
+                    android:textColor="#040404"
+                    android:text="유통기한"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/medicine_type"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/expiration_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="6.3dp"
+                    android:text="2020년 9월 30일"
+                    android:textColor="#040404"
+                    android:textSize="12.5sp"
+                    android:gravity="center"
+                    android:background="@drawable/bg_search_shape"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/isTaken_section"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16.3dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
+                    android:textSize="15.5sp"
+                    android:textColor="#040404"
+                    android:text="복용유무"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/expiration_date"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <RadioGroup
+                    android:id="@+id/takingBtnGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6.5dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:checkedButton="@id/notTakingBtn"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4"
+                    app:layout_constraintStart_toStartOf="parent" >
+
+                    <RadioButton
+                        android:id="@+id/takingBtn"
+                        android:layout_width="82.3dp"
+                        android:layout_height="32dp"
+                        android:text="복용중"
+                        android:textSize="12.5sp"
+                        android:gravity="center"
+                        android:enabled="false"
+                        android:textColor="@drawable/durtype_togglebtn_textcolor"
+                        android:button="@color/transparent"
+                        android:background="@drawable/durtype_togglebtn"/>
+
+                    <RadioButton
+                        android:id="@+id/notTakingBtn"
+                        android:layout_width="82.3dp"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="75dp"
+                        android:text="미복용"
+                        android:textSize="12.5sp"
+                        android:gravity="center"
+                        android:enabled="false"
+                        android:textColor="@drawable/durtype_togglebtn_textcolor"
+                        android:button="@color/transparent"
+                        android:background="@drawable/durtype_togglebtn"/>
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/taking_type_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16.3dp"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toBottomOf="@id/takingBtnGroup"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/textView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
+                    android:textSize="15.5sp"
+                    android:textColor="#040404"
+                    android:text="복용타입"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/taking_day_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/takingDay_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6.3dp"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginStart="36dp"
+                    android:textSize="12sp"
+                    android:textColor="#040404"
+                    android:text="복용 요일을 선택해주세요."
+                    app:layout_constraintTop_toBottomOf="@+id/layout2"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <LinearLayout
+                    android:id="@+id/takingDay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8.8dp"
+                    app:layout_constraintTop_toBottomOf="@id/takingDay_tv"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:gravity="center_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ToggleButton
+                            android:id="@+id/mon"
+                            android:layout_width="43.8dp"
+                            android:layout_height="32dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:textOn="월"
+                            android:textOff="월"
+                            android:textSize="12sp"
+                            android:enabled="false"
+                            android:textColor="@drawable/durtype_togglebtn_textcolor"
+                            android:background="@drawable/durtype_togglebtn" />
+
+                        <ToggleButton
+                            android:id="@+id/tue"
+                            android:layout_width="43.8dp"
+                            android:layout_height="32dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:textOn="화"
+                            android:textOff="화"
+                            android:textSize="12sp"
+                            android:enabled="false"
+                            android:textColor="@drawable/durtype_togglebtn_textcolor"
+                            android:background="@drawable/durtype_togglebtn" />
+
+                        <ToggleButton
+                            android:id="@+id/wed"
+                            android:layout_width="43.8dp"
+                            android:layout_height="32dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:textOn="수"
+                            android:textOff="수"
+                            android:textSize="12sp"
+                            android:enabled="false"
+                            android:textColor="@drawable/durtype_togglebtn_textcolor"
+                            android:background="@drawable/durtype_togglebtn" />
+
+                        <ToggleButton
+                            android:id="@+id/thu"
+                            android:layout_width="43.8dp"
+                            android:layout_height="32dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:textOn="목"
+                            android:textOff="목"
+                            android:textSize="12sp"
+                            android:enabled="false"
+                            android:textColor="@drawable/durtype_togglebtn_textcolor"
+                            android:background="@drawable/durtype_togglebtn" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_marginTop="13.5dp"
+                        android:gravity="center_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <ToggleButton
+                            android:id="@+id/fri"
+                            android:layout_width="43.8dp"
+                            android:layout_height="32dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:textOn="금"
+                            android:textOff="금"
+                            android:textSize="12sp"
+                            android:enabled="false"
+                            android:textColor="@drawable/durtype_togglebtn_textcolor"
+                            android:background="@drawable/durtype_togglebtn" />
+
+                        <ToggleButton
+                            android:id="@+id/sat"
+                            android:layout_width="43.8dp"
+                            android:layout_height="32dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:textOn="토"
+                            android:textOff="토"
+                            android:textSize="12sp"
+                            android:enabled="false"
+                            android:textColor="@drawable/durtype_togglebtn_textcolor"
+                            android:background="@drawable/durtype_togglebtn" />
+
+                        <ToggleButton
+                            android:id="@+id/sun"
+                            android:layout_width="43.8dp"
+                            android:layout_height="32dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:textOn="일"
+                            android:textOff="일"
+                            android:textSize="12sp"
+                            android:enabled="false"
+                            android:textColor="@drawable/durtype_togglebtn_textcolor"
+                            android:background="@drawable/durtype_togglebtn" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:visibility="visible"
+                android:id="@+id/taking_time_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:id="@+id/layout3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginStart="36dp"
+                    android:gravity="center_vertical"
+                    app:layout_constraintTop_toBottomOf="@+id/takingDay"
+                    app:layout_constraintStart_toStartOf="parent" >
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12sp"
+                        android:textColor="#040404"
+                        android:text="약 복용시간" />
+
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/takingTimeList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4.5dp"
+                    android:layout_marginHorizontal="30dp"
+                    app:layout_constraintTop_toBottomOf="@id/layout3"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6.3dp"
+                    android:layout_marginLeft="36dp"
+                    android:layout_marginStart="36dp"
+                    android:textSize="12sp"
+                    android:textColor="#040404"
+                    android:text="복용갯수"
+                    app:layout_constraintTop_toBottomOf="@+id/takingTimeList"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="6.3dp">
+
+                    <EditText
+                        android:id="@+id/taking_dose_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_weight="1"
+                        android:hint="2"
+                        android:textColorHint="#e6e6e6"
+                        android:inputType="number"
+                        android:textColor="#040404"
+                        android:textSize="12.5sp"
+                        android:gravity="center"
+                        android:enabled="false"
+                        android:background="@drawable/bg_search_shape"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="15dp"
+                        android:text="알"
+                        android:textColor="#040404"
+                        android:textSize="15sp"
+                        android:layout_marginStart="15dp" />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+
+
+</LinearLayout>

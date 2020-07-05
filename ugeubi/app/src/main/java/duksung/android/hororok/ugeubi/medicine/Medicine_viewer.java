@@ -59,9 +59,9 @@ public class Medicine_viewer extends LinearLayout {
 
 
                 // 약 아이콘 - 알약(물약,처방약 포함) / 가루약 / 연고
-                if(singerItem.getMedicineType().equals("가루약")) {
+                if(singerItem.getMedicineType().equals("POWDER")) {
                         medicine_icon.setImageResource(R.drawable.icon_powder);
-                } else if (singerItem.getMedicineType().equals("연고")) {
+                } else if (singerItem.getMedicineType().equals("CREAM")) {
                         medicine_icon.setImageResource(R.drawable.icon_cream);
                 } else {
                         int num = random.nextInt(3);

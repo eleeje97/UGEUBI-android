@@ -14,6 +14,7 @@ public class MedicineItemDTO {
 
     @SerializedName("takingInfoDayDto") TakingInfoDayDTO takingInfoDayDto;
 
+    @SerializedName("takingInfo") TakingInfoDayDTO takingInfo;
 
     public int getMedicineId() {
         return medicineId;
@@ -45,5 +46,9 @@ public class MedicineItemDTO {
 
     public TakingInfoDayDTO getTakingInfoDayDto() {
         return takingInfoDayDto;
+    }
+
+    public TakingInfoDayDTO getTakingInfo() {
+        return takingInfo;
     }
 }

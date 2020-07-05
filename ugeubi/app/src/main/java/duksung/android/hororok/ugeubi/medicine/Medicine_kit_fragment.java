@@ -95,38 +95,20 @@ public class Medicine_kit_fragment  extends Fragment {
                 // 약 등록하기 버튼 누름 > 약 등록 페이지로 이동
                 Intent intent = new Intent(getActivity(), RegisterMedicine.class);
                 startActivity(intent);
-
-                // 등록된 약이 있다면 그리드뷰 활성화
-                //linearLayout.setVisibility(View.GONE);
-                //gridView.setVisibility(View.VISIBLE);
-
-                // 약 정보를 어댑터에 추가
-                //medicine_adapter.addItem(new Medicine_data("날짜1",R.drawable.medicine_icon_pill1,"타이레놀","해열 및 진통제"));
-
             }
         });
-
-
-        // 아이템 등록하기
-        //Intent intent = getActivity().getIntent();
-
-        /*
-        medicine_adapter.addItem(new Medicine_data("날짜", R.drawable.icon_pill3,
-                                 intent.getStringExtra("MedicineName"),
-                                 intent.getStringExtra("MedicineMemo")));
-        */
 
 
         // 약 조회 api 호출
         getMedicineList();
 
 
-        // 그리드 뷰에 아이템 클릭시
-        // 해당 아이템의 상세 페이지로 이동
+        // 그리드 뷰에 아이템 클릭시, 해당 아이템의 상세 페이지로 이동
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getContext(),Medicine_kit_detail.class);
+                Intent intent = new Intent(getContext(), Medicine_kit_detail.class);
+                intent.putExtra("medicineId", medicine_adapter.getItem(position).getMedicineId());
                 startActivity(intent);
             }
         });
