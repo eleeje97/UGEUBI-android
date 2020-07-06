@@ -13,6 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import duksung.android.hororok.ugeubi.R;
@@ -56,6 +59,7 @@ public class Alarm_fragment extends Fragment {
         // Test
         alarm_adapter.addItem(new Alarm_data("2020년06월18일","18:00AM","타이레놀 복용시간 입니다.","당일"));
         alarm_adapter.addItem(new Alarm_data("2020년06월16일","19:00AM","비타민D 복용시간 입니다.","2일전"));
+        alarm_adapter.addItem(new Alarm_data("2020년06월16일","19:00AM","비타민D 복용시간 입니다.","2일전"));
 
 
         return rootView;
@@ -82,19 +86,45 @@ public class Alarm_fragment extends Fragment {
                         Log.e("Notification", "notificatioin_date: " + notificationDTO.notification_date);
                         Log.e("Notification", "notification_type: " + notificationDTO.notification_type);
 
+                        // 알림날짜
+                        String notification_date = notificationDTO.notification_date;
+                        String[] str = notification_date.split("-");
+                        notification_date = str[0] + "년 " + str[1] + "월 " + str[2] + "일";
+
+                        // 약 복용시간, 알림 내용
+                        String notification_content;
+                        String notification_time;
                         if (notificationDTO.notification_type.equals("taking_time")) {
-
+                            notification_time = notificationDTO.notification_time;
+                            notification_time = notification_time.substring(0,5);
+                            notification_content = notificationDTO.medicine_name + " 복용시간입니다.";
                         } else {
-
+                            notification_time = "";
+                            notification_content = notificationDTO.medicine_name + "의 유통기한을 확인해주세요!";
                         }
 
-                        // 알람날짜, 약 시간 - Format 설정
-                        String notification_date = notificationDTO.notification_date;
-                        String notification_time = "time"; //notificationDTO.notification_time;
-                        String notification_content = notificationDTO.medicine_name;
-                        String passedDay = "passedDay";
+                        // 알림 경과날짜
+                        String passedDay = "";
+                        try {
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                            Date today = new Date();
+                            Date notificationDate = format.parse(notificationDTO.notification_date);
 
-                        //alarm_adapter.addItem(new Alarm_data("2020년06월18일","18:00AM","타이레놀 복용시간 입니다.","당일"));
+                            long calDate = today.getTime() - notificationDate.getTime();
+                            long calDateDays = calDate / ( 24*60*60*1000);
+                            calDateDays = Math.abs(calDateDays);
+
+                            if(calDateDays == 0) {
+                                passedDay = "오늘";
+                            } else {
+                                passedDay = calDateDays + "일 전";
+                            }
+
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+
+
                         alarm_adapter.addItem(new Alarm_data(notification_date, notification_time, notification_content, passedDay));
                         alarm_adapter.notifyDataSetChanged();
                         recyclerView.setAdapter(alarm_adapter);

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="312dp"
-    android:layout_height="127.5dp"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
     android:elevation="5dp"
     android:layout_marginVertical="10dp"
     android:background="@drawable/alarm_shape"
-    android:orientation="vertical"
-    >
-
+    android:orientation="vertical" >
 
     <TextView
         android:layout_width="match_parent"
@@ -16,7 +14,7 @@
         android:layout_marginTop="22.3dp"
         android:textSize="10sp"
         android:id="@+id/alarm_day"
-        android:layout_marginLeft="35dp"
+        android:layout_marginHorizontal="35dp"
         android:text="2020년 05월 09일"
         android:textColor="#3d3d3d" />
 
@@ -24,29 +22,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="11.88dp"
-        android:layout_marginRight="66.8dp"
         android:orientation="horizontal"
-
-        android:gravity="center">
+        android:layout_marginHorizontal="35dp"
+        android:gravity="center_vertical">
 
         <ImageView
             android:id="@+id/dose_icon"
             android:layout_width="34.2dp"
             android:layout_height="34.2dp"
-            android:layout_marginLeft="35dp"
             android:layout_marginRight="8.1dp"
             android:src="@drawable/ugeubi_dose"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:id="@+id/alarm_time"
-                android:layout_height="15sp"
+                android:layout_height="wrap_content"
                 android:text="08:00 AM"
                 android:textColor="#262626" />
 
@@ -61,8 +56,6 @@
         </LinearLayout>
 
 
-
-
     </LinearLayout>
 
 
@@ -73,7 +66,7 @@
         android:text="3일전"
         android:textColor="@color/black"
         android:textSize="10sp"
-        android:layout_marginLeft="242.3dp"
-        android:layout_marginBottom="13.5dp"
-        android:layout_marginRight="44.3dp"/>
+        android:layout_gravity="right"
+        android:layout_marginRight="35dp"
+        android:layout_marginBottom="13.5dp"/>
 </LinearLayout>

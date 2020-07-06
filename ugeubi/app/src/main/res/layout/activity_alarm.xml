@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_alarm_2">
+    android:background="@drawable/bg_alarm_2"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/ugeubi_logo"
@@ -13,34 +13,26 @@
         android:layout_height="29.3dp"
         android:layout_marginTop="22.8dp"
         android:src="@drawable/ugeubi_bar_icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.0" />
-
+        android:layout_gravity="center_horizontal"/>
 
     <TextView
         android:id="@+id/alarm"
         android:layout_width="wrap_content"
-        android:layout_height="120px"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="55dp"
-        android:layout_marginTop="77dp"
+        android:layout_marginTop="25dp"
         android:text="알림"
         android:textColor="#4b4949"
         android:textSize="17.5sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textStyle="bold" />
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="11.3dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/alarmlist"
         android:layout_marginLeft="32.8dp"
         android:layout_marginRight="15dp"
+        android:paddingBottom="100dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/alarm"
-        />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="wrap_content" />
+</LinearLayout>

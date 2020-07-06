@@ -67,7 +67,11 @@ public class Alarm_adapter extends RecyclerView.Adapter<Alarm_adapter.ViewHolder
 
         // set
         public void onBind(Alarm_data data){
-            notification_time.setText(data.getNotification_time());
+            if (data.getNotification_time().equals("")) {
+                notification_time.setVisibility(View.GONE);
+            } else {
+                notification_time.setText(data.getNotification_time());
+            }
             notification_date.setText(data.getNotification_date());
             passedDay.setText(data.getPassedDay());
             notification_content.setText(data.getMedicine_content());
