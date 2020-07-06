@@ -56,12 +56,6 @@ public class Alarm_fragment extends Fragment {
         apiService = RetrofitClient.getService();
         getNotifications();
 
-        // Test
-        alarm_adapter.addItem(new Alarm_data("2020년06월18일","18:00AM","타이레놀 복용시간 입니다.","당일"));
-        alarm_adapter.addItem(new Alarm_data("2020년06월16일","19:00AM","비타민D 복용시간 입니다.","2일전"));
-        alarm_adapter.addItem(new Alarm_data("2020년06월16일","19:00AM","비타민D 복용시간 입니다.","2일전"));
-
-
         return rootView;
     }
 

@@ -1,12 +1,11 @@
 package duksung.android.hororok.ugeubi.alarm;
 
-public class Alarm_data {
+public class Alarm_data implements Comparable<Alarm_data> {
 
     public String notification_date;
     public String notification_time;
     public String notification_content;
     public String passedDay;
-
 
     public Alarm_data(String notification_date, String notification_time, String notification_content, String passedDay) {
         this.notification_date = notification_date;
@@ -46,5 +45,14 @@ public class Alarm_data {
 
     public void setPassedDay(String passedDay) {
         this.passedDay = passedDay;
+    }
+
+    @Override
+    public int compareTo(Alarm_data o) {
+        if (o.notification_date.compareTo(notification_date) == 0) {
+            return o.notification_time.compareTo(notification_time);
+        } else {
+            return o.notification_date.compareTo(notification_date);
+        }
     }
 }

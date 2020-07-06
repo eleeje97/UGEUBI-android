@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import duksung.android.hororok.ugeubi.R;
 
@@ -47,6 +48,7 @@ public class Alarm_adapter extends RecyclerView.Adapter<Alarm_adapter.ViewHolder
     // add
     public void addItem(Alarm_data data){
         alarmList.add(data);
+        Collections.sort(alarmList);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -79,4 +81,6 @@ public class Alarm_adapter extends RecyclerView.Adapter<Alarm_adapter.ViewHolder
 
 
     }
+
+
 }
