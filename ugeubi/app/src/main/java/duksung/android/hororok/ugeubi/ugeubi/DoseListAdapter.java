@@ -1,6 +1,7 @@
 package duksung.android.hororok.ugeubi.ugeubi;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import duksung.android.hororok.ugeubi.R;
+import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
+import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
 import duksung.android.hororok.ugeubi.retrofit.ugeubi.TakingHistoryDTO;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHolder> {
+
+    // 레트로핏
+    RetrofitInterface apiService;
+
+
+    public final String PREFERENCE = "ugeubi.preference";
+
 
     private Context context;
     private ArrayList<TakingHistoryDTO> doseDataList = new ArrayList<>();
@@ -30,9 +42,17 @@ public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.dose_item, parent, false);
 
+        // 레트로핏
+        apiService = RetrofitClient.getService();
+
+
+
+
         return new ViewHolder(view);
     }
 
+
+    // 복용 여부
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final TakingHistoryDTO takingHistoryDTO = doseDataList.get(position);
@@ -106,5 +126,6 @@ public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHo
     public void remove(int position){
         doseDataList.remove(position);
     }
+
 
 }

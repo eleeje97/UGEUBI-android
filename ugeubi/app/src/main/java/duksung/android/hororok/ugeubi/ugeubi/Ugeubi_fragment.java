@@ -78,7 +78,7 @@ public class Ugeubi_fragment extends Fragment {
         dose_list.setLayoutManager(layoutManager);
         adapter = new DoseListAdapter(getContext());
 
-        ugeubiDialog = new UgeubiDialog(getContext(), positiveListener, negativeListener);
+        //ugeubiDialog = new UgeubiDialog(getContext(), positiveListener, negativeListener);
 
 
 
@@ -125,17 +125,14 @@ public class Ugeubi_fragment extends Fragment {
             datePickerDialog.show();
 
 
-
-
         });
-
-
-
 
         return rootView;
     }
 
 
+    /** 다이얼로그  **/
+    /*
     private View.OnClickListener positiveListener = new View.OnClickListener() {
         public void onClick(View v) {
             Toast.makeText(getContext(), "확인버튼이 눌렸습니다.",Toast.LENGTH_SHORT).show();
@@ -150,8 +147,10 @@ public class Ugeubi_fragment extends Fragment {
         }
     };
 
+     */
 
 
+    /** 복용약 기록 가져오는 API **/
     public void getTakingHistory(String date){
 
         SharedPreferences pref = getActivity().getSharedPreferences(PREFERENCE, MODE_PRIVATE);
@@ -164,11 +163,12 @@ public class Ugeubi_fragment extends Fragment {
                 Log.e("error", "code : " + response.code());
 
                 if (response.isSuccessful()) {
-                    Log.e("error", "size() : " +response.body().size());
+                    Log.e("error", "errorbody() : " +response.errorBody());
 
                     List<TakingHistoryDTO> apiResponse = response.body();
 
-                    Log.e("error", "size2() : " +response.body().size());
+                    Log.e("error", "size() : " +response.body().size());
+                    Log.e("error", "body() : " +response.body());
 
                     // 아이템이 있다면 "알람이 없어요" 텍스트 GONE
                     if(apiResponse.size() > 0){
