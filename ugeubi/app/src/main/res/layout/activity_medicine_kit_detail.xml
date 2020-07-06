@@ -30,6 +30,7 @@
             android:id="@+id/btn_edit"
             android:layout_gravity="center_vertical|right"
             android:layout_width="20dp"
+            android:visibility="gone"
             android:layout_height="20dp"
             android:background="@drawable/btn_edit_off" />
 
