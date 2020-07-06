@@ -16,13 +16,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import duksung.android.hororok.ugeubi.setting.DeveloperInfo;
 import duksung.android.hororok.ugeubi.setting.Modify_pw;
+import duksung.android.hororok.ugeubi.setting.OpenSourceLicense;
 
 import static android.content.Context.MODE_PRIVATE;
 
 public class Setting_fragment extends Fragment {
 
-    LinearLayout mf_pw, logout_btn;
+    LinearLayout mf_pw, logout_btn, developer_info,opensource_license;
 
     TextView userName_id, user_Email;
 
@@ -40,6 +42,8 @@ public class Setting_fragment extends Fragment {
         logout_btn = rootView.findViewById(R.id.logout_btn);
         userName_id = rootView.findViewById(R.id.username_id);
         user_Email = rootView.findViewById(R.id.useremail);
+        developer_info = rootView.findViewById(R.id.developer_info);
+        opensource_license = rootView.findViewById(R.id.opensource_license);
 
 
         // 회원 정보 가져오기
@@ -101,6 +105,24 @@ public class Setting_fragment extends Fragment {
 
             }
         });
+
+
+        /** 개발자 정보 **/
+        developer_info.setOnClickListener(v -> {
+            Intent developerIntent = new Intent(getContext(), DeveloperInfo.class);
+            startActivity(developerIntent);
+        });
+
+
+        /** 오픈 소스 라이센스 **/
+        opensource_license.setOnClickListener(v -> {
+            Intent openSourceIntent = new Intent(getContext(), OpenSourceLicense.class);
+            startActivity(openSourceIntent);
+        });
         return rootView;
+
+
     }
+
+
 }

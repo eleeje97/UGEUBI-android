@@ -22,6 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Login"/>
+        <activity android:name=".setting.OpenSourceLicense"/>
+        <activity android:name=".setting.DeveloperInfo"/>
         <activity android:name=".setting.Modify_pw"/>
         <activity android:name=".search.Search_Result"/>
         <activity android:name=".medicine.AddMedicine"/>

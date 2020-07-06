@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,6 +35,9 @@ public class Alarm_fragment extends Fragment {
     RecyclerView recyclerView;
     Alarm_adapter alarm_adapter;
 
+    // default 알람
+    LinearLayout default_alarm;
+
     // retrofit
     RetrofitInterface apiService;
 
@@ -45,6 +49,10 @@ public class Alarm_fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.activity_alarm, container, false);
 
+        // default_alarm
+        default_alarm = rootView.findViewById(R.id.alarm_default);
+
+        // recycle
         recyclerView = rootView.findViewById(R.id.alarmlist);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
@@ -53,8 +61,15 @@ public class Alarm_fragment extends Fragment {
         recyclerView.setAdapter(alarm_adapter);
 
 
+        if(recyclerView.getAdapter().getItemCount() > 0){
+            default_alarm.setVisibility(View.GONE);
+        }
+
         apiService = RetrofitClient.getService();
         getNotifications();
+
+
+
 
         return rootView;
     }
