@@ -110,8 +110,16 @@ public interface RetrofitInterface {
     Call<NewPwDTO> setNewPW(@Body NewPwDTO newPwDto);
 
 
-    /** 알람 **/
+    /** FCM 디바이스 토큰 등록 **/
+    // 디바이스 토큰 등록
+    @Headers({
+            "Content-Type: application/json;charset=UTF-8" ,
+            "Transfer-Encoding: chunked"})
+    @POST("registerDeviceToken")
+    Call<Void> registerDeviceToken(@Header("Authorization") String token, @Body String deviceToken);
 
+
+    /** 알람 **/
     // 알람 조회
     @Headers({
         "Content-Type: application/json;charset=UTF-8",

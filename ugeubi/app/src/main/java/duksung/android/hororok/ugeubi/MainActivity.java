@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -15,8 +16,13 @@ import com.google.firebase.iid.InstanceIdResult;
 
 import duksung.android.hororok.ugeubi.alarm.Alarm_fragment;
 import duksung.android.hororok.ugeubi.medicine.Medicine_kit_fragment;
+import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
+import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
 import duksung.android.hororok.ugeubi.search.Search_fragment;
 import duksung.android.hororok.ugeubi.ugeubi.Ugeubi_fragment;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends FragmentActivity {
 
@@ -29,11 +35,18 @@ public class MainActivity extends FragmentActivity {
     Search_fragment search_fragment;
     Setting_fragment setting_fragment;
 
+    RetrofitInterface apiService;
+    public final String PREFERENCE = "ugeubi.preference";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        apiService = RetrofitClient.getService();
+
 
         alarm_fragment = new Alarm_fragment();
         medicine_kit_fragment = new Medicine_kit_fragment();
@@ -149,9 +162,9 @@ public class MainActivity extends FragmentActivity {
                             // Get new Instance ID token
                             String token = task.getResult().getToken();
 
-                            // Log and toast
-                            //String msg = getString(R.string.msg_token_fmt, token);
+                            // token 등록
                             Log.d("IDService", token);
+                            registerDeviceToken(token);
                         }
                     });
 
@@ -160,6 +173,34 @@ public class MainActivity extends FragmentActivity {
             e.printStackTrace();
         }
 
+    }
+
+
+    /** 디바이스 토큰 등록 api 호출 **/
+    public void registerDeviceToken(String deviceToken) {
+        // accessToken
+        SharedPreferences pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE);
+        String accessToken = "Bearer " + pref.getString("accessToken", "");
+
+        apiService.registerDeviceToken(accessToken, deviceToken).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.e("fcm", "code: " + response.code());
+
+                if (response.isSuccessful()) {
+                    Log.e("fcm", "body: " + response.body());
+
+                } else {
+                    Log.e("fcm", "errorbody: " + response.errorBody());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("fcm", "통신실패! " + t.getMessage());
+            }
+        });
     }
 
 }
