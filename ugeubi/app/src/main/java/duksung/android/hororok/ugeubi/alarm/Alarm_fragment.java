@@ -28,6 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.view.View.GONE;
 
 public class Alarm_fragment extends Fragment {
 
@@ -58,12 +59,14 @@ public class Alarm_fragment extends Fragment {
         recyclerView.setLayoutManager(manager);
 
         alarm_adapter = new Alarm_adapter();
+
+
         recyclerView.setAdapter(alarm_adapter);
 
 
-        if(recyclerView.getAdapter().getItemCount() > 0){
-            default_alarm.setVisibility(View.GONE);
-        }
+
+
+
 
         apiService = RetrofitClient.getService();
         getNotifications();
@@ -137,6 +140,14 @@ public class Alarm_fragment extends Fragment {
                         alarm_adapter.addItem(new Alarm_data(notification_date, notification_time, notification_content, passedDay));
                         alarm_adapter.notifyDataSetChanged();
                         recyclerView.setAdapter(alarm_adapter);
+                    }
+
+
+                    if(apiResponse.size() > 0){
+                        default_alarm.setVisibility(View.GONE);
+                    }
+                    else{
+                        default_alarm.setVisibility(View.VISIBLE);
                     }
 
 
