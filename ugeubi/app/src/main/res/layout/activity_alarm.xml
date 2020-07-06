@@ -26,7 +26,6 @@
         android:textSize="17.5sp"
         android:textStyle="bold" />
 
-
     <LinearLayout
         android:id="@+id/alarm_default"
         android:layout_width="match_parent"
@@ -91,11 +90,13 @@
             android:layout_marginBottom="13.5dp"/>
     </LinearLayout>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="10dp"
         android:id="@+id/alarmlist"
         android:layout_marginLeft="32.8dp"
         android:layout_marginRight="15dp"
+
         android:paddingBottom="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
