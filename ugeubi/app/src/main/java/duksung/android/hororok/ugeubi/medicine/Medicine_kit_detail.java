@@ -177,7 +177,7 @@ public class Medicine_kit_detail extends Activity {
                     if (apiResponse.getMedicineType().equals("알약")) {
                         pill.setChecked(true);
                         taking_dose_num_section.setVisibility(View.VISIBLE);
-                        taking_dose_num.setText(apiResponse.getTakingInfo().takingNumber);
+                        taking_dose_num.setText(apiResponse.getTakingInfo().takingNumber + "");
                     } else if (apiResponse.getMedicineType().equals("물약")) {
                         liquidMedicine.setChecked(true);
                     } else if (apiResponse.getMedicineType().equals("가루약")) {

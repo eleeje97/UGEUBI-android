@@ -118,8 +118,8 @@ public class RegisterMedicine extends AppCompatActivity {
     LinearLayout expiration_date_section, isTaken_section, prescription_section, takingType_section, takingDay_section, takingTerm_section, takingTime_section;
 
 
-    public String medicineType_txt = "";
-    public String medicineValidterm = "";
+    public String medicineType_txt = "PILL";
+    public String medicineValidterm;
     public boolean isTaken = false;
     public Date date_txt;
     public List<String> takingTime;
@@ -214,6 +214,8 @@ public class RegisterMedicine extends AppCompatActivity {
         back_btn = findViewById(R.id.btn_back);
         add_btn = findViewById(R.id.btn_ok);
 
+
+        week[0].setChecked(true);
 
 
         /************************** init end ***************************/
@@ -316,6 +318,8 @@ public class RegisterMedicine extends AppCompatActivity {
                     for(TakingTimeData takingTimeData : takingTimeDataList){
                         takingTime.add(takingTimeData.time);
                     }
+                    Log.e("timeList", "countList: " + countList);
+                    Log.e("timeList", "takingTime: " + takingTime.size());
 
                     // 연고, 물약, 가루약 확인
                     if(medicineType_txt.equals("CREAM") || medicineType_txt.equals("LIQUID") || medicineType_txt.equals("POWDER")  ){
@@ -326,6 +330,15 @@ public class RegisterMedicine extends AppCompatActivity {
                     if(medicineType_txt.equals("PRESCRIPTION")){
                         isTaken = true;
                     }
+
+
+                    Log.i("info","약이름 : " + medicineName.getText().toString());
+                    Log.i("info","약타입 : " + medicineType_txt);
+                    Log.i("info","약유통기한 : " + medicineValidterm);
+                    Log.i("info","약 복용유무 : " + isTaken);
+                    Log.i("info","약 날짜 : " + takingDayOfWeek.size());
+                    Log.i("info","약 시간 : " + takingTime.size());
+                    Log.i("info","약 메모 : " + memo.getText().toString());
 
 
                     if(takingDoseNum.getText().length() !=0 && medicineName.getText().length() != 0){
