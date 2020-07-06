@@ -36,6 +36,8 @@ import retrofit2.Response;
 
 public class Medicine_kit_detail extends Activity {
 
+    MainActivity mainActivity = (MainActivity) MainActivity.mainActivity;
+
     Button back_btn;
 
     public final String PREFERENCE = "ugeubi.preference";
@@ -314,6 +316,10 @@ public class Medicine_kit_detail extends Activity {
                     finish();
                     Toast.makeText(getApplicationContext(), "해당 약이 삭제되었습니다.", Toast.LENGTH_SHORT).show();
 
+                    mainActivity.finish();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("tabPosition", 1);
+                    startActivity(intent);
 
                 }
             }

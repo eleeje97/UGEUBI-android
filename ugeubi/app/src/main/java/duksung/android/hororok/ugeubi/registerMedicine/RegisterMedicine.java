@@ -54,6 +54,8 @@ import static android.view.View.VISIBLE;
 
 public class RegisterMedicine extends AppCompatActivity {
 
+    MainActivity mainActivity = (MainActivity) MainActivity.mainActivity;
+
     // retrofit
     RetrofitInterface apiService;
 
@@ -153,7 +155,7 @@ public class RegisterMedicine extends AppCompatActivity {
 
 
 
-                // 약 종류 버튼
+        // 약 종류 버튼
         pill = findViewById(R.id.pill);
         liquidMedicine = findViewById(R.id.liquidMedicine);
         powderedMedicine = findViewById(R.id.powderedMedicine);
@@ -341,6 +343,7 @@ public class RegisterMedicine extends AppCompatActivity {
                     Log.i("info","약 메모 : " + memo.getText().toString());
 
 
+
                     if(takingDoseNum.getText().length() !=0 && medicineName.getText().length() != 0){
 
                         /** 약 등록 API 호출 **/
@@ -359,9 +362,16 @@ public class RegisterMedicine extends AppCompatActivity {
                                 memo.getText().toString(), new TakingInfoDayDTO(takingTime,
                                 takingDayOfWeek, Integer.parseInt(takingDoseNum.getText().toString()))));
 
-                        // 약 등록 후 > 우리집 구급상자 페이지로 이동
 
                         break;
+
+                    }
+                    else if(medicineName.getText().length() !=0 && !isTaken){
+                        takingDoseNum.setText("0");
+                        registerMedicine(new MedicineDTO(medicineName.getText().toString(),
+                                medicineType_txt, medicineValidterm, isTaken,
+                                memo.getText().toString(), new TakingInfoDayDTO(takingTime,
+                                takingDayOfWeek, Integer.parseInt(takingDoseNum.getText().toString()))));
 
                     }
                     else{
@@ -766,6 +776,12 @@ public class RegisterMedicine extends AppCompatActivity {
 
                     Log.i("info", "통신성공(register medicine)");
                     finish();
+
+                    // 약 등록 후 > 우리집 구급상자 페이지로 이동
+                    mainActivity.finish();
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    intent.putExtra("tabPosition", 1);
+                    startActivity(intent);
 
                 }
 

@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,17 +30,27 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static Activity mainActivity;
+
     TabLayout tabs;
-    private ViewPager mViewPager;
+    private NonSwipeViewPager mViewPager;
 
     RetrofitInterface apiService;
     public final String PREFERENCE = "ugeubi.preference";
 
+    TabLayout.Tab alarm_btn;
+    TabLayout.Tab medicine_kit_btn;
+    TabLayout.Tab main_btn;
+    TabLayout.Tab search_btn;
+    TabLayout.Tab settings_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mainActivity = MainActivity.this;
+
 
         apiService = RetrofitClient.getService();
 
@@ -46,11 +58,11 @@ public class MainActivity extends AppCompatActivity {
         tabs = findViewById(R.id.tabs);
 
         // 메인 아이콘만 클릭 표시
-        final TabLayout.Tab alarm_btn = tabs.newTab().setIcon(R.drawable.reminder);
-        final TabLayout.Tab medicine_kit_btn = tabs.newTab().setIcon(R.drawable.medicine_kit_icon);
-        final TabLayout.Tab main_btn = tabs.newTab().setIcon(R.drawable.main_icon_clicked);
-        final TabLayout.Tab search_btn = tabs.newTab().setIcon(R.drawable.search_icon);
-        final TabLayout.Tab settings_btn = tabs.newTab().setIcon(R.drawable.settings);
+        alarm_btn = tabs.newTab().setIcon(R.drawable.reminder);
+        medicine_kit_btn = tabs.newTab().setIcon(R.drawable.medicine_kit_icon);
+        main_btn = tabs.newTab().setIcon(R.drawable.main_icon_clicked);
+        search_btn = tabs.newTab().setIcon(R.drawable.search_icon);
+        settings_btn = tabs.newTab().setIcon(R.drawable.settings);
 
         // 탭 레이아웃에 각각의 탭 버튼 추가
         tabs.addTab(alarm_btn);
@@ -66,6 +78,25 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mViewPager.setCurrentItem(tab.getPosition());
+                setIconUnclicked();
+
+                switch (tab.getPosition()) {
+                    case 0:
+                        alarm_btn.setIcon(R.drawable.reminder_icon_clicked);
+                        break;
+                    case 1:
+                        medicine_kit_btn.setIcon(R.drawable.medicine_kit_icon_clicked);
+                        break;
+                    case 2:
+                        main_btn.setIcon(R.drawable.main_icon_clicked);
+                        break;
+                    case 3:
+                        search_btn.setIcon(R.drawable.search_icon_clicked);
+                        break;
+                    case 4:
+                        settings_btn.setIcon(R.drawable.settings_icon_clicked);
+                        break;
+                }
             }
 
             @Override
@@ -81,7 +112,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         // 초기 탭 설정 (메인 탭)
-        mViewPager.setCurrentItem(2);
+        Intent intent = getIntent();
+        int tabPosition = intent.getIntExtra("tabPosition", 2);
+        mViewPager.setCurrentItem(tabPosition);
 
 
         try {
@@ -108,6 +141,15 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+
+    public void setIconUnclicked() {
+        alarm_btn.setIcon(R.drawable.reminder);
+        medicine_kit_btn.setIcon(R.drawable.medicine_kit_icon);
+        main_btn.setIcon(R.drawable.main_icon);
+        search_btn.setIcon(R.drawable.search_icon);
+        settings_btn.setIcon(R.drawable.settings);
     }
 
 
