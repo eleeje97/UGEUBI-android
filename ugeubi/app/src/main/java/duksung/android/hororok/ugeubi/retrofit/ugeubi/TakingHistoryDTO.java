@@ -2,7 +2,7 @@ package duksung.android.hororok.ugeubi.retrofit.ugeubi;
 
 import com.google.gson.annotations.SerializedName;
 
-public class TakingHistoryDTO {
+public class TakingHistoryDTO implements Comparable<TakingHistoryDTO> {
 
     @SerializedName("id")
     public int id;
@@ -90,5 +90,18 @@ public class TakingHistoryDTO {
 
     public void setTaking_history_is_taken(boolean taking_history_is_taken) {
         this.taking_history_is_taken = taking_history_is_taken;
+    }
+
+    @Override
+    public int compareTo(TakingHistoryDTO o) {
+        if (taking_history_is_taken == o.taking_history_is_taken) {
+            return takingTime.compareTo(o.takingTime);
+        } else {
+            if (taking_history_is_taken) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
     }
 }

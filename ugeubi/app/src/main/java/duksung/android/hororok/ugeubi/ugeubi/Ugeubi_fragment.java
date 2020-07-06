@@ -116,6 +116,7 @@ public class Ugeubi_fragment extends Fragment {
 
 
                     /** 약 알림 기록 API 호출 **/
+                    adapter.clear();
                     getTakingHistory(date_txt);
 
 

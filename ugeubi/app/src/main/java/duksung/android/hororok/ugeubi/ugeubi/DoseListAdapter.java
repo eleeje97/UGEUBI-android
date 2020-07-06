@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import duksung.android.hororok.ugeubi.R;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
@@ -87,6 +88,7 @@ public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHo
                 } else {
                     takingHistoryDTO.taking_history_is_taken = true;
                 }
+                Collections.sort(doseDataList);
                 notifyItemChanged(position);
             }
         });
@@ -120,11 +122,16 @@ public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHo
 
     public void addItem(TakingHistoryDTO takingHistoryDTO) {
         doseDataList.add(takingHistoryDTO);
+        Collections.sort(doseDataList);
     }
 
     public void remove(int position){
         doseDataList.remove(position);
     }
 
+    public void clear() {
+        doseDataList.clear();
+        notifyDataSetChanged();
+    }
 
 }
