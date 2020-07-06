@@ -70,7 +70,12 @@ public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHo
             holder.dose_image.setImageResource(R.drawable.ugeubi_dose);
             holder.dose_time.setTextColor(Color.parseColor("#ffffff"));
             holder.dose_name.setTextColor(Color.parseColor("#ffffff"));
-            holder.dose_num.setText(takingHistoryDTO.takingNumber);
+            if (takingHistoryDTO.getTakingNumber() == 0) {
+                holder.dose_num.setText("약을 복용하세요");
+            } else {
+                holder.dose_num.setText(takingHistoryDTO.takingNumber + "알 복용하세요");
+            }
+
         }
 
         holder.dose_background.setOnClickListener(new View.OnClickListener() {
@@ -113,13 +118,7 @@ public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHo
         }
     }
 
-    public void addItem(String time, String dose_name, int dose_num, boolean isTaken) {
-        TakingHistoryDTO takingHistoryDTO = new TakingHistoryDTO();
-        takingHistoryDTO.takingTime = time;
-        takingHistoryDTO.medicineName = dose_name;
-        takingHistoryDTO.takingNumber = dose_num;
-        takingHistoryDTO.taking_history_is_taken = isTaken;
-
+    public void addItem(TakingHistoryDTO takingHistoryDTO) {
         doseDataList.add(takingHistoryDTO);
     }
 

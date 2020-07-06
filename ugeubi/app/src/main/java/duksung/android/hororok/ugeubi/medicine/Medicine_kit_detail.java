@@ -168,7 +168,7 @@ public class Medicine_kit_detail extends Activity {
                 if(response.isSuccessful()){
                     Log.i("info", "통신성공");
                     MedicineItemDTO apiResponse = response.body();
-                    Log.i("medicine_kit", "items.size: " + apiResponse.getMedicineName());
+                    Log.i("medicine_kit", "medicineName: " + apiResponse.getMedicineName());
 
 
                     medicine_name.setText(apiResponse.getMedicineName());
@@ -176,7 +176,7 @@ public class Medicine_kit_detail extends Activity {
 
                     if (apiResponse.getMedicineType().equals("알약")) {
                         pill.setChecked(true);
-                        taking_dose_num_section.setVisibility(View.INVISIBLE);
+                        taking_dose_num_section.setVisibility(View.VISIBLE);
                         taking_dose_num.setText(apiResponse.getTakingInfo().takingNumber);
                     } else if (apiResponse.getMedicineType().equals("물약")) {
                         liquidMedicine.setChecked(true);

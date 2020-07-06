@@ -48,6 +48,8 @@ public class MainActivity extends FragmentActivity {
         apiService = RetrofitClient.getService();
 
 
+        tabs = findViewById(R.id.tabs);
+
         alarm_fragment = new Alarm_fragment();
         medicine_kit_fragment = new Medicine_kit_fragment();
         ugeubi_fragment = new Ugeubi_fragment();
@@ -58,7 +60,6 @@ public class MainActivity extends FragmentActivity {
         // 시작했을 때 보여줄 fragment 화면 설정
         getSupportFragmentManager().beginTransaction().add(R.id.container, ugeubi_fragment).commit();
 
-        tabs = findViewById(R.id.tabs);
 
         // 메인 아이콘만 클릭 표시
         final TabLayout.Tab alarm_btn = tabs.newTab().setIcon(R.drawable.reminder);
@@ -74,6 +75,9 @@ public class MainActivity extends FragmentActivity {
         tabs.addTab(search_btn);
         tabs.addTab(settings_btn);
 
+
+        Log.e("MainActivity", "처음 탭 position: " + tabs.getSelectedTabPosition());
+
        // 각각 탭 버튼이 눌렸을 때 화면 전환
         tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -81,7 +85,9 @@ public class MainActivity extends FragmentActivity {
                 int position = tab.getPosition();
                 Fragment selected = null;
 
-                // 알림 페이지로 이동
+                Log.e("MainActivity", "position: " + position);
+
+               // 알림 페이지로 이동
                 if(position == 0){
                     selected = alarm_fragment;
                     alarm_btn.setIcon(R.drawable.reminder_icon_clicked);

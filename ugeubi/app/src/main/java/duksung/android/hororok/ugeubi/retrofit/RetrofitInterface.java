@@ -18,7 +18,6 @@ import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchDTO;
 import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchResultDTO;
 import duksung.android.hororok.ugeubi.retrofit.ugeubi.CheckedTakingMedicineDTO;
 import duksung.android.hororok.ugeubi.retrofit.ugeubi.TakingHistoryDTO;
-import duksung.android.hororok.ugeubi.retrofit.ugeubi.TakingHistoryListDTO;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;

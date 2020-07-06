@@ -31,9 +31,7 @@ import java.util.Locale;
 import duksung.android.hororok.ugeubi.R;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
-import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineItemDTO;
 import duksung.android.hororok.ugeubi.retrofit.ugeubi.TakingHistoryDTO;
-import duksung.android.hororok.ugeubi.retrofit.ugeubi.TakingHistoryListDTO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,15 +71,12 @@ public class Ugeubi_fragment extends Fragment {
         dose_list = rootView.findViewById(R.id.dose_list);
         calendarBtn = rootView.findViewById(R.id.calendar_btn);
         dateTextView = rootView.findViewById(R.id.date);
-        //text = rootView.findViewById(R.id.text33);
+        text = rootView.findViewById(R.id.text33);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         dose_list.setLayoutManager(layoutManager);
         adapter = new DoseListAdapter(getContext());
 
         //ugeubiDialog = new UgeubiDialog(getContext(), positiveListener, negativeListener);
-
-
-
 
 
 
@@ -92,6 +87,12 @@ public class Ugeubi_fragment extends Fragment {
         mMonth = calendar.get(Calendar.MONTH) + 1;
         mDay = calendar.get(Calendar.DAY_OF_MONTH);
         dateTextView.setText(mYear + "년 " + mMonth + "월 " + mDay + "일");
+
+
+        Date today = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        getTakingHistory(format.format(today));
+
 
 
         // 캘린더 버튼 클릭했을 때
@@ -111,7 +112,7 @@ public class Ugeubi_fragment extends Fragment {
                     else{ d = mDay + ""; }
 
                     date_txt = mYear + "-" + m + "-" + d;
-                    Log.e("error", date_txt);
+                    Log.e("ugeubi", date_txt);
 
 
                     /** 약 알림 기록 API 호출 **/
@@ -121,7 +122,7 @@ public class Ugeubi_fragment extends Fragment {
                 }
             }, mYear, mMonth - 1, mDay);
 
-            datePickerDialog.setMessage("메시지");
+            datePickerDialog.setMessage("날짜선택");
             datePickerDialog.show();
 
 
@@ -159,42 +160,39 @@ public class Ugeubi_fragment extends Fragment {
             @Override
             public void onResponse(Call<List<TakingHistoryDTO>> call, Response<List<TakingHistoryDTO>> response) {
 
-
-                Log.e("error", "code : " + response.code());
+                Log.e("ugeubi", "code : " + response.code());
 
                 if (response.isSuccessful()) {
-                    Log.e("error", "errorbody() : " +response.errorBody());
-
+                    Log.i("ugeubi", "통신성공");
                     List<TakingHistoryDTO> apiResponse = response.body();
 
-                    Log.e("error", "size() : " +response.body().size());
-                    Log.e("error", "body() : " +response.body());
+                    Log.e("ugeubi", "size() : " +response.body().size());
+                    Log.e("ugeubi", "body() : " +response.body());
 
                     // 아이템이 있다면 "알람이 없어요" 텍스트 GONE
                     if(apiResponse.size() > 0){
-
+                        text.setVisibility(View.GONE);
+                    } else {
+                        text.setVisibility(View.VISIBLE);
                     }
 
-                    // 없다면 VISIBLE
-                    for (TakingHistoryDTO takingHistoryDTO : apiResponse ) {
-                        Log.i("medicine_kit", "이름: " + takingHistoryDTO.getMedicineName());
-                        Log.i("medicine_kit", "몇시: " + takingHistoryDTO.getTakingTime());
-                        Log.i("medicine_kit", "몇알: " + takingHistoryDTO.getTakingNumber());
-                        adapter.addItem(takingHistoryDTO.takingTime,
-                                takingHistoryDTO.medicineName,
-                                takingHistoryDTO.takingNumber,
-                                takingHistoryDTO.taking_history_is_taken);
+                    for (TakingHistoryDTO takingHistoryDTO : apiResponse) {
+                        Log.i("ugeubi", "이름: " + takingHistoryDTO.getMedicineName());
+                        Log.i("ugeubi", "몇시: " + takingHistoryDTO.getTakingTime());
+                        adapter.addItem(takingHistoryDTO);
                         adapter.notifyDataSetChanged();
                         dose_list.setAdapter(adapter);
 
-                        Log.i("info", "통신성공(업데이트알람)");
+
                     }
+                } else {
+                    Log.e("ugeubi", "errorbody() : " +response.errorBody());
                 }
             }
 
             @Override
             public void onFailure(Call<List<TakingHistoryDTO>> call, Throwable t) {
-                Log.e("error", "통신실패(업데이트알람)"+ t.getMessage() + t.getCause());
+                Log.e("ugeubi", "통신실패"+ t.getMessage() + t.getCause());
             }
 
         });
