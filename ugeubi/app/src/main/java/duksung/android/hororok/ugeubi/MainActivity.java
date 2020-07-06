@@ -1,8 +1,10 @@
 package duksung.android.hororok.ugeubi;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -24,16 +26,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
 
     TabLayout tabs;
-
-    // 각 페이지에 대한 프레그먼트
-    Alarm_fragment alarm_fragment;
-    Medicine_kit_fragment medicine_kit_fragment;
-    Ugeubi_fragment ugeubi_fragment;
-    Search_fragment search_fragment;
-    Setting_fragment setting_fragment;
+    private ViewPager mViewPager;
 
     RetrofitInterface apiService;
     public final String PREFERENCE = "ugeubi.preference";
@@ -44,22 +40,10 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         apiService = RetrofitClient.getService();
 
-
+        mViewPager = findViewById(R.id.container);
         tabs = findViewById(R.id.tabs);
-
-        alarm_fragment = new Alarm_fragment();
-        medicine_kit_fragment = new Medicine_kit_fragment();
-        ugeubi_fragment = new Ugeubi_fragment();
-        search_fragment = new Search_fragment();
-        setting_fragment = new Setting_fragment();
-
-
-        // 시작했을 때 보여줄 fragment 화면 설정
-        getSupportFragmentManager().beginTransaction().add(R.id.container, ugeubi_fragment).commit();
-
 
         // 메인 아이콘만 클릭 표시
         final TabLayout.Tab alarm_btn = tabs.newTab().setIcon(R.drawable.reminder);
@@ -75,72 +59,13 @@ public class MainActivity extends FragmentActivity {
         tabs.addTab(search_btn);
         tabs.addTab(settings_btn);
 
-
-        Log.e("MainActivity", "처음 탭 position: " + tabs.getSelectedTabPosition());
-
-       // 각각 탭 버튼이 눌렸을 때 화면 전환
+        final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabs.getTabCount(), tabs);
+        mViewPager.setAdapter(adapter);
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabs));
         tabs.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                int position = tab.getPosition();
-                Fragment selected = null;
-
-                Log.e("MainActivity", "position: " + position);
-
-               // 알림 페이지로 이동
-                if(position == 0){
-                    selected = alarm_fragment;
-                    alarm_btn.setIcon(R.drawable.reminder_icon_clicked);
-                    medicine_kit_btn.setIcon(R.drawable.medicine_kit_icon);
-                    main_btn.setIcon(R.drawable.main_icon);
-                    search_btn.setIcon(R.drawable.search_icon);
-                    settings_btn.setIcon(R.drawable.settings);
-                }
-
-
-                // 우리집 구급상자 페이지로 이동
-                else if(position == 1){
-                    selected = medicine_kit_fragment;
-                    alarm_btn.setIcon(R.drawable.reminder);
-                    medicine_kit_btn.setIcon(R.drawable.medicine_kit_icon_clicked);
-                    main_btn.setIcon(R.drawable.main_icon);
-                    search_btn.setIcon(R.drawable.search_icon);
-                    settings_btn.setIcon(R.drawable.settings);
-                }
-
-                // 메인 페이지로 이동
-                else if(position == 2){
-                    selected = ugeubi_fragment;
-                    alarm_btn.setIcon(R.drawable.reminder);
-                    medicine_kit_btn.setIcon(R.drawable.medicine_kit_icon);
-                    main_btn.setIcon(R.drawable.main_icon_clicked);
-                    search_btn.setIcon(R.drawable.search_icon);
-                    settings_btn.setIcon(R.drawable.settings);
-                }
-
-                // 검색 페이지로 이동
-                else if(position == 3){
-                    selected = search_fragment;
-                    alarm_btn.setIcon(R.drawable.reminder);
-                    medicine_kit_btn.setIcon(R.drawable.medicine_kit_icon);
-                    main_btn.setIcon(R.drawable.main_icon);
-                    search_btn.setIcon(R.drawable.search_icon_clicked);
-                    settings_btn.setIcon(R.drawable.settings);
-                    }
-
-                // 세팅 페이지로 이동
-                else if(position == 4) {
-                    selected = setting_fragment;
-                    alarm_btn.setIcon(R.drawable.reminder);
-                    medicine_kit_btn.setIcon(R.drawable.medicine_kit_icon);
-                    main_btn.setIcon(R.drawable.main_icon);
-                    search_btn.setIcon(R.drawable.search_icon);
-                    settings_btn.setIcon(R.drawable.settings_icon_clicked);
-                }
-
-
-                // 해당 페이지로 이동
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, selected).commit();
+                mViewPager.setCurrentItem(tab.getPosition());
             }
 
             @Override
@@ -153,6 +78,10 @@ public class MainActivity extends FragmentActivity {
 
             }
         });
+
+
+        // 초기 탭 설정 (메인 탭)
+        mViewPager.setCurrentItem(2);
 
 
         try {
@@ -208,5 +137,7 @@ public class MainActivity extends FragmentActivity {
             }
         });
     }
+
+
 
 }
