@@ -3,6 +3,7 @@ package duksung.android.hororok.ugeubi.ugeubi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import duksung.android.hororok.ugeubi.R;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
 import duksung.android.hororok.ugeubi.retrofit.ugeubi.TakingHistoryDTO;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -53,6 +58,8 @@ public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHo
     }
 
 
+
+
     // 복용 여부
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
@@ -84,12 +91,19 @@ public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHo
             public void onClick(View v) {
                 // 아이템 클릭 리스너
                 if (takingHistoryDTO.taking_history_is_taken) {
-                    takingHistoryDTO.taking_history_is_taken = false;
+                    updateIsTaken(takingHistoryDTO.getTaking_history_id(), false);
+                    //takingHistoryDTO.taking_history_is_taken = false;
                 } else {
-                    takingHistoryDTO.taking_history_is_taken = true;
+                    updateIsTaken(takingHistoryDTO.getTaking_history_id(), true);
+                    //takingHistoryDTO.taking_history_is_taken = true;
                 }
-                Collections.sort(doseDataList);
-                notifyItemChanged(position);
+
+                //getTakingHistory(여기 date만 넣으면 돼);
+
+//                Collections.sort(doseDataList);
+//                notifyItemChanged(position);
+
+
             }
         });
 
@@ -132,6 +146,78 @@ public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHo
     public void clear() {
         doseDataList.clear();
         notifyDataSetChanged();
+    }
+
+
+
+    /** 먹은 약 체크 API **/
+    public void updateIsTaken(int taking_history_id, boolean isTaken) {
+        Log.e("ugeubi", "여기 들어옴!");
+        SharedPreferences pref = context.getSharedPreferences(PREFERENCE, MODE_PRIVATE);
+        String accessToken = "Bearer " + pref.getString("accessToken", "");
+
+        TakingHistoryDTO takingHistoryDTO = new TakingHistoryDTO(taking_history_id,isTaken);
+        apiService.updateIsTaken(accessToken, takingHistoryDTO).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                Log.e("ugeubi", "code : " + response.code());
+
+                if (response.isSuccessful()) {
+                    Log.i("info", "통신성공(먹은약)");
+
+                } else {
+                    Log.e("ugeubi", "errorbody() : " +response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.e("error", "통신실패(먹은약)"+ t.getMessage() + t.getCause());
+            }
+
+        });
+    }
+
+
+    /** 복용약 기록 가져오는 API **/
+    public void getTakingHistory(String date){
+
+        SharedPreferences pref = context.getSharedPreferences(PREFERENCE, MODE_PRIVATE);
+        String accessToken = "Bearer " + pref.getString("accessToken", "");
+        apiService.getTakingHistory(accessToken,date).enqueue(new Callback <List<TakingHistoryDTO>>() {
+            @Override
+            public void onResponse(Call<List<TakingHistoryDTO>> call, Response<List<TakingHistoryDTO>> response) {
+
+                Log.e("ugeubi", "code : " + response.code());
+
+                if (response.isSuccessful()) {
+                    Log.i("ugeubi", "통신성공");
+                    List<TakingHistoryDTO> apiResponse = response.body();
+
+                    Log.e("ugeubi", "size() : " +response.body().size());
+                    Log.e("ugeubi", "body() : " +response.body());
+
+                    clear();
+
+                    for (TakingHistoryDTO takingHistoryDTO : apiResponse) {
+                        Log.i("ugeubi", "이름: " + takingHistoryDTO.getMedicineName());
+                        Log.i("ugeubi", "몇시: " + takingHistoryDTO.getTakingTime());
+                        addItem(takingHistoryDTO);
+                        notifyDataSetChanged();
+
+                    }
+                } else {
+                    Log.e("ugeubi", "errorbody() : " +response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<TakingHistoryDTO>> call, Throwable t) {
+                Log.e("ugeubi", "통신실패"+ t.getMessage() + t.getCause());
+            }
+
+        });
     }
 
 }

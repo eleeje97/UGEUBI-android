@@ -16,7 +16,6 @@ import duksung.android.hororok.ugeubi.retrofit.Login.LoginDTO;
 import duksung.android.hororok.ugeubi.retrofit.Login.LoginResultDTO;
 import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchDTO;
 import duksung.android.hororok.ugeubi.retrofit.Search.DURInfoSearchResultDTO;
-import duksung.android.hororok.ugeubi.retrofit.ugeubi.CheckedTakingMedicineDTO;
 import duksung.android.hororok.ugeubi.retrofit.ugeubi.TakingHistoryDTO;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -167,21 +166,13 @@ public interface RetrofitInterface {
     @GET("taking/getTakingHistory")
     Call<List<TakingHistoryDTO>> getTakingHistory(@Header("Authorization") String token, @Query("date") String date);
 
-
-    // 12시 업데이트
-    @Headers({
-            "Content-Type: application/json;charset=UTF-8" ,
-            "Transfer-Encoding: chunked"})
-    @POST("taking/registerTakingHistory")
-    Call<Void> updateAlarm(@Header("Authorization") String token);
-
-
     // 먹은 약 체크
     @Headers({
             "Content-Type: application/json;charset=UTF-8" ,
             "Transfer-Encoding: chunked"})
     @POST("taking/updateIsTaken")
-    Call<Void> checkedTakingMedicine(@Header("Authorization") String token, @Body CheckedTakingMedicineDTO checkedTakingMedicineDTO);
+    Call<Void> updateIsTaken(@Header("Authorization") String token, @Body TakingHistoryDTO takingHistoryDTO);
+
 
    /** 약/DUR 정보 검색 **/
 

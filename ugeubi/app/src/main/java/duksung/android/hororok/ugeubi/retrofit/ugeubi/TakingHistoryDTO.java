@@ -28,6 +28,12 @@ public class TakingHistoryDTO implements Comparable<TakingHistoryDTO> {
     @SerializedName("taking_history_is_taken")
     public boolean taking_history_is_taken;
 
+
+    public TakingHistoryDTO(int taking_history_id, boolean taking_history_is_taken) {
+        this.taking_history_id = taking_history_id;
+        this.taking_history_is_taken = taking_history_is_taken;
+    }
+
     public int getId() {
         return id;
     }

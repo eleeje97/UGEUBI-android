@@ -129,6 +129,10 @@ public class Ugeubi_fragment extends Fragment {
 
         });
 
+
+
+
+
         return rootView;
     }
 
@@ -198,5 +202,8 @@ public class Ugeubi_fragment extends Fragment {
 
         });
     }
+
+
+
 
 }

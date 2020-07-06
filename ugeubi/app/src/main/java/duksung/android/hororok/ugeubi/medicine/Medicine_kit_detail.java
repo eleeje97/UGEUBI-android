@@ -29,6 +29,7 @@ import duksung.android.hororok.ugeubi.registerMedicine.TakingTimeListAdapter;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineItemDTO;
+import duksung.android.hororok.ugeubi.ugeubi.UgeubiDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,6 +59,10 @@ public class Medicine_kit_detail extends Activity {
 
     // section
     LinearLayout expiration_date_section, isTaken_section, takingDay_section, takingTime_section, taking_dose_num_section;
+
+
+    UgeubiDialog ugeubiDialog;
+    public int medicineId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,15 +116,13 @@ public class Medicine_kit_detail extends Activity {
 
 
         Intent intent = getIntent();
-        int medicineId = intent.getIntExtra("medicineId", 0);
+        medicineId = intent.getIntExtra("medicineId", 0);
         getMedicineDetailInfo(medicineId);
 
 
         delete_btn.setOnClickListener(v -> {
 
-            /** deleteAPI 호출 **/
-
-            deleteMedicine(medicineId);
+            ugeubiDialog.show();
 
         });
 
@@ -146,7 +149,7 @@ public class Medicine_kit_detail extends Activity {
         takingBtnGroup.setOnCheckedChangeListener(takingBtnOnClickListener);
 
 
-
+        ugeubiDialog = new UgeubiDialog(this, positiveListener, negativeListener);
 
     }
 
@@ -321,6 +324,25 @@ public class Medicine_kit_detail extends Activity {
             }
         });
     }
+
+
+    /** 다이얼로그  **/
+
+    private View.OnClickListener positiveListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            /** deleteAPI 호출 **/
+            deleteMedicine(medicineId);
+            ugeubiDialog.dismiss();
+        }
+    };
+
+    private View.OnClickListener negativeListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            ugeubiDialog.dismiss();
+        }
+    };
+
+
 
 
 }

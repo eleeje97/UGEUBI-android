@@ -1,39 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="#00000000"
-    >
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="296.5dp"
+    android:layout_height="202.5dp"
+    android:background="@drawable/profile_box_shape"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
 
-
-    <LinearLayout
-        android:layout_width="296.5dp"
-        android:layout_height="202.5dp"
-        android:layout_marginTop="39.5dp"
-        android:background="@drawable/profile_box_shape"
-        android:elevation="3dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
+    <ImageView
+        android:layout_width="79dp"
+        android:layout_height="79dp"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/dialog_medicine_kit" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="57.5dp"
+            android:layout_marginTop="10dp"
             android:lineSpacingExtra="1.3sp"
-            android:text="우급이에 등록된 약이 없어요!"
+            android:text="정말로 삭제하시겠어요?"
             android:textColor="#2f2d33"
             android:textSize="18.8sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:lineSpacingExtra="7.5sp"
-            android:text="약을 등록하고 알람을 설정하시겠어요?"
-            android:textColor="#2f2d33"
-            android:textSize="12.5sp" />
 
 
         <LinearLayout
@@ -49,7 +38,7 @@
                 android:layout_height="47.3dp"
                 android:layout_weight="1"
                 android:background="@drawable/ugeubi_register_btn_shape"
-                android:text="등록하기"
+                android:text="삭제"
                 android:textColor="#2f2d33"
                 android:textSize="18.8sp" />
 
@@ -65,14 +54,5 @@
 
         </LinearLayout>
 
-    </LinearLayout>
+</LinearLayout>
 
-    <ImageView
-        android:layout_width="79dp"
-        android:layout_height="79dp"
-        android:layout_gravity="center_horizontal"
-        android:elevation="3dp"
-        android:src="@drawable/dialog_medicine_kit" />
-
-
-</FrameLayout>
