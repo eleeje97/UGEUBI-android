@@ -54,7 +54,7 @@ public class Ugeubi_fragment extends Fragment {
     private UgeubiDialog ugeubiDialog;
 
     private LinearLayout calendarBtn;
-    private TextView dateTextView;
+    private TextView dateTextView, text;
     private int mYear, mMonth, mDay;
 
     public String m, d;
@@ -73,7 +73,7 @@ public class Ugeubi_fragment extends Fragment {
         dose_list = rootView.findViewById(R.id.dose_list);
         calendarBtn = rootView.findViewById(R.id.calendar_btn);
         dateTextView = rootView.findViewById(R.id.date);
-
+        //text = rootView.findViewById(R.id.text33);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         dose_list.setLayoutManager(layoutManager);
         adapter = new DoseListAdapter(getContext());
@@ -169,6 +169,13 @@ public class Ugeubi_fragment extends Fragment {
                     List<TakingHistoryDTO> apiResponse = response.body();
 
                     Log.e("error", "size2() : " +response.body().size());
+
+                    // 아이템이 있다면 "알람이 없어요" 텍스트 GONE
+                    if(apiResponse.size() > 0){
+
+                    }
+
+                    // 없다면 VISIBLE
                     for (TakingHistoryDTO takingHistoryDTO : apiResponse ) {
                         Log.i("medicine_kit", "이름: " + takingHistoryDTO.getMedicineName());
                         Log.i("medicine_kit", "몇시: " + takingHistoryDTO.getTakingTime());

@@ -261,7 +261,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="22.3dp"
-                android:text="오픈소스 라이선스"
+                android:text="오픈소스 라이센스"
                 android:layout_marginLeft="30dp"
                 android:textColor="#262c29"
                 android:textSize="15sp"
