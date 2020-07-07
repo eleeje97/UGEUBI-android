@@ -104,30 +104,27 @@ public class Ugeubi_fragment extends Fragment {
 
         // 캘린더 버튼 클릭했을 때
         calendarBtn.setOnClickListener(v -> {
-            final DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    mYear = year;
-                    mMonth = month + 1;
-                    mDay = dayOfMonth;
-                    dateTextView.setText(mYear + "년 " + mMonth + "월 " + mDay + "일");
+            final DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), R.style.DialgTheme ,(view, year, month, dayOfMonth) -> {
+                mYear = year;
+                mMonth = month + 1;
+                mDay = dayOfMonth;
+                dateTextView.setText(mYear + "년 " + mMonth + "월 " + mDay + "일");
 
-                    if(mMonth < 10){ m = "0" + mMonth; }
-                    else{ m = mMonth + ""; }
+                if(mMonth < 10){ m = "0" + mMonth; }
+                else{ m = mMonth + ""; }
 
-                    if(mDay < 10){ d = "0" + mDay; }
-                    else{ d = mDay + ""; }
+                if(mDay < 10){ d = "0" + mDay; }
+                else{ d = mDay + ""; }
 
-                    date_txt = mYear + "-" + m + "-" + d;
-                    Log.e("ugeubi", date_txt);
+                date_txt = mYear + "-" + m + "-" + d;
+                Log.e("ugeubi", date_txt);
 
 
-                    /** 약 알림 기록 API 호출 **/
-                    adapter.clear();
-                    getTakingHistory(date_txt);
+                /** 약 알림 기록 API 호출 **/
+                adapter.clear();
+                getTakingHistory(date_txt);
 
 
-                }
             }, mYear, mMonth - 1, mDay);
 
             datePickerDialog.setMessage("날짜를 선택해주세요!");

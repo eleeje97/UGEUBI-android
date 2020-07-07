@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import duksung.android.hororok.ugeubi.R;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitInterface;
 import duksung.android.hororok.ugeubi.retrofit.alarm.NotificationDTO;
+import duksung.android.hororok.ugeubi.retrofit.alarm.NotificationListDTO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -85,34 +87,35 @@ public class Alarm_fragment extends Fragment {
         // token
         SharedPreferences pref = getActivity().getSharedPreferences(PREFERENCE, MODE_PRIVATE);
         String accessToken = "Bearer " + pref.getString("accessToken", "");
-        apiService.getNotifications(accessToken).enqueue(new Callback<List<NotificationDTO>>() {
+        apiService.getNotifications(accessToken).enqueue(new Callback<NotificationListDTO>() {
             @Override
-            public void onResponse(Call<List<NotificationDTO>> call, Response<List<NotificationDTO>> response) {
+            public void onResponse(Call<NotificationListDTO> call, Response<NotificationListDTO> response) {
                 Log.i("Notification", "code: " + response.code());
                 if(response.isSuccessful()) {
                     Log.i("Notification", "통신성공");
-                    List<NotificationDTO> apiResponse = response.body();
+                    ArrayList<NotificationDTO> apiResponse = response.body().getNotificationsList();
 
+                    Log.e("Notification", "size: " + apiResponse.size());
                     for (NotificationDTO notificationDTO : apiResponse) {
-                        Log.e("Notification", "medicine_name: " + notificationDTO.medicine_name);
-                        Log.e("Notification", "notificatioin_date: " + notificationDTO.notification_date);
-                        Log.e("Notification", "notification_type: " + notificationDTO.notification_type);
+                        Log.e("Notification", "medicine_name: " + notificationDTO.getMedicineName());
+                        Log.e("Notification", "notificatioin_date: " + notificationDTO.getNotificationDate());
+                        Log.e("Notification", "notification_type: " + notificationDTO.getNotificationType());
 
                         // 알림날짜
-                        String notification_date = notificationDTO.notification_date;
+                        String notification_date = notificationDTO.getNotificationDate();
                         String[] str = notification_date.split("-");
                         notification_date = str[0] + "년 " + str[1] + "월 " + str[2] + "일";
 
                         // 약 복용시간, 알림 내용
                         String notification_content;
                         String notification_time;
-                        if (notificationDTO.notification_type.equals("taking_time")) {
-                            notification_time = notificationDTO.notification_time;
+                        if (notificationDTO.getNotificationType().equals("TAKING_TIME")) {
+                            notification_time = notificationDTO.getNotificationTime();
                             notification_time = notification_time.substring(0,5);
-                            notification_content = notificationDTO.medicine_name + " 복용시간입니다.";
+                            notification_content = notificationDTO.getMedicineName() + " 복용시간입니다.";
                         } else {
                             notification_time = "";
-                            notification_content = notificationDTO.medicine_name + "의 유통기한을 확인해주세요!";
+                            notification_content = notificationDTO.getMedicineName() + "의 유통기한을 확인해주세요!";
                         }
 
                         // 알림 경과날짜
@@ -120,7 +123,7 @@ public class Alarm_fragment extends Fragment {
                         try {
                             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                             Date today = new Date();
-                            Date notificationDate = format.parse(notificationDTO.notification_date);
+                            Date notificationDate = format.parse(notificationDTO.getNotificationDate());
 
                             long calDate = today.getTime() - notificationDate.getTime();
                             long calDateDays = calDate / ( 24*60*60*1000);
@@ -155,7 +158,7 @@ public class Alarm_fragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<NotificationDTO>> call, Throwable t) {
+            public void onFailure(Call<NotificationListDTO> call, Throwable t) {
                 Log.e("error", "통신실패" + t.getCause());
             }
         });

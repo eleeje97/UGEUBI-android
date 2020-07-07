@@ -77,14 +77,10 @@ public class SpinnerDatePickerDialog extends Dialog implements View.OnClickListe
 
     }
 
-    android.widget.DatePicker.OnDateChangedListener mOnDateChangedListener = new android.widget.DatePicker.OnDateChangedListener(){
-        @Override
-        public void onDateChanged(android.widget.DatePicker datePicker, int yy, int mm, int dd) {
-            mYear = yy;
-            mMonth = mm;
-            mDay = dd;
-        }
-
+    android.widget.DatePicker.OnDateChangedListener mOnDateChangedListener = (datePicker, yy, mm, dd) -> {
+        mYear = yy;
+        mMonth = mm;
+        mDay = dd;
     };
 
 

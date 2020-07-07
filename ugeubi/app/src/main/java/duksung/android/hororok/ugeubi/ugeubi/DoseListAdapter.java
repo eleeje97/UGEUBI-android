@@ -98,10 +98,8 @@ public class DoseListAdapter extends RecyclerView.Adapter<DoseListAdapter.ViewHo
                     //takingHistoryDTO.taking_history_is_taken = true;
                 }
 
-                //getTakingHistory(여기 date만 넣으면 돼);
-
-//                Collections.sort(doseDataList);
-//                notifyItemChanged(position);
+                getTakingHistory(takingHistoryDTO.getTaking_history_date());
+                notifyItemChanged(position);
 
 
             }

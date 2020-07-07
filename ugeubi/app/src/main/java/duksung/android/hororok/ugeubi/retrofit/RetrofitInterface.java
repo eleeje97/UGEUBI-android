@@ -3,6 +3,7 @@ package duksung.android.hororok.ugeubi.retrofit;
 import java.util.List;
 
 import duksung.android.hororok.ugeubi.retrofit.alarm.NotificationDTO;
+import duksung.android.hororok.ugeubi.retrofit.alarm.NotificationListDTO;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineDTO;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineDetailDTO;
 import duksung.android.hororok.ugeubi.retrofit.medicine.MedicineItemDTO;
@@ -122,8 +123,8 @@ public interface RetrofitInterface {
     @Headers({
         "Content-Type: application/json;charset=UTF-8",
         "Transfer-Encoding: chunked"})
-    @GET("notifications/getNotifications")
-    Call<List<NotificationDTO>> getNotifications(@Header("Authorization") String token);
+    @GET("notifications")
+    Call<NotificationListDTO> getNotifications(@Header("Authorization") String token);
 
 
 

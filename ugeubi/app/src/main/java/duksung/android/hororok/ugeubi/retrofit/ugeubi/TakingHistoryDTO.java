@@ -16,6 +16,17 @@ public class TakingHistoryDTO implements Comparable<TakingHistoryDTO> {
     @SerializedName("taking_history_id")
     public int taking_history_id;
 
+    @SerializedName("taking_history_date")
+    public String taking_history_date;
+
+    public String getTaking_history_date() {
+        return taking_history_date;
+    }
+
+    public void setTaking_history_date(String taking_history_date) {
+        this.taking_history_date = taking_history_date;
+    }
+
     @SerializedName("medicineName")
     public String medicineName;
 

@@ -153,7 +153,7 @@ public class Search_Result extends Activity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(getApplicationContext(), ""+position, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), ""+position, Toast.LENGTH_SHORT).show();
                 searchResultDetailDataArrayList.clear();
 
                 if (durType.equals("None")) {

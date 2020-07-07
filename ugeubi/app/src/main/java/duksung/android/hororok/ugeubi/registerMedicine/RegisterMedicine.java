@@ -56,6 +56,8 @@ public class RegisterMedicine extends AppCompatActivity {
 
     MainActivity mainActivity = (MainActivity) MainActivity.mainActivity;
 
+
+
     // retrofit
     RetrofitInterface apiService;
 
@@ -405,13 +407,16 @@ public class RegisterMedicine extends AppCompatActivity {
 
 
 
-        // 유통기한 DatePickerDialog
+        /** 유통기한 DatePickerDialog **/
         Date currentTime = Calendar.getInstance().getTime();
+
+
         medicineValidterm = new SimpleDateFormat("yyyy-mm-dd",Locale.getDefault()).format(currentTime);
         String today = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.getDefault()).format(currentTime);
         expirationDate.setText(today);
 
         spinnerDatePickerDialog = new SpinnerDatePickerDialog(this);
+
         spinnerDatePickerDialog.setDialogListener(new SpinnerDatePickerDialog.SpinnerDatePickerDialogListener() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -426,12 +431,7 @@ public class RegisterMedicine extends AppCompatActivity {
             }
         });
 
-        expirationDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                spinnerDatePickerDialog.show();
-            }
-        });
+        expirationDate.setOnClickListener(v -> spinnerDatePickerDialog.show());
 
 
         // 약 복용유무 버튼 리스너

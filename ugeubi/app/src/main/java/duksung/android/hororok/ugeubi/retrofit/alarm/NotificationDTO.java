@@ -6,67 +6,46 @@ import java.util.Date;
 
 public class NotificationDTO {
 
-    @SerializedName("createdTime")
-    public String createdTime;
+    @SerializedName("notificationId")
+    public String notificationId;
 
-    @SerializedName("updatedTime")
-    public String updatedTime;
+    @SerializedName("medicineId")
+    public String medicineId;
 
-    @SerializedName("notification_id")
-    public String notification_id;
+    @SerializedName("medicineName")
+    public String medicineName;
 
-    @SerializedName("medicine_id")
-    public String medicine_id;
+    @SerializedName("notificationDate")
+    public String notificationDate;
 
-    @SerializedName("medicine_name")
-    public String medicine_name;
+    @SerializedName("notificationTime")
+    public String notificationTime;
 
-    @SerializedName("user_id")
-    public String user_id;
-
-    @SerializedName("notification_date")
-    public String notification_date;
-
-    @SerializedName("notification_time")
-    public String notification_time;
-
-    @SerializedName("notification_type")
-    public String notification_type;
+    @SerializedName("notificationType")
+    public String notificationType;
 
 
-    public String getCreatedTime() {
-        return createdTime;
+    public String getNotificationId() {
+        return notificationId;
     }
 
-    public String getUpdatedTime() {
-        return updatedTime;
+    public String getMedicineId() {
+        return medicineId;
     }
 
-    public String getNotification_id() {
-        return notification_id;
+    public String getMedicineName() {
+        return medicineName;
     }
 
-    public String getMedicine_id() {
-        return medicine_id;
+    public String getNotificationDate() {
+        return notificationDate;
     }
 
-    public String getMedicine_name() {
-        return medicine_name;
+    public String getNotificationTime() {
+        return notificationTime;
     }
 
-    public String getUser_id() {
-        return user_id;
-    }
-
-    public String getNotification_date() {
-        return notification_date;
-    }
-
-    public String getNotification_time() {
-        return notification_time;
-    }
-
-    public String getNotification_type() {
-        return notification_type;
+    public String getNotificationType() {
+        return notificationType;
     }
 }

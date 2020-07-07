@@ -10,6 +10,10 @@
     </style>
 
 
+    <style name="DialgTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/mainColor</item>
+    </style>
+
     <style name="BackgroundStyle" parent="android:Theme">
         <item name = "android:background">@color/colorAccent</item>
     </style>
