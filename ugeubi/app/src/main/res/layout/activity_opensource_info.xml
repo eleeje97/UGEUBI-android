@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@drawable/bg_cross">
 
     <ImageView
@@ -11,11 +12,24 @@
         android:layout_width="91dp"
         android:layout_height="29.3dp"
         android:layout_marginTop="22.8dp"
-        android:src="@drawable/ugeubi_bar_icon"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.0" />
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ugeubi_bar_icon" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/ugeubi_logo"
+        app:layout_constraintBottom_toBottomOf="parent" >
+
+        <TextView
+            android:layout_marginHorizontal="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#242424"
+            android:paddingBottom="50dp"
+            android:text="@string/opensource_license"/>
+
+    </ScrollView>
+
+
+</LinearLayout>
