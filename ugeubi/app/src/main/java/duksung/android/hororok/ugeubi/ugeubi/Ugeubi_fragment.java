@@ -83,9 +83,16 @@ public class Ugeubi_fragment extends Fragment {
 
         /** 캘린더 **/
         final Calendar calendar = Calendar.getInstance();
+        final Calendar maxdate = Calendar.getInstance();
         mYear = calendar.get(Calendar.YEAR);
         mMonth = calendar.get(Calendar.MONTH) + 1;
         mDay = calendar.get(Calendar.DAY_OF_MONTH);
+
+        // maxdate == 현재
+        maxdate.get(Calendar.YEAR);
+        maxdate.get((Calendar.MONTH)+1);
+        maxdate.get(Calendar.DATE);
+
         dateTextView.setText(mYear + "년 " + mMonth + "월 " + mDay + "일");
 
 
@@ -123,7 +130,10 @@ public class Ugeubi_fragment extends Fragment {
                 }
             }, mYear, mMonth - 1, mDay);
 
-            datePickerDialog.setMessage("날짜선택");
+            datePickerDialog.setMessage("날짜를 선택해주세요!");
+
+
+            datePickerDialog.getDatePicker().setMaxDate(maxdate.getTimeInMillis());
             datePickerDialog.show();
 
 
