@@ -217,7 +217,32 @@ public class Search_fragment extends Fragment {
                 }
             });
         } else if (durType.equals("UsjntTaboo")) {
-            callUsjntTabooAPI(accessToken, keyword, "1");
+            //callUsjntTabooAPI(accessToken, keyword, "1");
+
+            apiService.getUsjntTabooInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
+                @Override
+                public void onResponse(Call<DURInfoSearchResultDTO> call, Response<DURInfoSearchResultDTO> response) {
+                    Log.e("Search", "code: " + response.code());
+
+                    if (response.isSuccessful()) {
+                        DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
+                        int totalCount = durInfoSearchResultResponse.getTotalCount();
+                        int totalPage = totalCount/10 + 1;
+
+
+                        Intent intent = new Intent(getActivity(), Search_Result.class);
+                        intent.putExtra("resultList", durInfoSearchResultResponse.getItems());
+                        intent.putExtra("DURType", "UsjntTaboo");
+                        intent.putExtra("totalPage", totalPage);
+                        intent.putExtra("keyword", keyword);
+                        startActivity(intent);
+                    }
+                }
+                @Override
+                public void onFailure(Call<DURInfoSearchResultDTO> call, Throwable t) {
+                    Log.e("Search", "통신실패! " + t.getMessage());
+                }
+            });
 
         } else if (durType.equals("SpcifyAgrdeTaboo")) {
             apiService.getSpcifyAgrdeTabooInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {

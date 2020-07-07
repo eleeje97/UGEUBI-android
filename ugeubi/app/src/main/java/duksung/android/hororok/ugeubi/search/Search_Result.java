@@ -100,7 +100,9 @@ public class Search_Result extends Activity {
 
         // 결과리스트를 그리드뷰에 추가
         if (durType.equals("UsjntTaboo")) {
+            /*
             usjntTabooResultList = (ArrayList<UsjntTabooResultDTO>) intent.getSerializableExtra("resultList");
+
 
             if (usjntTabooResultList == null) {
                 noResult_textView.setVisibility(View.VISIBLE);
@@ -111,6 +113,22 @@ public class Search_Result extends Activity {
                 for (UsjntTabooResultDTO usjntTabooResultDTO : usjntTabooResultList) {
                     Log.e("병용금기", "ITEM_NAME: " + usjntTabooResultDTO.getITEM_NAME());
                     adapter.addItem(usjntTabooResultDTO.getITEM_NAME(), usjntTabooResultDTO.getENTP_NAME());
+                }
+            }
+            */
+
+            resultList = (ArrayList<ItemInfoDTO>) intent.getSerializableExtra("resultList");
+
+
+            if (resultList == null) {
+                noResult_textView.setVisibility(View.VISIBLE);
+            } else {
+                noResult_textView.setVisibility(View.INVISIBLE);
+                Log.e("병용금기", resultList.toString() + ", size: " + resultList.size());
+
+                for (ItemInfoDTO itemInfoDTO : resultList) {
+                    Log.e("병용금기", "ITEM_NAME: " + itemInfoDTO.getITEM_NAME());
+                    adapter.addItem(itemInfoDTO.getITEM_NAME(), "[병용금기] " + itemInfoDTO.getMIXTURE_ITEM_NAME());
                 }
             }
 
@@ -151,15 +169,20 @@ public class Search_Result extends Activity {
                     searchResultDetailDataArrayList.add(new SearchResultDetailData("주의사항", itemInfoDTO.getNB_DOC_ID()));
 
                 } else if (durType.equals("UsjntTaboo")) {
-                    UsjntTabooResultDTO usjntTabooResultDTO = usjntTabooResultList.get(position);
-                    searchResultDetailDataArrayList.add(new SearchResultDetailData("품목명", usjntTabooResultDTO.getITEM_NAME()));
-                    searchResultDetailDataArrayList.add(new SearchResultDetailData("약효분류", usjntTabooResultDTO.getCLASS_NAME()));
+                    ItemInfoDTO itemInfoDTO = resultList.get(position);
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("품목명", itemInfoDTO.getITEM_NAME()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("업체명", itemInfoDTO.getENTP_NAME()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("약효분류", itemInfoDTO.getMAIN_INGR()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("성상", itemInfoDTO.getCHART()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("병용금기", itemInfoDTO.getMIXTURE_ITEM_NAME()));
+                    searchResultDetailDataArrayList.add(new SearchResultDetailData("금기내용", itemInfoDTO.getPROHBT_CONTENT()));
 
-                    ArrayList<MixtureItemDTO> mixtureItemList = usjntTabooResultDTO.getMixtureItems();
-                    for (MixtureItemDTO mixtureItemDTO : mixtureItemList) {
-                        searchResultDetailDataArrayList.add(new SearchResultDetailData("병용금기약품", mixtureItemDTO.getMIXTURE_ITEM_NAME()));
-                        searchResultDetailDataArrayList.add(new SearchResultDetailData("주의사항", mixtureItemDTO.getPROHBT_CONTENT()));
-                    }
+
+//                    ArrayList<MixtureItemDTO> mixtureItemList = usjntTabooResultDTO.getMixtureItems();
+//                    for (MixtureItemDTO mixtureItemDTO : mixtureItemList) {
+//                        searchResultDetailDataArrayList.add(new SearchResultDetailData("병용금기약품", mixtureItemDTO.getMIXTURE_ITEM_NAME()));
+//                        searchResultDetailDataArrayList.add(new SearchResultDetailData("주의사항", mixtureItemDTO.getPROHBT_CONTENT()));
+//                    }
 
                 } else {
                     ItemInfoDTO itemInfoDTO = resultList.get(position);
@@ -188,7 +211,7 @@ public class Search_Result extends Activity {
             public void onRefresh(SwipyRefreshLayoutDirection direction) {
                 Toast.makeText(getApplicationContext(), "새로고침", Toast.LENGTH_SHORT).show();
 
-                if (!durType.equals("UsjntTaboo")&&(currentPage<totalPage)) {
+                if (currentPage<totalPage) {
                     currentPage++;
                     refresh(durType, currentPage);
 
@@ -285,6 +308,28 @@ public class Search_Result extends Activity {
                     Log.e("Search", "통신실패! " + t.getMessage());
                 }
             });
+        } else if (durType.equals("UsjntTaboo")) {
+            apiService.getUsjntTabooInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
+                @Override
+                public void onResponse(Call<DURInfoSearchResultDTO> call, Response<DURInfoSearchResultDTO> response) {
+                    Log.e("Search", "code: " + response.code());
+
+                    if (response.isSuccessful()) {
+                        DURInfoSearchResultDTO durInfoSearchResultResponse = response.body();
+                        ArrayList<ItemInfoDTO> responseItems = durInfoSearchResultResponse.getItems();
+
+                        for (ItemInfoDTO itemInfoDTO : responseItems) {
+                            adapter.addItem(itemInfoDTO.getITEM_NAME(), "[병용금기] " + itemInfoDTO.getMIXTURE_ITEM_NAME());
+                            resultList.add(itemInfoDTO);
+                        }
+                    }
+                }
+                @Override
+                public void onFailure(Call<DURInfoSearchResultDTO> call, Throwable t) {
+                    Log.e("Search", "통신실패! " + t.getMessage());
+                }
+            });
+
         } else if (durType.equals("SpcifyAgrdeTaboo")) {
             apiService.getSpcifyAgrdeTabooInfoList(accessToken, durInfoSearchDTO).enqueue(new Callback<DURInfoSearchResultDTO>() {
                 @Override
