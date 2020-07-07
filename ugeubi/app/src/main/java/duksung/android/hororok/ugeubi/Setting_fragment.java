@@ -120,7 +120,7 @@ public class Setting_fragment extends Fragment {
             String strChange = "<font color=\"#45ba8e\"><b> > </b></font>";
             String strServer = "<b> Server </b> <br>" +
                     "권수연  kwonsye56@gmail.com <br>" +
-                    "정인정  injong032@gmail.com\n" + "<br> <br>" ;
+                    "정인정  injeong410@gmail.com\n" + "<br> <br>" ;
             String strAndroid = "<b> Android </b> <br>" +
                      "송현주  songthdo427@gmail.com <br>" +
                      "이다은  eleeje97@gmail.com\n" +

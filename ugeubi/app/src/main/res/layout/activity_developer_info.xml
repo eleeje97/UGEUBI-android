@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
             android:lineSpacingExtra="3dp"
-            android:text="권수연 kwonsye56@gmail.com \n정인정 injong032@gmail.com"
+            android:text="권수연 kwonsye56@gmail.com \n정인정 injeong410@gmail.com"
             android:textColor="#040404"
             android:layout_marginBottom="9dp"
             android:textSize="13dp" />
