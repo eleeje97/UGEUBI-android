@@ -4,7 +4,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,8 +111,50 @@ public class Setting_fragment extends Fragment {
 
         /** 개발자 정보 **/
         developer_info.setOnClickListener(v -> {
-            Intent developerIntent = new Intent(getContext(), DeveloperInfo.class);
-            startActivity(developerIntent);
+            //Intent developerIntent = new Intent(getContext(), DeveloperInfo.class);
+            //startActivity(developerIntent);
+            // 다이얼로그 바디
+            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(getContext(),android.R.style.Theme_DeviceDefault_Light_Dialog);
+
+
+            String strChange = "<font color=\"#45ba8e\"><b> > </b></font>";
+            String strServer = "<b> Server </b> <br>" +
+                    "권수연  kwonsye56@gmail.com <br>" +
+                    "정인정 \n" + "<br> <br>" ;
+            String strAndroid = "<b> Android </b> <br>" +
+                     "송현주  songthdo427@gmail.com <br>" +
+                     "이다은  eleeje97@gmail.com\n" +
+                    "<br> <br>" ;
+
+            String strDesign = " <b> Design </b> <br>" +
+                    "장지은 jieunregina@naver.com <br>" +
+                    "정다인 dain515@naver.com\n";
+
+
+
+            // 메세지
+            alert_confirm.setMessage(Html.fromHtml(strChange + strServer
+                                                    + strChange + strAndroid + strChange + strDesign));
+            // 확인 버튼 리스너
+            alert_confirm.setPositiveButton("확인", null);
+
+            // 다이얼로그 생성
+            AlertDialog alert = alert_confirm.create();
+
+            alert.setOnShowListener(dialog -> {
+
+
+                // 버튼 색 메인으로 바꾸기
+                 alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#45ba8e"));
+            });
+
+            // 아이콘
+            alert.setIcon(R.drawable.logo_splash);
+            // 다이얼로그 타이틀
+            alert.setTitle("개발자 정보");
+            // 다이얼로그 보기
+            alert.show();
+
         });
 
 
