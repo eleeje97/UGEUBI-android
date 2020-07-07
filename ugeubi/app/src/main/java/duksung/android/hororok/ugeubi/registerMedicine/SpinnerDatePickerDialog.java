@@ -75,6 +75,9 @@ public class SpinnerDatePickerDialog extends Dialog implements View.OnClickListe
         mDay = calendar.get(Calendar.DAY_OF_MONTH);
         datePicker.init(mYear, mMonth, mDay,mOnDateChangedListener);
 
+        Calendar today = Calendar.getInstance();
+        datePicker.setMinDate(today.getTimeInMillis());
+
     }
 
     android.widget.DatePicker.OnDateChangedListener mOnDateChangedListener = (datePicker, yy, mm, dd) -> {

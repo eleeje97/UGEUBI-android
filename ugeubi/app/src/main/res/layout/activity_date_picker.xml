@@ -3,10 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/profile_box_shape">
 
 
     <DatePicker
+        android:theme="@style/DialogTheme"
         android:id="@+id/datepicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +21,9 @@
 
         <Button
             android:id="@+id/cancel_btn"
+            android:background="@drawable/spinner_date_picker_cancel_btn_shape"
+            android:textColor="#2f2d33"
+            android:theme="@style/DialogTheme"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_weight="1"
@@ -26,9 +31,13 @@
 
         <Button
             android:id="@+id/ok_btn"
+            android:background="@drawable/spinner_date_picker_ok_btn_shape"
+            android:textColor="#2f2d33"
+            android:theme="@style/DialogTheme"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_weight="1"
             android:text="확인"/>
+
     </LinearLayout>
 </LinearLayout>

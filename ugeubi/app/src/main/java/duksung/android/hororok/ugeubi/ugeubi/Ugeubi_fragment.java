@@ -3,17 +3,13 @@ package duksung.android.hororok.ugeubi.ugeubi;
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,12 +17,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import duksung.android.hororok.ugeubi.R;
 import duksung.android.hororok.ugeubi.retrofit.RetrofitClient;
@@ -104,7 +98,7 @@ public class Ugeubi_fragment extends Fragment {
 
         // 캘린더 버튼 클릭했을 때
         calendarBtn.setOnClickListener(v -> {
-            final DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), R.style.DialgTheme ,(view, year, month, dayOfMonth) -> {
+            final DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), R.style.DialogTheme,(view, year, month, dayOfMonth) -> {
                 mYear = year;
                 mMonth = month + 1;
                 mDay = dayOfMonth;
